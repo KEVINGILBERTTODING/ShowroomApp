@@ -1,10 +1,12 @@
 package com.example.rizkimotor.data.remote;
 
 import com.example.rizkimotor.data.model.AppInfoModel;
+import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.features.auth.ui.model.UserModel;
 
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -33,4 +35,7 @@ public interface ApiService {
 
     @GET("client/main")
     Call<ResponseModel<AppInfoModel>> getAppInfo();
+
+    @GET("client/car")
+    Call<ResponseModel<List<CarModel>>> getAllCar();
 }

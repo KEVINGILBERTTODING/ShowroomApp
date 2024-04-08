@@ -3,15 +3,83 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:padding="@dimen/_16sdp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent"
         tools:context=".features.home.user.ui.fragments.HomeFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:id="@+id/tvFullname"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/appBar"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/rlRightMenu"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAppName"
+                    android:fontFamily="@font/bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_25ssp"
+                    android:textColor="@color/primary"
+                    android:text="Rizki Motor" />
+                <TextView
+                    android:id="@+id/tvFullname"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/reg"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_height="wrap_content"
+                    android:text="Guest" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRightMenu"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_below="@id/appBar"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/image_slider"
+                    android:layout_width="wrap_content"
+                    app:iss_corner_radius="20"
+                    android:layout_height="@dimen/_100sdp"
+                    app:iss_placeholder="@drawable/main_logo"
+                    app:iss_auto_cycle="true"
+                    app:iss_period="1000"
+                    app:iss_delay="3000"
+                    app:iss_text_align="LEFT"/>
+
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
 
     </RelativeLayout>
 </layout>

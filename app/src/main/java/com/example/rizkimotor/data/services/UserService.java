@@ -22,7 +22,7 @@ public class UserService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate: layanan dimulai");
+
 
 
     }
@@ -61,8 +61,8 @@ public class UserService extends Service {
 
     }
 
-    public String loadString(String key) {
-        return sharedPreferences.getString(key, "Guest");
+    public String loadString(String key, String value) {
+        return sharedPreferences.getString(key, value);
 
     }
 

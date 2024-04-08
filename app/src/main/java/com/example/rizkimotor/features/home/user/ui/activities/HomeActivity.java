@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeActivity extends AppCompatActivity {
 
     @Override

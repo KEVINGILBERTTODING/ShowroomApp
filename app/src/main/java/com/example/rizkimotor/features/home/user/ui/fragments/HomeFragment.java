@@ -90,6 +90,8 @@ public class HomeFragment extends Fragment {
         userService.initService(requireContext());
     }
 
+    // void get banner
+
     private void getAppInfo() {
         appViewModel.getAppInfo().observe(getViewLifecycleOwner(), new Observer<ResponseModel<AppInfoModel>>() {
             @Override

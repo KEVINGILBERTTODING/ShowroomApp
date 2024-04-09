@@ -26,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_25ssp"
+                    android:includeFontPadding="false"
                     android:textColor="@color/primary"
                     android:text="Rizki Motor" />
                 <TextView
@@ -84,7 +85,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCar"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:visibility="gone"
                     android:layout_height="wrap_content"/>

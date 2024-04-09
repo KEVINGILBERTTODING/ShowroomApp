@@ -1,5 +1,7 @@
 package com.example.rizkimotor.features.home.user.ui.adapters.car;
 
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.zip.Inflater;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     private Context context;
@@ -46,12 +50,44 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
         holder.tvPrice.setText(formatRupiah(carPrice));
 
-        Glide.with(context)
-                .load(carModels.get(holder.getAdapterPosition()).getGambar1())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.ivCar);
+
+
+
+
+        // car booked
+        if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 2) {
+            holder.tvCarStatus.setVisibility(View.VISIBLE);
+            holder.tvCarStatus.setText("Dipesan");
+
+            Glide.with(context)
+                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .apply(bitmapTransform(new BlurTransformation(20)))
+                    .into(holder.ivCar);
+
+            // car sold out
+        }else if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 0) {
+            holder.tvCarStatus.setVisibility(View.VISIBLE);
+            holder.tvCarStatus.setText("Terjual");
+
+            Glide.with(context)
+                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .apply(bitmapTransform(new BlurTransformation(20)))
+                    .into(holder.ivCar);
+
+            // car available
+        }else if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 1) {
+            Glide.with(context)
+                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.ivCar);
+
+        }
 
         holder.tvCredit.setText(formatRupiah(totalCredit) + " / bulan");
+
+
 
     }
 
@@ -62,12 +98,13 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivCar;
-        private TextView tvPrice, tvCarName, tvCredit;
+        private TextView tvPrice, tvCarName, tvCredit, tvCarStatus;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivCar = itemView.findViewById(R.id.ivCar);
             tvPrice = itemView.findViewById(R.id.tvCarPrice);
             tvCarName = itemView.findViewById(R.id.tvCarName);
+            tvCarStatus = itemView.findViewById(R.id.tvCarStatus);
             tvCredit = itemView.findViewById(R.id.tvCredit);
         }
     }

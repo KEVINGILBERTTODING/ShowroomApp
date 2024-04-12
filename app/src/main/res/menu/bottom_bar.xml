@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mnuHome"
+        android:title="Beranda"
+        android:icon="@drawable/home"/>
+
+    <item
+        android:id="@+id/mnuSearch"
+        android:title="Pencarian"
+        android:icon="@drawable/search"/>
+
+    <item
+        android:id="@+id/mnuHistory"
+        android:title="Riwayat"
+        android:icon="@drawable/history"/>
+
+    <item
+        android:id="@+id/mnuProfile"
+        android:title="Profil"
+        android:icon="@drawable/person"/>
+</menu>

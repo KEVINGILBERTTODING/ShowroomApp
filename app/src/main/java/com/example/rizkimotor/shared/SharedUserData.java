@@ -7,5 +7,6 @@ public class SharedUserData {
     public static final String PREF_IS_LOGIN = "pref_is_login";
     public static final String APP_NAME = "Rizki Motor";
     public static final String PREF_EMAIL = "email";
+    public static final String CAR_ID = "car_id";
 
 }

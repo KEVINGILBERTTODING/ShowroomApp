@@ -46,4 +46,25 @@ public class CarRepository {
         });
         return responseModelMutableLiveData;
     }
+
+    public LiveData<ResponseModel<CarModel>> getCarDetail(int carId) {
+        MutableLiveData<ResponseModel<CarModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.getCarDetail(carId).enqueue(new Callback<ResponseModel<CarModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<CarModel>> call, Response<ResponseModel<CarModel>> response) {
+                if (response.code() == 200 && response.body().getData() != null ) {
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
+                }else {
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<CarModel>> call, Throwable t) {
+                responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.SERVER_ERR, ErrorMsg.SERVER_ERR, null));
+            }
+        });
+        return responseModelMutableLiveData;
+    }
 }

@@ -7,14 +7,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.remote.ApiService;
-import com.example.rizkimotor.features.auth.ui.model.UserModel;
+import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -89,4 +88,5 @@ public class AuthRepository {
         }
         return responseModelMutableLiveData;
     }
+
 }

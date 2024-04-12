@@ -2,18 +2,27 @@ package com.example.rizkimotor.data.remote;
 
 import com.example.rizkimotor.data.model.AppInfoModel;
 import com.example.rizkimotor.data.model.CarModel;
+import com.example.rizkimotor.data.model.CreditModel;
+import com.example.rizkimotor.data.model.FinanceModel;
 import com.example.rizkimotor.data.model.ResponseModel;
-import com.example.rizkimotor.features.auth.ui.model.UserModel;
+import com.example.rizkimotor.features.auth.model.user.UserModel;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 
 public interface ApiService {
     public static final String IP_ADDRESS = "192.168.43.215";
@@ -38,4 +47,56 @@ public interface ApiService {
 
     @GET("client/car")
     Call<ResponseModel<List<CarModel>>> getAllCar();
+
+    @GET("client/car/{id}")
+    Call<ResponseModel<CarModel>> getCarDetail(
+            @Path("id") int id
+    );
+
+    @GET("client/finance/{id}")
+    Call<ResponseModel<FinanceModel>> getFinanceById(
+            @Path("id") int id
+    );
+
+    @GET("client/finance")
+    Call<ResponseModel<List<FinanceModel>>> getAllFinance();
+
+    @GET("client/credit/{mobilId}/{financeId}")
+    Call<ResponseModel<CreditModel>> getDP(
+            @Path("mobilId") int mobilId,
+            @Path("financeId") int financeId
+    );
+
+    @FormUrlEncoded
+    @POST("client/countcredit")
+    Call<ResponseModel<CreditModel>>countCredit(
+            @FieldMap HashMap<String, String> map
+    );
+
+    @Multipart
+    @POST("client/profile/updatephoto")
+    Call<ResponseModel> updatePhotoProfile(
+            @Part("user_id") RequestBody userId,
+            @Part MultipartBody.Part imageFile
+            );
+
+    @GET("client/profile/{id}")
+    Call<ResponseModel<UserModel>> getUserById(
+            @Path("id") int userId
+    );
+
+    @Multipart
+    @POST("client/credit/insertPengajuanKredit")
+    Call<ResponseModel> sendCredit(
+            @PartMap Map<String, RequestBody> map,
+            @Part List<MultipartBody.Part> partList
+
+
+            );
+
+    @FormUrlEncoded
+    @POST("client/profile/update")
+    Call<ResponseModel> updateUserProfile(
+            @FieldMap HashMap<String, String> map
+    );
 }

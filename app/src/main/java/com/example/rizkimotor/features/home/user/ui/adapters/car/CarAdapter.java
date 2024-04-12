@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.CarModel;
+import com.example.rizkimotor.util.listener.ClickListener;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -27,10 +28,15 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     private Context context;
     private List<CarModel> carModels;
+    private ClickListener clickListener;
 
     public CarAdapter(Context context, List<CarModel> carModels) {
         this.context = context;
         this.carModels = carModels;
+    }
+
+    public void onClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -42,11 +48,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CarAdapter.ViewHolder holder, int position) {
-        final int carPrice = carModels.get(holder.getAdapterPosition()).getHarga_jual() - carModels.get(holder.getAdapterPosition()).getDiskon();
-        final int totalCredit = (int) carModels.get(holder.getAdapterPosition()).getTotal_cicilan();
+        final int carPrice = carModels.get(holder.getBindingAdapterPosition()).getHarga_jual() - carModels.get(holder.getBindingAdapterPosition()).getDiskon();
+        final int totalCredit = (int) carModels.get(holder.getBindingAdapterPosition()).getTotal_cicilan();
 
 
-        holder.tvCarName.setText(carModels.get(holder.getAdapterPosition()).getNama_model());
+        holder.tvCarName.setText(carModels.get(holder.getBindingAdapterPosition()).getNama_model());
 
         holder.tvPrice.setText(formatRupiah(carPrice));
 
@@ -55,31 +61,31 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
 
         // car booked
-        if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 2) {
+        if (carModels.get(holder.getBindingAdapterPosition()).getStatus_mobil() == 2) {
             holder.tvCarStatus.setVisibility(View.VISIBLE);
             holder.tvCarStatus.setText("Dipesan");
 
             Glide.with(context)
-                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .load(carModels.get(holder.getBindingAdapterPosition()).getGambar1())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .apply(bitmapTransform(new BlurTransformation(20)))
                     .into(holder.ivCar);
 
             // car sold out
-        }else if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 0) {
+        }else if (carModels.get(holder.getBindingAdapterPosition()).getStatus_mobil() == 0) {
             holder.tvCarStatus.setVisibility(View.VISIBLE);
             holder.tvCarStatus.setText("Terjual");
 
             Glide.with(context)
-                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .load(carModels.get(holder.getBindingAdapterPosition()).getGambar1())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .apply(bitmapTransform(new BlurTransformation(20)))
                     .into(holder.ivCar);
 
             // car available
-        }else if (carModels.get(holder.getAdapterPosition()).getStatus_mobil() == 1) {
+        }else if (carModels.get(holder.getBindingAdapterPosition()).getStatus_mobil() == 1) {
             Glide.with(context)
-                    .load(carModels.get(holder.getAdapterPosition()).getGambar1())
+                    .load(carModels.get(holder.getBindingAdapterPosition()).getGambar1())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.ivCar);
 
@@ -106,6 +112,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
             tvCarName = itemView.findViewById(R.id.tvCarName);
             tvCarStatus = itemView.findViewById(R.id.tvCarStatus);
             tvCredit = itemView.findViewById(R.id.tvCredit);
+
+
+            itemView.setOnClickListener(view -> {
+                if (clickListener != null) {
+                    clickListener.onClickListener(getBindingAdapterPosition(), carModels.get(getBindingAdapterPosition()));
+                }
+            });
+
+
         }
     }
 

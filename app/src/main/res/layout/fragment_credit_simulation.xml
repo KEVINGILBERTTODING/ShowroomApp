@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        tools:context=".features.transactions.user.ui.fragments.CreditSimulationFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rlAppBar"
+                android:padding="@dimen/_16sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="@dimen/_20sdp"
+                    android:background="@drawable/ic_back"
+                    android:layout_alignParentLeft="true"
+
+                    android:layout_height="@dimen/_20sdp"/>
+
+                <TextView
+                    android:id="@+id/tvCarName"
+                    android:layout_toRightOf="@id/btnBack"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/med"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:text="Toyota Ertiga"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_below="@id/rlAppBar"
+                android:id="@+id/mainScroll"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:padding="@dimen/_16sdp"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/credit"/>
+
+                    <TextView
+
+                        android:layout_toRightOf="@id/btnBack"
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/sembold"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:text="Perhitungan Kredit"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+
+                        android:layout_toRightOf="@id/btnBack"
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/med"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="Uang Muka"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:text="Rp."
+                            android:layout_height="wrap_content"/>
+
+                        <RelativeLayout
+                            android:layout_gravity="bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/til_dp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:textColor="@color/black"
+                                app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                                app:cursorColor="@color/primary"
+                                app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etDp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="64dp"
+                                    android:fontFamily="@font/sembold"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:textColorHint="@color/black"
+                                    android:inputType="numberDecimal"
+                                    android:textColor="@color/black"></com.google.android.material.textfield.TextInputEditText>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>/
+
+
+
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tvMinDp"
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:layout_alignParentLeft="true"
+                            android:textSize="@dimen/_10ssp"
+                            android:text="Rp. 100.000"
+                            android:textColor="@color/black"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvMaxDp"
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:layout_alignParentRight="true"
+                            android:textSize="@dimen/_10ssp"
+                            android:text="Rp. 100.000"
+                            android:textColor="@color/black"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/rangeSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.cardview.widget.CardView
+                        app:contentPadding="@dimen/_10sdp"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="0dp"
+                        android:layout_width="match_parent"
+                        app:cardBackgroundColor="@color/bg_second"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/icInfo"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_toRightOf="@id/tvFinanceName"
+                                android:layout_centerVertical="true"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:src="@drawable/ic_info"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/med"
+                                android:layout_toRightOf="@id/icInfo"
+                                android:textSize="@dimen/_8ssp"
+                                android:text="@string/message_range"/>
+
+                        </RelativeLayout>
+
+
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+
+                        android:layout_toRightOf="@id/btnBack"
+                        android:layout_width="match_parent"
+                        android:fontFamily="@font/med"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="Lama Pinjaman (Bulan)"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:columnCount="5"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            app:cardUseCompatPadding="false"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_column="0"
+                            android:id="@+id/btn13"
+                            android:layout_margin="@dimen/_5sdp"
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="13"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/btn24"
+                            app:cardUseCompatPadding="false"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_column="1"
+                            android:layout_margin="@dimen/_5sdp"
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="24"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            app:cardUseCompatPadding="false"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_column="2"
+                            android:id="@+id/btn36"
+                            android:layout_margin="@dimen/_5sdp"
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="36"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            app:cardUseCompatPadding="false"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_column="3"
+                            android:id="@+id/btn48"
+                            android:layout_margin="@dimen/_5sdp"
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="48"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            app:cardUseCompatPadding="false"
+                            app:cardCornerRadius="@dimen/_20sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_column="4"
+                            android:id="@+id/btn60"
+                            android:layout_margin="@dimen/_5sdp"
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="60"
+                                android:includeFontPadding="false"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </GridLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_25sdp"
+                        android:layout_height="wrap_content">
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/progress_count"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCountNow"
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Hitung total cicilan"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/sembold"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tvFinanceName"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/med"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="@dimen/_10ssp"
+                            android:includeFontPadding="false"
+                            android:text="Adira finance"
+                            android:textColor="@color/blue"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageView
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_toRightOf="@id/tvFinanceName"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/blue"
+                            android:layout_height="@dimen/_12sdp"
+                            android:src="@drawable/ic_info"/>
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/lrError"
+                android:layout_width="match_parent"
+                android:padding="@dimen/_16sdp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_toRightOf="@id/btnBack"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/sembold"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="Terjadi kesalahan"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/btnBack"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/reg"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="@string/err_message"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/btnRefresh"
+                    android:layout_height="wrap_content"
+                    android:text="Muat Ulang"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/vOverlay"
+            android:background="@color/overlay"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+<!--        Bottom sheet detail simulation credit-->
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetFinancePicker"
+            android:layout_width="match_parent"
+            android:padding="@dimen/_16sdp"
+            android:paddingTop="@dimen/_14sdp"
+            android:background="@drawable/container_bottom_sheet"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:layout_height="wrap_content">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        app:tint="@color/card"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <TextView
+
+                            android:layout_toRightOf="@id/btnBack"
+                            android:layout_width="match_parent"
+                            android:fontFamily="@font/sembold"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/black"
+                            android:text="Perhitungan Kredit"
+                            android:layout_height="wrap_content"/>
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:columnCount="3"
+                            android:rowCount="4"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:layout_toRightOf="@id/btnBack"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="0"
+                                android:text="+ Biaya Administrasi"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/tvBiayaAdministrasi"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="2"
+                                android:layout_row="0"
+                                android:text="Rp. 00"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="1"
+                                android:text="+ Biaya Provisi"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/tvBiayaProvisi"
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="2"
+                                android:layout_row="1"
+                                android:text="Rp. 00"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_toRightOf="@id/btnBack"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="2"
+                                android:text="+ Asuransi Unit"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:id="@+id/tvBiayaAsuransi"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="2"
+                                android:layout_row="2"
+                                android:text="Rp. 00"
+                                android:layout_height="wrap_content"/>
+
+                        </GridLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:tint="@color/card"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:src="@drawable/dot_divider"
+                            android:layout_height="@dimen/_6sdp"/>
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:columnCount="3"
+                            android:rowCount="2"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_9ssp"
+                                android:layout_column="0"
+                                android:textColor="@color/black"
+                                android:layout_row="0"
+                                android:text="Total Biaya Tambahan"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/tvTotalBiayaTambahan"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_9ssp"
+                                android:layout_column="2"
+                                android:textColor="@color/black"
+                                android:layout_row="0"
+                                android:text="Rp. 00"
+                                android:layout_height="wrap_content"/>
+
+
+
+
+                        </GridLayout>
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:columnCount="3"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:rowCount="5"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/sembold"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_10ssp"
+                                android:layout_column="0"
+                                android:textColor="@color/black"
+                                android:layout_row="0"
+                                android:text="Total Pembayaran\nPertama"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_10ssp"
+                                android:layout_column="2"
+                                android:textColor="@color/black"
+                                android:layout_row="0"
+                                android:id="@+id/tvTotalPembayaranPertama"
+                                android:text="Rp. 00"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="1"
+                                android:text="+ Uang Muka"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="2"
+                                android:text="+ Total Biaya Tambahan"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_8ssp"
+                                android:layout_column="0"
+                                android:layout_row="3"
+                                android:text="+ Angsuran Pertama"
+                                android:layout_height="wrap_content"/>
+
+
+
+
+                        </GridLayout>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/sembold"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:layout_column="0"
+                            android:textColor="@color/black"
+                            android:layout_row="0"
+                            android:text="Perkiraan Cicilan"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/sembold"
+                            android:textSize="@dimen/_14ssp"
+                            android:layout_column="0"
+                            android:textColor="@color/black"
+                            android:layout_row="0"
+                            android:id="@+id/tvTotalCicilan"
+                            android:text="Rp. 200.000. /bulan"
+                            android:layout_height="wrap_content"/>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCreditNow"
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Ajukan Pembiayaan"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/sembold"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_height="wrap_content"/>
+
+
+                        <androidx.cardview.widget.CardView
+                            app:contentPadding="@dimen/_10sdp"
+                            app:cardCornerRadius="@dimen/_8sdp"
+                            app:cardElevation="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            app:cardBackgroundColor="@color/bg_second"
+                            android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/icInfoo"
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:src="@drawable/ic_info"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:includeFontPadding="false"
+                                    android:fontFamily="@font/med"
+                                    android:layout_toRightOf="@id/icInfoo"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:text="@string/message_count_credit"/>
+
+                            </RelativeLayout>
+
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </RelativeLayout>
+
+
+        <!--        Bottom sheet detail finance-->
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetFinance"
+            android:layout_width="match_parent"
+            android:padding="@dimen/_16sdp"
+            android:paddingTop="@dimen/_14sdp"
+            android:background="@drawable/container_bottom_sheet"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:layout_height="wrap_content">
+
+
+            <androidx.core.widget.NestedScrollView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        app:tint="@color/card"
+                        android:layout_height="wrap_content"/>
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:id="@+id/progressDetFinance"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:id="@+id/lrDetFinance"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivFinance"
+                            android:layout_width="match_parent"
+                            android:scaleType="fitCenter"
+                            android:layout_height="@dimen/_150sdp"/>
+
+
+
+                        <TextView
+
+                            android:id="@+id/tvDetailFinanceName"
+                            android:layout_toRightOf="@id/btnBack"
+                            android:layout_width="match_parent"
+                            android:fontFamily="@font/sembold"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColor="@color/black"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+
+                            android:id="@+id/tvDescFinance"
+
+                            android:layout_width="match_parent"
+                            android:text="@string/text_sample"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/reg"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/black"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </RelativeLayout>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

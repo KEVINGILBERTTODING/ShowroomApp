@@ -2,4 +2,23 @@
     <string name="app_name">rizki motor</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_sample">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas diam nam eu nulla a. Vestibulum aliquet facilisi interdum nibh blandit Read more...
+    </string>
+
+    <string name="err_message">
+        Silahkan muat ulang halaman.
+    </string>
+
+    <string name="message_range">
+        Geser bar di bagian atas untuk menentukan jumlah uang muka yang diinginkan.
+    </string>
+
+    <string name="message_count_credit">
+        Perhitungan di atas bersifat sementara dan bisa berubah sewaktu-waktu sesuai ketentuan yang berlaku.
+    </string>
+
+    <string name="alert_bio">
+        Untuk mengubah data diri diatas, hanya bisa dilakukan pada halaman profil.
+    </string>
 </resources>

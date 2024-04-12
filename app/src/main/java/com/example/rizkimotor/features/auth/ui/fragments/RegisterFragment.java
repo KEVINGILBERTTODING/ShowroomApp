@@ -1,6 +1,5 @@
 package com.example.rizkimotor.features.auth.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.ResponseModel;
-import com.example.rizkimotor.data.services.UserService;
-import com.example.rizkimotor.databinding.FragmentLoginBinding;
 import com.example.rizkimotor.databinding.FragmentRegistersBinding;
-import com.example.rizkimotor.features.auth.ui.model.UserModel;
 import com.example.rizkimotor.features.auth.viewmodel.AuthViewModel;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;

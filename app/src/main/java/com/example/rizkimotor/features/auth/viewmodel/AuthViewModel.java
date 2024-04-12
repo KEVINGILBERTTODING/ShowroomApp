@@ -1,16 +1,14 @@
 package com.example.rizkimotor.features.auth.viewmodel;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.repository.auth.AuthRepository;
-import com.example.rizkimotor.features.auth.ui.model.UserModel;
+import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
-import java.io.Closeable;
 import java.util.HashMap;
 
 import javax.inject.Inject;

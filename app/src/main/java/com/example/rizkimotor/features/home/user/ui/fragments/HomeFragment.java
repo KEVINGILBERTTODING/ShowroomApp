@@ -26,11 +26,13 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.data.viewmodel.app.AppViewModel;
 import com.example.rizkimotor.data.viewmodel.car.CarViewModel;
 import com.example.rizkimotor.databinding.FragmentHomeBinding;
+import com.example.rizkimotor.features.car.user.ui.fragments.CarDetailFragment;
 import com.example.rizkimotor.features.home.user.ui.adapters.car.CarAdapter;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
+import com.example.rizkimotor.util.listener.ClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ClickListener {
 
     private UserService userService;
     private FragmentHomeBinding binding;
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
     private List<CarModel> carModelsList;
     private CarViewModel carViewModel;
     private CarAdapter carAdapter;
+    private String phoneNumber;
 
 
 
@@ -102,6 +105,7 @@ public class HomeFragment extends Fragment {
                    initBanner(appInfoModelResponseModel.getData().getImg_hero1(),
                            appInfoModelResponseModel.getData().getImg_hero2()
                            );
+                   phoneNumber = appInfoModelResponseModel.getData().getNo_hp();
 
                     // put slide model
 
@@ -128,6 +132,7 @@ public class HomeFragment extends Fragment {
                    binding.rvCar.setLayoutManager(gridLayoutManager);
                    binding.rvCar.hasFixedSize();
                    binding.rvCar.setVisibility(View.VISIBLE);
+                   carAdapter.onClickListener(HomeFragment.this);
 
                }else {
                    showToast(listResponseModel.getMessage());
@@ -156,4 +161,38 @@ public class HomeFragment extends Fragment {
         binding.imageSlider.setImageList(imgBannerList);
     }
 
+    private void fragmentTransaction(Fragment fragment) {
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameHome, fragment).addToBackStack(null).commit();
+    }
+    @Override
+    public void onClickListener(int position, Object object) {
+        CarModel carModel = (CarModel) object;
+        if (carModel != null) {
+            Fragment fragment = new CarDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(SharedUserData.CAR_ID, carModel.getMobil_id());
+            bundle.putString("phone_number", phoneNumber);
+            fragment.setArguments(bundle);
+            fragmentTransaction(fragment);
+
+        }else {
+            showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        imgBannerList.clear();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        imgBannerList.clear();
+
+
+
+    }
 }

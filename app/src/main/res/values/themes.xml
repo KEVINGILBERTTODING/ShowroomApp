@@ -3,6 +3,7 @@
     <style name="Base.Theme.RizkiMotor" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/primary</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 
     <style name="Theme.RizkiMotor" parent="Base.Theme.RizkiMotor" />
@@ -10,5 +11,10 @@
     <style name="SplashScreen" parent="Base.Theme.RizkiMotor">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/white</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/card</item>
+        <item name="colorControlActivated">@color/primary</item>
     </style>
 </resources>

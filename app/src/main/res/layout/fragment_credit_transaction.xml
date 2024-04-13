@@ -94,7 +94,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFullName"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/med"
                             android:hint="Nama lengkap"
                             android:editable="false"
                             android:textColorHint="@color/black"
@@ -137,8 +138,9 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhoneNumber"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="No telepon"
+                            android:fontFamily="@font/med"
                             android:editable="false"
                             android:textColorHint="@color/black"
                             android:inputType="number"
@@ -183,6 +185,7 @@
                             android:hint="Alamat anda"
                             android:lines="4"
                             android:editable="false"
+                            android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textMultiLine"
                             android:textColor="@color/black"

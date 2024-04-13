@@ -745,11 +745,11 @@
 
 
                 <ImageView
-                    android:layout_width="@dimen/_40sdp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:tint="@color/card"
                     android:src="@drawable/ic_arrow_up"
-                    android:layout_height="@dimen/_40sdp"/>
+                    android:layout_height="@dimen/_30sdp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -758,9 +758,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/_7sdp"
                     android:text="Usap keatas"
-                    android:fontFamily="@font/med"
+                    android:fontFamily="@font/reg"
                     android:textColor="@color/card"
-                    android:textSize="@dimen/_11ssp"/>
+                    android:textSize="@dimen/_10ssp"/>
 
 
                 <LinearLayout

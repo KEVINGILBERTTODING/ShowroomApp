@@ -288,7 +288,11 @@ public class CreditTransactionFragment extends Fragment {
                     binding.progressSubmit.setVisibility(View.GONE);
                     binding.btnSubmit.setVisibility(View.VISIBLE);
                     if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
-                        showToast(responseModel.getMessage());
+                        requireActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frameHome, new SuccessCreditFragment())
+                                .commit();
+
+
                     }else {
                         showToast(responseModel.getMessage());
                     }

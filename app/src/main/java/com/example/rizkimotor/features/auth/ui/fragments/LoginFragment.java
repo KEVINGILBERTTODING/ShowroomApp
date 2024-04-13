@@ -1,5 +1,6 @@
 package com.example.rizkimotor.features.auth.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentLoginBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.auth.viewmodel.AuthViewModel;
+import com.example.rizkimotor.features.home.user.ui.activities.HomeActivity;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
@@ -131,7 +133,8 @@ public class LoginFragment extends Fragment {
                         userService.saveString(SharedUserData.PREF_EMAIL, userModelResponseModel.getData().getEmail());
                         userService.saveBool(SharedUserData.PREF_IS_LOGIN, true);
 
-                        fragmentTransaction(new HomeFragment());
+                        startActivity(new Intent(requireActivity(), HomeActivity.class));
+                        requireActivity().finish();
 
                     }else {
                         showToast(ErrorMsg.SOMETHING_WENT_WRONG);
@@ -149,6 +152,7 @@ public class LoginFragment extends Fragment {
 
     private void fragmentTransaction(Fragment fragment) {
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuth, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 

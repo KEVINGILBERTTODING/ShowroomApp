@@ -63,4 +63,14 @@ public class UserProfileViewModel extends ViewModel {
         }
         return responseModelMutableLiveData;
     }
+
+    public LiveData<ResponseModel> updatePassword(HashMap map) {
+        MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
+        if (map != null) {
+            return userProfileRepository.updatePassword(map);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+        return responseModelMutableLiveData;
+    }
 }

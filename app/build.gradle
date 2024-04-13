@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
     // lottie
-    implementation 'com.airbnb.android:lottie:6.1.0'
+    implementation 'com.airbnb.android:lottie:6.4.0'
 
 
     // retrofit

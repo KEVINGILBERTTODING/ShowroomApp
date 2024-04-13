@@ -30,24 +30,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                initService();
+                startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                finish();
             }
         }, 200L);
     }
 
-    private void initService() {
-        userService = new UserService();
-        userService.initService(this);
 
-        if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
-            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-            finish();
-
-        }else {
-            startActivity(new Intent(SplashScreenActivity.this, AuthActivity.class));
-            finish();
-
-
-        }
-    }
 }

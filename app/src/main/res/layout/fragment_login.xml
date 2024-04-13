@@ -26,7 +26,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_height="wrap_content"
                     android:text="Masuk"
                     android:layout_gravity="center_horizontal"
@@ -36,12 +36,11 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Selamat Datang di Rizki Motor"
                     android:textSize="@dimen/_12ssp"
-                    android:fontFamily="@font/sembold"
+                    android:fontFamily="@font/med"
                     android:textColor="@color/black"/>
 
                 <RelativeLayout
@@ -68,12 +67,14 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="Email"
+                            android:fontFamily="@font/med"
+
                             android:textColorHint="@color/black"
                             android:inputType="textPersonName"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                            android:textSize="@dimen/_11ssp"></com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
                 </RelativeLayout>/
 
@@ -99,11 +100,13 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:fontFamily="@font/med"
+
+                            android:layout_height="wrap_content"
                             android:hint="Kata Sandi"
                             android:inputType="textPassword"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                            android:textSize="@dimen/_11ssp"></com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </RelativeLayout>
@@ -128,6 +131,8 @@
                         android:layout_height="wrap_content"
                         app:backgroundTint="@color/primary"
                         android:id="@+id/btnLogin"
+                        android:fontFamily="@font/med"
+                        android:textSize="@dimen/_12ssp"
                         android:textColor="@color/black"
                         android:text="Login"/>
                 </RelativeLayout>
@@ -147,9 +152,9 @@
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_gravity="center_horizontal"
                         android:text="Belum memiliki akun?"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_9ssp"
                         android:fontFamily="@font/med"
-                        android:textColor="@color/card"/>
+                        android:textColor="@color/black"/>
 
                     <TextView
                         android:id="@+id/tvRegister"
@@ -158,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Daftar"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_9ssp"
                         android:fontFamily="@font/med"
                         android:textColor="@color/primary"/>
                 </LinearLayout>

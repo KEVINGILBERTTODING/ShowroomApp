@@ -99,4 +99,10 @@ public interface ApiService {
     Call<ResponseModel> updateUserProfile(
             @FieldMap HashMap<String, String> map
     );
+
+    @FormUrlEncoded
+    @POST("client/profile/update/password")
+    Call<ResponseModel> userUpdatePassword(
+            @FieldMap HashMap<String, String> map
+    );
 }

@@ -26,7 +26,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_height="wrap_content"
                     android:text="Daftar"
                     android:layout_gravity="center_horizontal"
@@ -41,11 +41,11 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Temukan mobil impian Anda"
                     android:textSize="@dimen/_12ssp"
-                    android:fontFamily="@font/sembold"
+                    android:fontFamily="@font/med"
                     android:textColor="@color/black"/>
 
                 <RelativeLayout
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -68,8 +68,9 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="Email"
+                            android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textPersonName"
                             android:textColor="@color/black"
@@ -100,8 +101,9 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFullName"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="Nama Lengkap"
+                            android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textPersonName"
                             android:textColor="@color/black"
@@ -131,8 +133,9 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="Kata Sandi"
+                            android:fontFamily="@font/med"
                             android:inputType="textPassword"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
@@ -162,9 +165,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPasswordCofirm"
                             android:layout_width="match_parent"
-                            android:layout_height="64dp"
+                            android:layout_height="wrap_content"
                             android:hint="Kata Sandi Konfirmasi"
                             android:inputType="textPassword"
+                            android:fontFamily="@font/med"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -191,6 +195,8 @@
                         android:layout_height="wrap_content"
                         app:backgroundTint="@color/primary"
                         android:id="@+id/btnRegister"
+                        android:fontFamily="@font/med"
+                        android:textSize="@dimen/_12ssp"
                         android:textColor="@color/black"
                         android:text="Daftar"/>
                 </RelativeLayout>
@@ -210,9 +216,9 @@
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_gravity="center_horizontal"
                         android:text="Telah memiliki akun?"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_9ssp"
                         android:fontFamily="@font/med"
-                        android:textColor="@color/card"/>
+                        android:textColor="@color/black"/>
 
                     <TextView
                         android:id="@+id/tvRegister"
@@ -221,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Masuk"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_9ssp"
                         android:fontFamily="@font/med"
                         android:textColor="@color/primary"/>
                 </LinearLayout>

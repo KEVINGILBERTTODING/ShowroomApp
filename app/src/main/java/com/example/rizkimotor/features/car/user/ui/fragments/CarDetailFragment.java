@@ -40,6 +40,8 @@ import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import org.aviran.cookiebar2.CookieBar;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -183,17 +185,16 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
         binding.btnSimulasiKredit.setOnClickListener(view -> {
             if (!isLogin()) {
                 fragmentTransaction(new LoginFragment());
-                showToast("Anda belum login");
+                showSnackbar("Pemberitahuan", "Anda harus login terlebih dahulu");
 
+            }else {
+                showBottomSheetFinance();
+                getAllFinance();
             }
 
 
         });
 
-        binding.btnSimulasiKredit.setOnClickListener(view -> {
-            showBottomSheetFinance();
-            getAllFinance();
-        });
 
     }
 
@@ -355,6 +356,14 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
         });
 
 
+    }
+
+    private void showSnackbar(String title, String message) {
+        CookieBar.build(requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .show();
     }
     private void setUpBottomSheetFinance() {
 

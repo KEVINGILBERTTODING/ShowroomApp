@@ -1,6 +1,7 @@
 package com.example.rizkimotor.features.profile.user.ui.fragments;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,12 +28,16 @@ import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
+import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
 import com.example.rizkimotor.features.profile.user.viewmodel.UserProfileViewModel;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import org.aviran.cookiebar2.CookieBar;
+import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -56,10 +61,10 @@ public class UserProfileFragment extends Fragment {
     private UserProfileViewModel userProfileViewModel;
     private String TAG = Constants.LOG;
     private int userId = 0;
-    private boolean isValid;
+
     private UserModel userModel;
 
-    private BottomSheetBehavior bottomSheetBio;
+    private BottomSheetBehavior bottomSheetBio, bottomSheetPw;
 
 
     @Override
@@ -78,10 +83,29 @@ public class UserProfileFragment extends Fragment {
 
         binding.tvName.setText(userService.loadString(SharedUserData.PREF_USERNAME, "Guest"));
         setUpBottomSheetBio();
+        setUpBottomSheetPw();
         bottomSheetBio.setState(BottomSheetBehavior.STATE_HIDDEN);
+        bottomSheetPw.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        getProfile();
-        listener();
+        if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
+            getProfile();
+            listener();
+            binding.btnLogin.setVisibility(View.GONE);
+            binding.lrMain.setVisibility(View.VISIBLE);
+
+        }else {
+            binding.btnLogin.setVisibility(View.VISIBLE);
+            binding.lrMain.setVisibility(View.GONE);
+
+            binding.btnLogin.setOnClickListener(view -> {
+                startActivity(new Intent(requireActivity(), AuthActivity.class));
+                requireActivity().finish();
+            });
+
+            showSnackbar("Notifikasi", "Anda perlu login terlebih dahulu");
+
+        }
+
 
         return binding.getRoot();
     }
@@ -110,6 +134,7 @@ public class UserProfileFragment extends Fragment {
 
         binding.vOverlay.setOnClickListener(view -> {
             hideBottomSheetBio();
+            hideBottomSheetPw();
         });
 
         binding.rlAkun.setOnClickListener(view -> {
@@ -121,6 +146,62 @@ public class UserProfileFragment extends Fragment {
         binding.tvSaveBio.setOnClickListener(view -> {
             inputProfileValidation();
         });
+
+        binding.rlPrivacy.setOnClickListener(view -> {
+            showBottomSheetPw();
+        });
+
+        binding.tvSavePw.setOnClickListener(view -> {
+            inputPwVal();
+        });
+
+        binding.rlLogOut.setOnClickListener(view -> {
+            CookieBar.build(requireActivity())
+                    .setTitle("Peringatan")
+                    .setMessage("Apakah Anda yakin ingin keluar?")
+                    .setCookiePosition(CookieBar.BOTTOM)
+                    .setDuration(5000)
+                    .setAction("Ya, keluar", new OnActionClickListener() {
+                        @Override
+                        public void onClick() {
+
+                         logOut();
+                        }
+                    })
+                    .show();
+
+        });
+
+
+    }
+
+    private void logOut() {
+        userService.destroy();
+
+        startActivity(new Intent(requireActivity(), AuthActivity.class));
+        requireActivity().finish();
+    }
+
+    private void inputPwVal() {
+        String pwOld = binding.etOldPw.getText().toString();
+        String pwNew = binding.etNewPw.getText().toString();
+
+        if(pwOld.isEmpty()) {
+            binding.tilOldPw.setError("Kata sandi lama tidak boleh kosong");
+            return;
+        }
+
+        if(pwNew.isEmpty()) {
+            binding.tilNewPw.setError("Kata sandi baru tidak boleh kosong");
+            return;
+        }
+
+        if (pwNew.length() < 8) {
+            binding.tilNewPw.setError("Kata sandi baru tidak boleh kurang dari 8 karakter");
+            return;
+        }
+
+        updatePw(pwOld, pwNew);
     }
 
     private void inputProfileValidation() {
@@ -212,7 +293,37 @@ public class UserProfileFragment extends Fragment {
                     userService.saveString(SharedUserData.PREF_USERNAME, fullname);
                     binding.tvName.setText(fullname);
                     hideBottomSheetBio();
+
+                    showSnackbar("Berhasil", responseModel.getMessage());
+
+                }else {
                     showToast(responseModel.getMessage());
+                }
+            }
+        });
+    }
+
+    private void  updatePw(String oldPw, String newPw) {
+        binding.tvSavePw.setVisibility(View.GONE);
+        binding.progressSavePw.setVisibility(View.VISIBLE);
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("old_password", oldPw);
+        map.put("new_password", newPw);
+        map.put("user_id", String.valueOf(userId));
+
+        userProfileViewModel.updatePassword(map).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
+
+            @Override
+            public void onChanged(ResponseModel responseModel) {
+                binding.tvSavePw.setVisibility(View.VISIBLE);
+                binding.progressSavePw.setVisibility(View.GONE);
+                if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+
+                    hideBottomSheetPw();
+
+
+                    showSnackbar("Berhasil", responseModel.getMessage());
 
                 }else {
                     showToast(responseModel.getMessage());
@@ -253,13 +364,13 @@ public class UserProfileFragment extends Fragment {
 
 
     private void getProfile() {
-        isValid = false;
+
         if (userId != 0) {
             userProfileViewModel.profile(userId).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
                 @Override
                 public void onChanged(ResponseModel<UserModel> userModelResponseModel) {
                     if (userModelResponseModel != null && userModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
-                        isValid = true;
+
                         userModel = userModelResponseModel.getData();
                         setUser();
 
@@ -285,6 +396,14 @@ public class UserProfileFragment extends Fragment {
         }
 
 
+    }
+
+    private void showSnackbar(String title, String message) {
+        CookieBar.build(requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .show();
     }
 
     private void savePhotoProfile() {
@@ -426,6 +545,42 @@ public class UserProfileFragment extends Fragment {
         binding.vOverlay.setVisibility(View.GONE);
     }
 
+    private void setUpBottomSheetPw() {
+
+
+        bottomSheetPw = BottomSheetBehavior.from(binding.bottomSheetPw);
+        bottomSheetPw.setHideable(true);
+
+        bottomSheetPw.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hideBottomSheetPw();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
+    }
+
+
+
+    private void showBottomSheetPw() {
+        binding.vOverlay.setVisibility(View.VISIBLE);
+        bottomSheetPw.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void hideBottomSheetPw() {
+        binding.etOldPw.setText("");
+        binding.etNewPw.setText("");
+        bottomSheetPw.setState(BottomSheetBehavior.STATE_HIDDEN);
+        binding.vOverlay.setVisibility(View.GONE);
+    }
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }

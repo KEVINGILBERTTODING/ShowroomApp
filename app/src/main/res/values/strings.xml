@@ -21,4 +21,8 @@
     <string name="alert_bio">
         Untuk mengubah data diri diatas, hanya bisa dilakukan pada halaman profil.
     </string>
+
+    <string name="message_credit_success">
+        Selamat, pengajuan kredit Anda sedang dalam proses kami. Mohon bersabar, kami akan memberikan update paling lambat dalam 7 hari kerja.
+    </string>
 </resources>

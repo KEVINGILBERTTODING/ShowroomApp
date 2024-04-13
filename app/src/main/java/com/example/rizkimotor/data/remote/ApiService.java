@@ -25,7 +25,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    public static final String IP_ADDRESS = "192.168.43.215";
+    public static final String IP_ADDRESS = "192.168.101.92";
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
     public static final String END_POINT =  "http://" + IP_ADDRESS + ":8000/";
 

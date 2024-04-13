@@ -558,6 +558,7 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
             bundle.putString("finance_name",financeModel.getNama_finance());
             bundle.putInt("car_price", carPrice);
             bundle.putInt("car_id", carId);
+            bundle.putString("finance_image", financeModel.getImage());
             bundle.putString("car_name", carName);
             fragment.setArguments(bundle);
             fragmentTransaction(fragment);

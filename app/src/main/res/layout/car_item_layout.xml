@@ -30,8 +30,8 @@
                         android:id="@+id/ivCar"
                         android:layout_width="match_parent"
                         android:src="@drawable/main_logo"
-                        android:scaleType="fitCenter"
-                        android:layout_height="wrap_content"/>
+                        android:scaleType="fitXY"
+                        android:layout_height="match_parent"/>
 
                     <TextView
                         android:id="@+id/tvCarStatus"

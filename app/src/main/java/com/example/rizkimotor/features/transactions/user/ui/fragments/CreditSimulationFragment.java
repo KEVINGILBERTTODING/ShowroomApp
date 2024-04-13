@@ -21,6 +21,7 @@ import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.CreditModel;
 import com.example.rizkimotor.data.model.FinanceModel;
 import com.example.rizkimotor.data.model.ResponseModel;
+import com.example.rizkimotor.data.remote.ApiService;
 import com.example.rizkimotor.data.viewmodel.finance.FinanceViewModel;
 import com.example.rizkimotor.databinding.FragmentCreditSimulationBinding;
 import com.example.rizkimotor.features.transactions.user.viewmodel.UserCreditViewModel;
@@ -83,6 +84,12 @@ public class CreditSimulationFragment extends Fragment {
             carPrice = getArguments().getInt("car_price", 0);
             carName = getArguments().getString("car_name", null);
             financeName = getArguments().getString("finance_name", null);
+
+            Glide.with(requireContext())
+                            .load(getArguments().getString("finance_image"))
+                                    .into(binding.ivFinances);
+
+
             binding.tvCarName.setText(carName);
             binding.tvFinanceName.setText(financeName);
             getDp();

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_40sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="@dimen/_8sdp"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvDelete"
+        android:layout_width="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+
+        android:layout_height="@dimen/_12sdp">
+        <ImageView
+            android:layout_width="@dimen/_10sdp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_height="@dimen/_10sdp"
+            android:tint="@color/red"
+            android:src="@drawable/ic_times"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_40sdp"
+        android:id="@+id/cvReviewImagePicker"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/card2"
+        android:layout_height="@dimen/_40sdp">
+        <ImageView
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivReview"
+
+            android:src="@drawable/main_logo"/>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

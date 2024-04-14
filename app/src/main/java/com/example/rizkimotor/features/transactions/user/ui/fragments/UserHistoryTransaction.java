@@ -30,6 +30,8 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserHistoryTransactionBinding;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
+import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
+import com.example.rizkimotor.features.transactions.user.adapters.ImageReviewAdapter;
 import com.example.rizkimotor.features.transactions.user.adapters.StatusAdapter;
 import com.example.rizkimotor.features.transactions.user.adapters.TransactionHistoryAdapter;
 import com.example.rizkimotor.features.transactions.user.viewmodel.UserReviewViewModel;
@@ -40,6 +42,9 @@ import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.example.rizkimotor.util.listener.ItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import org.aviran.cookiebar2.CookieBar;
+import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -60,6 +65,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     private FragmentUserHistoryTransactionBinding binding;
     private UserTransactionViewModel userTransactionViewModel;
     private UserReviewViewModel userReviewViewModel;
+    private ImageReviewAdapter imageReviewAdapter;
 
     private int userId = 0, stateStatus = 2, mobilId = 0, reviewPosition;
     private String TAG = Constants.LOG;
@@ -119,10 +125,16 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
         binding.vOverlay.setOnClickListener(view -> {
             hideBottomSheetReview();
+
         });
 
         binding.cvReviewImagePicker.setOnClickListener(view -> {
-            pickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+            if (uriReviewList.size() >= 4) {
+                showToast("Anda telah memilih 4 gambar");
+                return;
+            }
+
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         });
@@ -135,7 +147,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     private void initStatusCategories() {
         List<Pair<String, String>> statusList = new ArrayList<>();
         statusList.add(new Pair<>("Proses", "2"));
-        statusList.add(new Pair<>("Valid", "1"));
+        statusList.add(new Pair<>("Selesai", "1"));
         statusList.add(new Pair<>("Proses Finance", "3"));
         statusList.add(new Pair<>("Tidak Valid", "0"));
 
@@ -224,6 +236,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     private void hideBottomSheetReview() {
         bottomSheetReview.setState(BottomSheetBehavior.STATE_HIDDEN);
         binding.vOverlay.setVisibility(View.GONE);
+        clearInputReview();
     }
 
     private void reviewValidation() {
@@ -280,7 +293,9 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
                 if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
                     transactionHistoryAdapter.setSuccessReview(reviewPosition);
                     hideBottomSheetReview();
-                    showToast(responseModel.getMessage());
+
+                    clearInputReview();
+                    showCookieBar("Notifikasi", "Berhasil menambahkan penilaian baru");
                 }else {
                     showToast(responseModel.getMessage());
 
@@ -292,23 +307,60 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
     }
 
-    ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
-            registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(4), uris -> {
-                // Callback is invoked after the user selects media items or closes the
+    private void clearInputReview() {
+        binding.etReview.setText("");
+        binding.ratingBar.setRating(0);
+        binding.rvImageReview.setAdapter(null);
+        uriReviewList.clear();
+    }
+
+    private void removeListImageReview(int position) {
+        if (uriReviewList.size() > 0) {
+            uriReviewList.remove(position);
+            imageReviewAdapter.removeItem(position);
+            Log.d(TAG, "removeListImageReview: " + uriReviewList);
+            return;
+        }
+
+        Log.d(TAG, "removeListImageReview: data suda tidak ada");
+
+
+    }
+
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                // Callback is invoked after the user selects a media item or closes the
                 // photo picker.
-                if (!uris.isEmpty()) {
-                    Log.d("PhotoPicker", "Number of items selected: " + uris.size());
-                    if (uris.size() > 4) {
-                        showToast("Gambar tidak boleh lebih dari 4");
-                    }else {
-                        uriReviewList = uris;
-                        Log.d(TAG, "uris data: " + uriReviewList);
-                        Log.d(TAG, "uris length: " + uriReviewList.size());
+                if (uri != null) {
+                    if (uriReviewList.size() <= 4) {
+                       uriReviewList.add(uri);
+                       setListPhotoReview();
                     }
                 } else {
                     Log.d("PhotoPicker", "No media selected");
                 }
             });
+
+    private void setListPhotoReview() {
+        binding.rvImageReview.setAdapter(null);
+        imageReviewAdapter = new ImageReviewAdapter(requireContext(), uriReviewList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.rvImageReview.setAdapter(imageReviewAdapter);
+        binding.rvImageReview.setLayoutManager(linearLayoutManager);
+        binding.rvImageReview.setHasFixedSize(true);
+        imageReviewAdapter.setItemClickListener(UserHistoryTransaction.this);
+    }
+
+    private void showCookieBar(String title, String message) {
+        CookieBar.build(requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setDuration(3000)
+
+                .show();
+
+    }
 
 
 
@@ -403,6 +455,8 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
             }else {
                 showToast(ErrorMsg.SOMETHING_WENT_WRONG);
             }
+        } else if (type != null && type.equals("delete_review")) {
+            removeListImageReview(position);
         } else {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
         }

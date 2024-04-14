@@ -1,7 +1,10 @@
 package com.example.rizkimotor.features.transactions.user.ui.fragments;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,26 +13,35 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.rizkimotor.MainActivity;
 import com.example.rizkimotor.R;
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserHistoryTransactionBinding;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
+import com.example.rizkimotor.features.car.user.ui.adapters.PhotoReviewAdapter;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.features.transactions.user.adapters.ImageReviewAdapter;
 import com.example.rizkimotor.features.transactions.user.adapters.StatusAdapter;
@@ -47,17 +59,26 @@ import org.aviran.cookiebar2.CookieBar;
 import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 @AndroidEntryPoint
 public class UserHistoryTransaction extends Fragment implements ItemClickListener {
@@ -66,11 +87,14 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     private UserTransactionViewModel userTransactionViewModel;
     private UserReviewViewModel userReviewViewModel;
     private ImageReviewAdapter imageReviewAdapter;
+    private PhotoReviewAdapter photoReviewAdapter;
+    private String transactionId;
+    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 1;
 
     private int userId = 0, stateStatus = 2, mobilId = 0, reviewPosition;
     private String TAG = Constants.LOG;
     private List<TransactionModel> transactionModels;
-    private BottomSheetBehavior bottomSheetReview;
+    private BottomSheetBehavior bottomSheetReview, bottomSheetDetailTransaction;
     private TransactionHistoryAdapter transactionHistoryAdapter;
     private List<Uri> uriReviewList = new ArrayList<>();
 
@@ -88,12 +112,18 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         binding = FragmentUserHistoryTransactionBinding.inflate(inflater, container, false);
         init();
         listener();
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Minta izin secara runtime
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+        }
         return binding.getRoot();
     }
 
     private void init() {
 
         if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
+            checkAndRequestStoragePermission();
+
             binding.lrErrorLogin.setVisibility(View.GONE);
             userTransactionViewModel = new ViewModelProvider(this).get(UserTransactionViewModel.class);
             userReviewViewModel = new ViewModelProvider(this).get(UserReviewViewModel.class);
@@ -104,6 +134,8 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
             setUpBottomSheetReview();
             bottomSheetReview.setState(BottomSheetBehavior.STATE_HIDDEN);
+            setUpBottomSheetDetailTrans();
+            bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
 
 
         }else {
@@ -125,6 +157,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
         binding.vOverlay.setOnClickListener(view -> {
             hideBottomSheetReview();
+            hideBottomSheetDetailTrans();
 
         });
 
@@ -141,6 +174,15 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
         binding.btnSubmitReview.setOnClickListener(view -> {
             reviewValidation();
+        });
+
+        binding.btnClosePreviewPhoto.setOnClickListener(view -> {
+            binding.overlayPhoto.setVisibility(View.GONE);
+            binding.rlPhotoView.setVisibility(View.GONE);
+        });
+
+        binding.btnDownloadInvoice.setOnClickListener(view -> {
+            downloadInvoice();
         });
     }
 
@@ -264,6 +306,41 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         storeReview();
     }
 
+
+    private void setUpBottomSheetDetailTrans() {
+
+
+        bottomSheetDetailTransaction = BottomSheetBehavior.from(binding.bottomSheetDetailTransaction);
+        bottomSheetDetailTransaction.setHideable(true);
+
+        bottomSheetDetailTransaction.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hideBottomSheetReview();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
+    }
+
+    private void showBottomSheetDetailTrans() {
+        binding.vOverlay.setVisibility(View.VISIBLE);
+        bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+    }
+
+    private void hideBottomSheetDetailTrans() {
+        bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
+        binding.vOverlay.setVisibility(View.GONE);
+      
+    }
+
     private void storeReview() {
         binding.btnSubmitReview.setVisibility(View.GONE);
         binding.progressReview.setVisibility(View.VISIBLE);
@@ -351,6 +428,245 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         imageReviewAdapter.setItemClickListener(UserHistoryTransaction.this);
     }
 
+    private void getDetailTransaction(String transactionId) {
+        if (transactionId != null) {
+            binding.progressLoadTrans.setVisibility(View.VISIBLE);
+            binding.scrollDetailTrans.setVisibility(View.GONE);
+            userTransactionViewModel.getTransactionDetail(transactionId).observe(getViewLifecycleOwner(), new Observer<ResponseModel<TransactionModel>>() {
+                @Override
+                public void onChanged(ResponseModel<TransactionModel> transactionModelResponseModel) {
+                    binding.progressLoadTrans.setVisibility(View.GONE);
+                    if (transactionModelResponseModel != null
+                            && transactionModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)
+                            &&  transactionModelResponseModel.getData() != null) {
+
+
+                        binding.scrollDetailTrans.setVisibility(View.VISIBLE);
+
+                        setupDetailTrans(transactionModelResponseModel.getData());
+
+
+
+
+                    }else {
+
+                        showCookieBar("Error", "Gagal memuat data transaksi");
+
+                    }
+                }
+            });
+        }else {
+            showCookieBar("Error", "Gagal memuat data transaksi");
+        }
+    }
+
+    private void downloadInvoice() {
+       if (transactionId != null) {
+           binding.progressDownloadInvoice.setVisibility(View.VISIBLE);
+           binding.btnDownloadInvoice.setVisibility(View.GONE);
+           userTransactionViewModel.downloadInvoice(transactionId).observe(getViewLifecycleOwner()
+                   , new Observer<ResponseDownloaModel>() {
+                       @Override
+                       public void onChanged(ResponseDownloaModel responseModel) {
+                           binding.progressDownloadInvoice.setVisibility(View.GONE);
+                           binding.btnDownloadInvoice.setVisibility(View.VISIBLE);
+                           if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+                               try {
+                                   // check permisssion
+                                   if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                                       savePdfToDownloadFolder(responseModel.getResponseBody().bytes());
+                                   } else {
+                                       showToast("Akses tidak diberikan");
+                                       checkAndRequestStoragePermission();
+
+                                   }
+
+                               } catch (IOException e) {
+                                   e.printStackTrace();
+                               }
+                           }else {
+                               showToast(responseModel.getMessage());
+                           }
+                       }
+                   });
+       }else {
+           showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+       }
+    }
+
+    public void savePdfToDownloadFolder(byte[] pdfData) {
+        // Mendapatkan direktori folder Download
+        File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        // Membuat file PDF baru di folder Download
+        File pdfFile = new File(downloadDir, transactionId + ".pdf");
+
+        try {
+            // Membuat FileOutputStream untuk menulis data PDF ke file
+            FileOutputStream fos = new FileOutputStream(pdfFile);
+
+            // Menulis data PDF ke file
+            fos.write(pdfData);
+
+            // Tutup FileOutputStream setelah selesai menulis
+            fos.close();
+
+
+            // show notif
+            CookieBar.build(requireActivity())
+                    .setTitle("Unduhan Selesai")
+                    .setMessage("Berhasil mengunduh invoice")
+                    .setCookiePosition(CookieBar.BOTTOM)
+                    .setAction("Lihat", new OnActionClickListener() {
+                        @Override
+                        public void onClick() {
+                            openPdfFile(pdfFile);
+                        }
+                    })
+                    .setDuration(3000)
+
+                    .show();
+        } catch (IOException e) {
+            // Tangani kesalahan saat menyimpan file
+            e.printStackTrace();
+            Log.d(TAG, "savePdfToDownloadFolder: " + e.getMessage());
+            Toast.makeText(requireContext(), "Gagal menyimpan PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openPdfFile(File pdfFile) {
+        // Membuat Intent untuk membuka file PDF
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Uri uri = FileProvider.getUriForFile(requireContext(), "com.example.rizkimotor", pdfFile);
+
+
+        intent.setDataAndType(uri, "application/pdf");
+
+
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // Mulai aktivitas untuk membuka file PDF
+        try {
+            requireContext().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // Tangani ketika tidak ada aplikasi yang dapat membuka file PDF
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Tidak ada aplikasi untuk membuka PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setupDetailTrans(TransactionModel data) {
+        binding.btnDownloadInvoice.setVisibility(View.GONE);
+        binding.tvTransactionCode.setText(data.getTransaksi_id());
+        setStatusTrans(data.getStatus());
+        binding.tvCarName.setText(data.getMerk());
+        binding.tvPhoneNumber.setText(data.getNo_hp_user());
+        binding.tvAddress.setText(data.getAlamat_user());
+        binding.tvPlatNumber.setText(data.getNoPlat());
+        binding.tvCarYear.setText(data.getTahun());
+        binding.tvEngineCapacity.setText(data.getKapasitas_mesin());
+        binding.tvCarPrice.setText(formatRupiah(data.getHarga_jual()));
+        binding.tvDisscount.setText(formatRupiah(data.getDiskon()));
+        binding.tvOngkir.setText(formatRupiah(data.getBiaya_pengiriman()));
+        binding.tvFullName.setText(data.getNama_user());
+        binding.tvDateTransaction.setText(convertDate(data.getCreated_at()));
+        binding.tvTotalTransaction.setText(formatRupiah(data.getHarga_jual() - data.getDiskon()));
+
+       setTransFile(data);
+
+
+        if (data.getPayment_method().equals("1")) {
+            binding.tvPaymentmethod.setText("Cash");
+        }else if (binding.tvPaymentmethod.equals("2")) {
+            binding.tvPaymentmethod.setText("Kredit");
+        }else if (binding.tvPaymentmethod.equals("3")) {
+            binding.tvPaymentmethod.setText("Transfer");
+        }else {
+            binding.tvPaymentmethod.setText("-");
+        }
+
+        if (data.getStatus() == 1) {
+            binding.btnDownloadInvoice.setVisibility(View.VISIBLE);
+
+        }
+
+
+    }
+
+    private void setTransFile(TransactionModel data) {
+
+        binding.lrFileCredit.setVisibility(View.GONE);
+        binding.lrEvidence.setVisibility(View.GONE);
+
+        if (data.getPayment_method().equals("2")) {
+            List<String> fileImgCreditList = new ArrayList<>();
+            String kk = data.getKk();
+
+            if (kk != null) {
+                fileImgCreditList.add(kk);
+            }
+
+            if (data.getKtp_istri()!= null) {
+                fileImgCreditList.add(data.getKtp_istri().toString());
+            }
+
+            if (data.getKtp_suami()!= null) {
+                fileImgCreditList.add(data.getKtp_suami().toString());
+            }
+
+
+            photoReviewAdapter = new PhotoReviewAdapter(requireContext(), fileImgCreditList);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+            binding.rvCreditFile.setAdapter(photoReviewAdapter);
+            binding.rvCreditFile.setLayoutManager(linearLayoutManager);
+            binding.rvCreditFile.setHasFixedSize(true);
+            photoReviewAdapter.setItemClickListener(UserHistoryTransaction.this);
+
+            binding.lrFileCredit.setVisibility(View.VISIBLE);
+        }else {
+            Glide.with(requireContext())
+                    .load(data.getBukti_pembayaran())
+                    .override(70, 70)
+                    .into(binding.ivEvidence);
+            binding.ivEvidence.setOnClickListener(view -> {
+                showPhoto(data.getBukti_pembayaran());
+            });
+
+            binding.lrEvidence.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setStatusTrans(int status) {
+        if (status == 1) {
+            binding.tvStatusTrans.setText("Selesai");
+            binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.green));
+            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_green));
+            return;
+        }
+
+        if (status == 2) {
+            binding.tvStatusTrans.setText("Proses");
+            binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.primary));
+            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.bg_second));
+            return;
+        }
+        if (status == 3) {
+            binding.tvStatusTrans.setText("Proses Finance");
+            binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.blue));
+            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_blue));
+            return;
+        }
+
+        if (status == 0) {
+            binding.tvStatusTrans.setText("Tidak Vald");
+            binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.red));
+            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_red));
+            return;
+        }
+    }
+
     private void showCookieBar(String title, String message) {
         CookieBar.build(requireActivity())
                 .setTitle(title)
@@ -362,6 +678,12 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
     }
 
+    private void checkAndRequestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Minta izin secara runtime
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+        }
+    }
 
 
     private String getFileNameFromUri(Uri uri) {
@@ -436,6 +758,51 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     }
 
 
+    public static String convertDate(String isoDate) {
+        // Format input: ISO 8601 (contoh: "2024-01-11T16:15:01.000000Z")
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+        // Format output: Contoh "1 Maret 2024"
+        SimpleDateFormat outputFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+
+        try {
+            // Parsing tanggal dari format input
+            Date date = inputFormat.parse(isoDate);
+
+            // Mengubah tanggal ke format output
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            // Tangani parsing error jika format input tidak sesuai
+            e.printStackTrace();
+            return null; // Kembalikan null jika ada error
+        }
+    }
+
+    public static String formatRupiah(long nominal) {
+        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+
+        formatRp.setCurrencySymbol("Rp ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        // Mengatur jumlah digit desimal menjadi 0
+        kursIndonesia.setMaximumFractionDigits(0);
+
+
+        kursIndonesia.setDecimalFormatSymbols(formatRp);
+        return kursIndonesia.format(nominal);
+    }
+
+    private void showPhoto(String imageUrl) {
+        binding.overlayPhoto.setVisibility(View.VISIBLE);
+        binding.rlPhotoView.setVisibility(View.VISIBLE);
+        Glide.with(requireContext())
+                .load(imageUrl)
+                .into(binding.photoView);
+    }
+
+
 
     @Override
     public void itemClickListener(String type, int position, Object object) {
@@ -455,6 +822,15 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
             }else {
                 showToast(ErrorMsg.SOMETHING_WENT_WRONG);
             }
+        } else if (type != null && type.equals("history") && object != null) {
+            TransactionModel transactionModel = (TransactionModel) object;
+            transactionId = transactionModel.getTransaksi_id();
+            getDetailTransaction(transactionModel.getTransaksi_id());
+            showBottomSheetDetailTrans();
+
+        } else if (type != null && type.equals(Constants.REVIEW_IMAGE) && object != null) {
+            String berkasKredit = (String) object;
+            showPhoto(berkasKredit);
         } else if (type != null && type.equals("delete_review")) {
             removeListImageReview(position);
         } else {

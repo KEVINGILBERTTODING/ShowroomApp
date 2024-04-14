@@ -9,6 +9,7 @@ public class TransactionModel {
     private Integer pelanggan_id; // Gunakan Integer jika nilainya bisa null
     private String payment_method;
     private long total_pembayaran;
+    private long harga_jual;
     private int status;
     private String alasan; // Gunakan String jika nilainya bisa null
     private String bukti_pembayaran; // Gunakan String jika nilainya bisa null
@@ -17,13 +18,20 @@ public class TransactionModel {
     private String updated_at;
     private String nama_user;
     private String no_hp_user;
+
     private String alamat_user;
     private String nama_finance;
     private int finance_id;
+    private long diskon;
     private String nama_model;
     private String tahun;
     private String gambar1;
     private String merk;
+    private String noPlat;
+    private String ktp_suami;
+    private String ktp_istri;
+    private String kk;
+    private String kapasitas_mesin;
     private String review_text;
 
     public TransactionModel() {
@@ -94,7 +102,7 @@ public class TransactionModel {
     }
 
     public String getBukti_pembayaran() {
-        return bukti_pembayaran;
+        return ApiService.END_POINT + "data/evidence/" + bukti_pembayaran;
     }
 
     public void setBukti_pembayaran(String bukti_pembayaran) {
@@ -203,5 +211,48 @@ public class TransactionModel {
 
     public void setReview_text(String review_text) {
         this.review_text = review_text;
+    }
+
+    public long getHarga_jual() {
+        return harga_jual;
+    }
+
+    public long getDiskon() {
+        return diskon;
+    }
+
+    public String getNoPlat() {
+        return noPlat;
+    }
+
+    public String getKtp_suami() {
+        if (ktp_suami != null) {
+            return ApiService.END_POINT + "data/credit/" + ktp_suami;
+
+        }else {
+            return  null;
+        }
+    }
+
+    public String getKtp_istri() {
+        if (ktp_istri != null) {
+            return ApiService.END_POINT + "data/credit/" + ktp_istri;
+
+        }else {
+            return  null;
+        }
+    }
+
+    public String getKk() {
+        if (kk != null) {
+            return ApiService.END_POINT + "data/credit/" + kk;
+
+        }else {
+            return  null;
+        }
+    }
+
+    public String getKapasitas_mesin() {
+        return kapasitas_mesin;
     }
 }

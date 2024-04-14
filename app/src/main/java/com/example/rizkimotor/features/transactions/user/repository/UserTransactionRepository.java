@@ -1,8 +1,11 @@
 package com.example.rizkimotor.features.transactions.user.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.data.remote.ApiService;
@@ -18,6 +21,7 @@ import javax.inject.Inject;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +76,56 @@ public class UserTransactionRepository {
             @Override
             public void onFailure(Call<ResponseModel<List<TransactionModel>>> call, Throwable t) {
                 responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+
+            }
+        });
+
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<TransactionModel>> getTransactionById(String id) {
+        MutableLiveData<ResponseModel<TransactionModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.getTransactionById(id).enqueue(new Callback<ResponseModel<TransactionModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<TransactionModel>> call, Response<ResponseModel<TransactionModel>> response) {
+                if (response.isSuccessful() && response.code() == 200 && response.body().getData() != null) {
+                    responseModelMutableLiveData.postValue(new ResponseModel<TransactionModel>(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
+
+                }else {
+
+                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<TransactionModel>> call, Throwable t) {
+                responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+
+            }
+        });
+
+        return responseModelMutableLiveData;
+    }
+
+
+    public LiveData<ResponseDownloaModel> downloadInvoice(String id) {
+        MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.downloadInvoice(id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.code() == 200 ) {
+                    responseModelMutableLiveData.postValue(new ResponseDownloaModel(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body()));
+
+                }else {
+
+                    responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "onFailure: " + t.getMessage());
+                responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
 
             }
         });

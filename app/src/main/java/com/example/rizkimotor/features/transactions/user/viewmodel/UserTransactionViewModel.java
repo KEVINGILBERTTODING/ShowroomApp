@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.transactions.user.repository.UserTransactionRepository;
@@ -44,6 +45,27 @@ public class UserTransactionViewModel extends ViewModel {
             return userTransactionRepository.getHistoryTransaction(userId, status);
         }else {
             responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<TransactionModel>> getTransactionDetail(String id) {
+        MutableLiveData<ResponseModel<TransactionModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        if (id != null) {
+            return userTransactionRepository.getTransactionById(id);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+
+        return responseModelMutableLiveData;
+    }
+    public LiveData<ResponseDownloaModel> downloadInvoice(String id) {
+        MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
+        if (id != null) {
+            return userTransactionRepository.downloadInvoice(id);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }
 
         return responseModelMutableLiveData;

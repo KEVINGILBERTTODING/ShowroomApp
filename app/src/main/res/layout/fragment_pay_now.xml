@@ -237,61 +237,23 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:textSize="@dimen/_11ssp"
                     android:textColor="@color/black"
-                    android:text="Bukti Pembayaran"
+                    android:text="Rekening Bank"
                     android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvBankAcc"
-
                     tools:listitem="@layout/list_bank_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <androidx.cardview.widget.CardView
-                    app:contentPadding="@dimen/_10sdp"
-                    app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:cardElevation="0dp"
 
-                    android:layout_width="match_parent"
-                    app:cardBackgroundColor="@color/soft_red"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/icInfo"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_centerVertical="true"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_marginRight="@dimen/_5sdp"
-                            android:src="@drawable/ic_info"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_centerVertical="true"
-                            android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:fontFamily="@font/med"
-                            android:layout_toRightOf="@id/icInfo"
-                            android:textSize="@dimen/_8ssp"
-                            android:text="Ukuran file max 5 MB dan format yang dizinkan .png, .jpeg, .jpg"/>
-
-                    </RelativeLayout>
-
-
-
-
-                </androidx.cardview.widget.CardView>
 
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:columnCount="4"
                     android:rowCount="1">
                     <LinearLayout
@@ -341,6 +303,45 @@
 
 
                 </GridLayout>
+
+                <androidx.cardview.widget.CardView
+                    app:contentPadding="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+
+                    android:layout_width="match_parent"
+                    app:cardBackgroundColor="@color/soft_red"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/icInfo"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:src="@drawable/ic_info"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/med"
+                            android:layout_toRightOf="@id/icInfo"
+                            android:textSize="@dimen/_8ssp"
+                            android:text="Ukuran file max 5 MB dan format yang dizinkan .png, .jpeg, .jpg"/>
+
+                    </RelativeLayout>
+
+
+
+
+                </androidx.cardview.widget.CardView>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

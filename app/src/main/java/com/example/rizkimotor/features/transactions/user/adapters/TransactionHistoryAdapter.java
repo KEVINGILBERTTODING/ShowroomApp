@@ -114,7 +114,9 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             });
 
             itemView.setOnClickListener(view -> {
-                Toast.makeText(context, transactionModels.get(getBindingAdapterPosition()).getReview_text(), Toast.LENGTH_SHORT).show();
+                if (itemClickListener != null) {
+                    itemClickListener.itemClickListener("history", getBindingAdapterPosition(), transactionModels.get(getBindingAdapterPosition()));
+                }
             });
 
         }

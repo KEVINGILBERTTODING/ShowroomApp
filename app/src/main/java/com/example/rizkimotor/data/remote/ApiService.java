@@ -15,6 +15,8 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -132,4 +134,16 @@ public interface ApiService {
             @PartMap Map<String, RequestBody> requestBodyMap,
             @Part List<MultipartBody.Part> part
     );
+
+    @GET("client/transaction/{id}")
+    Call<ResponseModel<TransactionModel>> getTransactionById(
+            @Path("id") String id
+    );
+
+    @GET("client/invoice/download/{id}")
+    Call<ResponseBody> downloadInvoice(
+            @Path("id") String id
+    );
+
+
 }

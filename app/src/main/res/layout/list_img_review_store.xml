@@ -29,7 +29,6 @@
         android:id="@+id/cvReviewImagePicker"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/card2"
         android:layout_height="@dimen/_40sdp">
         <ImageView
             android:layout_gravity="center_horizontal|center_vertical"

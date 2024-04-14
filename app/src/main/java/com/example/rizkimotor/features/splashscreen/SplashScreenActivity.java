@@ -1,12 +1,16 @@
 package com.example.rizkimotor.features.splashscreen;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,6 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
 
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -35,6 +40,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }, 200L);
     }
+
+
 
 
 }

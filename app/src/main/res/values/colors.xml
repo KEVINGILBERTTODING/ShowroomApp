@@ -11,7 +11,9 @@
     <color name="red">#E40E0E</color>
     <color name="overlay">#88000000</color>
     <color name="bg_second">#FFF9C1</color>
+    <color name="soft_green">#D0F0C0</color>
     <color name="soft_red">#FFA0A0</color>
+    <color name="soft_blue">#E6F1FF</color>
 
 
 

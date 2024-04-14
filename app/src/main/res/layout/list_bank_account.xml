@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/card2"
+        app:contentPadding="@dimen/_10sdp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/sembold"
+                android:id="@+id/tvBankName"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18ssp"
+                android:layout_height="wrap_content"
+                android:text="BRI"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@id/tvBankName"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/reg"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/_7ssp"
+                    android:layout_height="wrap_content"
+                    android:text="Nomor rekening"/>
+                <TextView
+                    android:id="@+id/tvNumberAccount"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_height="wrap_content"
+                    android:text="0823232312121"/>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/reg"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/_7ssp"
+                    android:layout_height="wrap_content"
+                    android:text="Atas nama"/>
+                <TextView
+                    android:id="@+id/tvOwnerName"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/_11ssp"
+                    android:layout_height="wrap_content"
+                    android:text="Jhon Doe"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

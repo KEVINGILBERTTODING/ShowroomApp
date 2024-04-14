@@ -88,6 +88,8 @@ dependencies {
     implementation("io.getstream:photoview:1.0.1")
     implementation 'org.aviran.cookiebar2:cookiebar2:1.1.5'
 
+    implementation 'com.github.chivorns:smartmaterialspinner:2.0.0'
+
 
 
 

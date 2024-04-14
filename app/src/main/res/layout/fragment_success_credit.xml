@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_16sdp"
-        tools:context=".features.transactions.user.ui.fragments.SuccessCreditFragment">
+        tools:context=".features.transactions.user.ui.fragments.SuccessTransactionFragment">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,18 +23,20 @@
                 />
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:text="Pengajuan Kredit Berhasil Diajukan"
+                android:text=""
                 android:fontFamily="@font/sembold"
                 android:textSize="@dimen/_15ssp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/tvDesc"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"

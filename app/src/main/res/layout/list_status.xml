@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:id="@+id/cvStatus"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/card2"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvStatusName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        android:fontFamily="@font/med"
+        android:textSize="@dimen/_10ssp"
+        android:layout_gravity="center_horizontal"
+        android:text="Proses"/>
+</androidx.cardview.widget.CardView>

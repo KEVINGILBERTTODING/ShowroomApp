@@ -1,14 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".features.transactions.user.ui.fragments.UserHistoryTransaction">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<layout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".features.transactions.user.ui.fragments.UserHistoryTransaction">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/_10sdp"
+
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Riwayat Transaksi"
+                    android:fontFamily="@font/sembold"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18ssp"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rvStatus"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTransactions"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    tools:listitem="@layout/list_history_transactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lrErrorLogin"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/sembold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:text="Akses Ditolak"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_10ssp"
+                    android:textAlignment="center"
+                    android:text="Anda perlu login untuk mengakses menu ini"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/btnLogin"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Login"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lrError"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/sembold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:text="Terjadi kesalahan"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_10ssp"
+                    android:textAlignment="center"
+                    android:text="@string/err_message"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/btnRefresh"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Muat Ulang"/>
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressLoadTrans"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/lrEmpty"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/sembold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:text="Tidak ada data"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_10ssp"
+                    android:textAlignment="center"
+                    android:text="Riwayat transaksi Anda akan muncul disini."
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/vOverlay"
+            android:visibility="gone"
+            android:background="@color/overlay"/>
+
+
+
+        <!--        Bottom sheet bar rating -->
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetRating"
+            android:layout_width="match_parent"
+            android:padding="@dimen/_10sdp"
+            android:paddingTop="@dimen/_14sdp"
+            android:background="@drawable/container_bottom_sheet"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    app:tint="@color/card"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Berikan penilaian"
+                        android:fontFamily="@font/sembold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"/>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <RatingBar
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:id="@+id/ratingBar"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:progressTint="@color/primary"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/_40sdp"
+                            android:id="@+id/cvReviewImagePicker"
+                            app:cardCornerRadius="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@color/soft_blue"
+                            android:layout_height="@dimen/_40sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:tint="@color/blue"
+                                android:src="@drawable/baseline_add_24"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <RelativeLayout
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/til_review"
+                                android:fontFamily="@font/med"
+
+                                android:textColor="@color/black"
+                                app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                                app:cursorColor="@color/primary"
+
+                                app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etReview"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Ketikan sesuatu...."
+                                    android:fontFamily="@font/med"
+                                    android:gravity="start"
+                                    android:editable="false"
+                                    android:lines="3"
+                                    android:textColorHint="@color/black"
+                                    android:inputType="textMultiLine"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_height="wrap_content">
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnSubmitReview"
+                                android:layout_width="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Kirim ulasan"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_12ssp"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_height="wrap_content"/>
+
+
+                            <ProgressBar
+                                android:visibility="gone"
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/progressReview"/>
+                        </RelativeLayout>
+
+
+
+
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

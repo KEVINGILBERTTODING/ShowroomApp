@@ -4,6 +4,13 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -11,22 +18,19 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.rizkimotor.R;
+import com.example.rizkimotor.data.model.BankAccountModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.services.UserService;
-import com.example.rizkimotor.databinding.FragmentCreditTransactionBinding;
+import com.example.rizkimotor.data.viewmodel.bankaccount.BankAccountViewModel;
+import com.example.rizkimotor.databinding.FragmentPayNowBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.features.profile.user.viewmodel.UserProfileViewModel;
-import com.example.rizkimotor.features.transactions.user.viewmodel.UserCreditViewModel;
+import com.example.rizkimotor.features.transactions.user.adapters.BankAccountAdapter;
+import com.example.rizkimotor.features.transactions.user.viewmodel.UserTransactionViewModel;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
@@ -37,7 +41,6 @@ import org.aviran.cookiebar2.OnActionClickListener;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,19 +51,20 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 @AndroidEntryPoint
-public class CreditTransactionFragment extends Fragment {
-    private FragmentCreditTransactionBinding binding;
+public class PayNowFragment extends Fragment {
+    private FragmentPayNowBinding binding;
     private UserProfileViewModel userProfileViewModel;
+    private BankAccountViewModel bankAccountViewModel;
+    private UserTransactionViewModel userTransactionViewModel;
     private UserModel userModel;
-    private String financeName, carName, carKm, tahun, tag = "TAG";
+    private String  carName,  tag = "TAG";
 
 
-    private int carId, financeId, userId, carPrice;
+    private int carId,  userId, carPrice;
     private UserService userService = new UserService();
-    private String contentPicker;
-    private UserCreditViewModel userCreditViewModel;
+
     private boolean isValid = false;
-    private Uri ktpSuamiUri, ktpIstriUri, kKUri;
+    private Uri evidenceUri;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,7 @@ public class CreditTransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       binding = FragmentCreditTransactionBinding.inflate(inflater, container, false);
+       binding = FragmentPayNowBinding.inflate(inflater, container, false);
        init();
        listener();
        return binding.getRoot();
@@ -89,19 +93,20 @@ public class CreditTransactionFragment extends Fragment {
     private void init() {
 
         userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
-        userCreditViewModel = new ViewModelProvider(this).get(UserCreditViewModel.class);
+        bankAccountViewModel = new ViewModelProvider(this).get(BankAccountViewModel.class);
+        userTransactionViewModel = new ViewModelProvider(this).get(UserTransactionViewModel.class);
         binding.etAddress.setEnabled(false);
         binding.etFullName.setEnabled(false);
         binding.etPhoneNumber.setEnabled(false);
 
         if (getArguments() != null) {
 
-            financeId = getArguments().getInt("finance_id");
+
             carId = getArguments().getInt("car_id");
             carPrice = getArguments().getInt("car_price", 0);
             carName = getArguments().getString("car_name");
-            financeName = getArguments().getString("finance_name");
             getUser();
+            getBankAccount();
 
             binding.tvCarName.setText(carName);
 
@@ -118,26 +123,13 @@ public class CreditTransactionFragment extends Fragment {
         binding.btnBack.setOnClickListener(view -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
-        binding.btnKtpSuami.setOnClickListener(view -> {
-            contentPicker = "ktp_suami";
+        binding.btnEvidence.setOnClickListener(view -> {
+
             pickMedia.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         });
 
-        binding.btnKtpIstri.setOnClickListener(view -> {
-            contentPicker = "ktp_istri";
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-        });
-
-        binding.btnKk.setOnClickListener(view -> {
-            contentPicker = "kk";
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-        });
 
 
         binding.btnSubmit.setOnClickListener(view -> {
@@ -228,17 +220,13 @@ public class CreditTransactionFragment extends Fragment {
             return;
         }
 
-        if (ktpIstriUri == null && ktpSuamiUri == null) {
-            showToast("Anda belum mengunggah file KTP");
+        if (evidenceUri == null ) {
+            showToast("Anda belum mengunggah bukti pembayaran");
             return;
         }
 
-        if (kKUri ==  null) {
-            showToast("Anda belum mengunggah file Kartu Keluarga");
-            return;
-        }
 
-        if (userId == 0 || financeId == 0 || carId == 0 || carPrice == 0) {
+        if (userId == 0 || carId == 0 || carPrice == 0) {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
             return;
         }
@@ -257,32 +245,18 @@ public class CreditTransactionFragment extends Fragment {
             Map<String, RequestBody> map = new HashMap<>();
             map.put("user_id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId)));
             map.put("mobil_id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(carId)));
-            map.put("finance_id", RequestBody.create(MediaType.parse("text/plain"),  String.valueOf(financeId)));
             map.put("total_pembayaran",RequestBody.create(MediaType.parse("text/plain"),  String.valueOf(carPrice)));
 
-            List<MultipartBody.Part> partList = new ArrayList<>();
 
-            RequestBody fileBodyKk = RequestBody.create(MediaType.parse("image/*"), contentResolver(kKUri));
-            MultipartBody.Part partKk = MultipartBody.Part.createFormData("kk", getFileNameFromUri(kKUri), fileBodyKk);
-
-            partList.add(partKk);
-            if (ktpSuamiUri != null) {
-                RequestBody fileBodyKtpSuami = RequestBody.create(MediaType.parse("image/*"), contentResolver(ktpSuamiUri));
-                MultipartBody.Part partKtpSuami = MultipartBody.Part.createFormData("ktp_suami", getFileNameFromUri(ktpSuamiUri), fileBodyKtpSuami);
-                partList.add(partKtpSuami);
-
-            }
-
-            if (ktpIstriUri != null) {
-                RequestBody fileBodyKtpIstri = RequestBody.create(MediaType.parse("image/*"), contentResolver(ktpIstriUri));
-                MultipartBody.Part partKtpIstri = MultipartBody.Part.createFormData("ktp_istri", getFileNameFromUri(ktpIstriUri), fileBodyKtpIstri);
-                partList.add(partKtpIstri);
-
-            }
+            RequestBody fileEvidence = RequestBody.create(MediaType.parse("image/*"), contentResolver(evidenceUri));
+            MultipartBody.Part partEvidence = MultipartBody.Part.createFormData("evidence", getFileNameFromUri(evidenceUri), fileEvidence);
 
 
 
-            userCreditViewModel.sendCreditRequest(map, partList).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
+
+
+
+            userTransactionViewModel.storeTransaction(map, partEvidence).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
                 @Override
                 public void onChanged(ResponseModel responseModel) {
                     binding.progressSubmit.setVisibility(View.GONE);
@@ -290,8 +264,8 @@ public class CreditTransactionFragment extends Fragment {
                     if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
                         Fragment fragment = new SuccessTransactionFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putString("title", "Pengajuan Kredit Anda Berhasil Diajukan");
-                        bundle.putString("message", requireContext().getString(R.string.message_credit_success));
+                        bundle.putString("title", "Selamat Transaksi Anda Berhasil");
+                        bundle.putString("message", requireContext().getString(R.string.message_transaction_success));
                         fragment.setArguments(bundle);
                         requireActivity().getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frameHome, fragment)
@@ -318,37 +292,36 @@ public class CreditTransactionFragment extends Fragment {
 
 
     }
+
+    private void getBankAccount() {
+        bankAccountViewModel.getBankAccount().observe(getViewLifecycleOwner(), new Observer<ResponseModel<List<BankAccountModel>>>() {
+            @Override
+            public void onChanged(ResponseModel<List<BankAccountModel>> bankAccountModelResponseModel) {
+                if (bankAccountModelResponseModel != null && bankAccountModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+                    BankAccountAdapter bankAccountAdapter = new BankAccountAdapter(requireContext(), bankAccountModelResponseModel.getData());
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+                    binding.rvBankAcc.setAdapter(bankAccountAdapter);
+                    binding.rvBankAcc.setLayoutManager(linearLayoutManager);
+                    binding.rvBankAcc.setHasFixedSize(true);
+                }else {
+                    showToast("Gagal memuat data bank");
+                }
+            }
+        });
+    }
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 // Callback is invoked after the user selects a media item or closes the
                 // photo picker.
                 if (uri != null) {
-                    if (contentPicker.equals("ktp_suami")) {
-                        ktpSuamiUri = uri;
-                        binding.tvKtpSuami.setText(getFileNameFromUri(uri));
-                        binding.tvKtpSuami.setVisibility(View.VISIBLE);
 
-                        binding.btnKtpSuami.setBackgroundColor(requireContext().getColor(R.color.green));
-
-                    }else if (contentPicker.equals("ktp_istri")) {
-
-                        ktpIstriUri = uri;
-
-                        binding.tvKtpIstri.setText(getFileNameFromUri(uri));
-                        binding.tvKtpIstri.setVisibility(View.VISIBLE);
-                        binding.btnKtpIstri.setBackgroundColor(requireContext().getColor(R.color.green));
-
-
-                    }else if (contentPicker.equals("kk")) {
-                        kKUri = uri;
-                        binding.tvKk.setText(getFileNameFromUri(uri));
-                        binding.tvKk.setVisibility(View.VISIBLE);
-                        binding.btnKk.setBackgroundColor(requireContext().getColor(R.color.green));
-                    }
-                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                    evidenceUri = uri;
+                    binding.tvEvidence.setText(getFileNameFromUri(evidenceUri));
+                    binding.tvEvidence.setVisibility(View.VISIBLE);
+                    binding.btnEvidence.setBackgroundColor(requireContext().getColor(R.color.green));
                 } else {
                     Log.d("PhotoPicker", "No media selected");
-                    showToast("Anda belum memilih gambar");
+                    showToast("Anda belum memilih bukti pembayaran");
                 }
             });
 

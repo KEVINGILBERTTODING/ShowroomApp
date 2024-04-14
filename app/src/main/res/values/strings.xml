@@ -25,4 +25,8 @@
     <string name="message_credit_success">
         Selamat, pengajuan kredit Anda sedang dalam proses kami. Mohon bersabar, kami akan memberikan update paling lambat dalam 7 hari kerja.
     </string>
+
+    <string name="message_transaction_success">
+       Transaksi Anda sedang kami proses. Terima kasih atas kepercayaan Anda. Silakan hubungi kami jika Anda membutuhkan bantuan lebih lanjut.
+    </string>
 </resources>

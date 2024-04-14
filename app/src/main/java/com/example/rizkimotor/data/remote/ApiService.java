@@ -1,10 +1,12 @@
 package com.example.rizkimotor.data.remote;
 
 import com.example.rizkimotor.data.model.AppInfoModel;
+import com.example.rizkimotor.data.model.BankAccountModel;
 import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.CreditModel;
 import com.example.rizkimotor.data.model.FinanceModel;
 import com.example.rizkimotor.data.model.ResponseModel;
+import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 
 import java.util.HashMap;
@@ -25,7 +27,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    public static final String IP_ADDRESS = "192.168.101.92";
+    public static final String IP_ADDRESS = "192.168.43.215";
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
     public static final String END_POINT =  "http://" + IP_ADDRESS + ":8000/";
 
@@ -104,5 +106,30 @@ public interface ApiService {
     @POST("client/profile/update/password")
     Call<ResponseModel> userUpdatePassword(
             @FieldMap HashMap<String, String> map
+    );
+
+    @Multipart
+    @POST("client/transaction/store")
+    Call<ResponseModel> storeTransaction(
+            @PartMap Map<String, RequestBody> map,
+            @Part MultipartBody.Part part
+
+
+    );
+
+    @GET("client/bankaccount")
+    Call<ResponseModel<List<BankAccountModel>>> getBankAcc();
+
+    @GET("client/transaction/{userId}/{status}")
+    Call<ResponseModel<List<TransactionModel>>> getHistoryTransaction(
+            @Path("userId") int userId,
+            @Path("status") int status
+    );
+
+    @Multipart
+    @POST("client/review/store")
+    Call<ResponseModel> storeReview(
+            @PartMap Map<String, RequestBody> requestBodyMap,
+            @Part List<MultipartBody.Part> part
     );
 }

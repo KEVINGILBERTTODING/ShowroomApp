@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.databinding.FragmentSuccessCreditBinding;
 
-public class SuccessCreditFragment extends Fragment {
+public class SuccessTransactionFragment extends Fragment {
     private FragmentSuccessCreditBinding binding;
 
 
@@ -27,13 +27,21 @@ public class SuccessCreditFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentSuccessCreditBinding.inflate(inflater, container, false);
 
-        binding.btnGotIt.setOnClickListener(view -> {
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameHome, new UserHistoryTransaction())
-                    .commit();
+        if (getArguments() != null) {
+
+            binding.tvTitle.setText(getArguments().getString("title"));
+            binding.tvDesc.setText(getArguments().getString("message"));
+
+            binding.btnGotIt.setOnClickListener(view -> {
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameHome, new UserHistoryTransaction())
+                        .commit();
 
 
-        });
+            });
+        }
+
+
         return binding.getRoot();
     }
 }

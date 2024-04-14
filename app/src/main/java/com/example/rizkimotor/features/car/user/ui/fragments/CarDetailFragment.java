@@ -34,6 +34,8 @@ import com.example.rizkimotor.features.auth.ui.fragments.LoginFragment;
 import com.example.rizkimotor.features.car.user.ui.adapters.FinanceAdapter;
 import com.example.rizkimotor.features.car.user.ui.adapters.PhotoReviewAdapter;
 import com.example.rizkimotor.features.transactions.user.ui.fragments.CreditSimulationFragment;
+import com.example.rizkimotor.features.transactions.user.ui.fragments.PayNowFragment;
+import com.example.rizkimotor.features.transactions.user.ui.fragments.UserHistoryTransaction;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
@@ -190,6 +192,24 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
             }else {
                 showBottomSheetFinance();
                 getAllFinance();
+            }
+
+
+        });
+
+        binding.btnPesanSekarang.setOnClickListener(view -> {
+            if (!isLogin()) {
+                fragmentTransaction(new LoginFragment());
+                showSnackbar("Pemberitahuan", "Anda harus login terlebih dahulu");
+
+            }else {
+                Fragment fragment = new PayNowFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("car_id", carId);
+                bundle.putString("car_name", carName);
+                bundle.putInt("car_price", carPrice);
+                fragment.setArguments(bundle);
+                fragmentTransaction(fragment);
             }
 
 

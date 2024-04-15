@@ -16,6 +16,7 @@ import com.example.rizkimotor.R;
 import com.example.rizkimotor.databinding.ActivityHomeBinding;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
+import com.example.rizkimotor.features.search.user.ui.fragments.SearchFragment;
 import com.example.rizkimotor.features.transactions.user.ui.fragments.UserHistoryTransaction;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -53,9 +54,9 @@ public class HomeActivity extends AppCompatActivity {
                     fragmentTransaction(new HomeFragment());
                 } else if (i1 == 2) {
                     fragmentTransaction(new UserHistoryTransaction());
-                }
-
-                else if (i1 == 3) {
+                } else if (i1 == 1) {
+                    fragmentTransaction(new SearchFragment());
+                } else if (i1 == 3) {
                     fragmentTransaction(new UserProfileFragment());
                 }
             }

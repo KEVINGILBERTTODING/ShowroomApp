@@ -27,6 +27,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     public static final String IP_ADDRESS = "192.168.43.215";
@@ -143,6 +144,11 @@ public interface ApiService {
     @GET("client/invoice/download/{id}")
     Call<ResponseBody> downloadInvoice(
             @Path("id") String id
+    );
+
+    @GET("client/search")
+    Call<ResponseModel<List<CarModel>>> carSearch(
+            @Query("keyword") String query
     );
 
 

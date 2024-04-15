@@ -124,7 +124,7 @@
                                     android:inputType="numberDecimal"
                                     android:textColor="@color/black"></com.google.android.material.textfield.TextInputEditText>
                             </com.google.android.material.textfield.TextInputLayout>
-                        </RelativeLayout>/
+                        </RelativeLayout>
 
 
 

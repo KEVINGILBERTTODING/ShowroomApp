@@ -977,7 +977,7 @@
                                     android:fontFamily="@font/med"
                                     android:layout_toRightOf="@id/icInfoo"
                                     android:textSize="@dimen/_8ssp"
-                                    android:text="@string/message_count_credit"/>
+                                    android:text="Jika ada ada data yang tidak sesuai, bisa langsung menghubungi kami."/>
 
                             </RelativeLayout>
 

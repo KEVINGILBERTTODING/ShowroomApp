@@ -5,6 +5,7 @@ import com.example.rizkimotor.data.model.BankAccountModel;
 import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.CreditModel;
 import com.example.rizkimotor.data.model.FinanceModel;
+import com.example.rizkimotor.data.model.ResponseFilterModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
@@ -28,6 +29,7 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ApiService {
     public static final String IP_ADDRESS = "192.168.43.215";
@@ -149,6 +151,16 @@ public interface ApiService {
     @GET("client/search")
     Call<ResponseModel<List<CarModel>>> carSearch(
             @Query("keyword") String query
+    );
+
+    @GET("client/datafilter")
+    Call<ResponseFilterModel> getDataFilter();
+
+
+
+    @GET("client/filter")
+    Call<ResponseModel<List<CarModel>>> carFilter(
+            @QueryMap HashMap<String, String> map
     );
 
 

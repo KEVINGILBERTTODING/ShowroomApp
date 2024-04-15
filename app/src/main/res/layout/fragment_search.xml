@@ -51,16 +51,6 @@
     </LinearLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        app:backgroundTint="@color/bg_second"
-        android:src="@drawable/ic_filter"
-        android:layout_margin="@dimen/_3sdp"
-        android:layout_alignParentBottom="true"
-        app:elevation="0dp"
-        app:tint="@color/primary"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content"/>
 
 
     <ProgressBar
@@ -101,8 +91,249 @@
 
     </LinearLayout>
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        app:backgroundTint="@color/bg_second"
+        android:src="@drawable/ic_filter"
+        android:id="@+id/fabFilter"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_alignParentBottom="true"
+        app:elevation="0dp"
+        app:tint="@color/primary"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>
 
+        <View
+            android:visibility="gone"
+            android:id="@+id/vOverlay"
+            android:background="@color/overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <!--        Bottom sheet bar filter -->
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetFilter"
+            android:layout_width="match_parent"
+            android:padding="@dimen/_10sdp"
+            android:paddingTop="@dimen/_14sdp"
+            android:background="@drawable/container_bottom_sheet"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    app:tint="@color/card"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:text="Filter Mobil"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/sembold"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"/>
+
+
+                    <ProgressBar
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/progressFilter"
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="@dimen/_18sdp"/>
+
+                    <TextView
+                        android:id="@+id/btnSubmitFilter"
+                        android:layout_width="wrap_content"
+                        android:text="Simpan"
+                        android:layout_centerVertical="true"
+                        android:includeFontPadding="false"
+                        android:textSize="@dimen/_11ssp"
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/med"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="3"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_gravity="center"
+                            android:rowCount="2">
+
+                            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                                android:id="@+id/spinnerMerk"
+                                android:layout_width="@dimen/_130sdp"
+                                android:layout_row="0"
+                                android:layout_columnWeight="1"
+
+                                android:layout_column="0"
+                                app:smsp_hint="Merk"
+                                android:layout_height="wrap_content"
+                                app:smsp_isOutlined="true"
+                                app:smsp_floatingLabelText="Merk"
+                                app:smsp_alwaysShowFloatingLabel="true"
+                                app:smsp_enableFloatingLabel="true"
+                                app:smsp_multilineError="false" />
+
+
+
+                            <View
+                                android:layout_width="@dimen/_10sdp"
+                                android:layout_column="1"
+                                android:layout_row="1"
+                                android:layout_height="@dimen/_10sdp"/>
+
+                            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                                android:id="@+id/spinnerBody"
+                                android:layout_width="@dimen/_130sdp"
+                                android:layout_row="0"
+                                android:layout_columnWeight="1"
+                                android:layout_column="2"
+                                app:smsp_alwaysShowFloatingLabel="true"
+
+                                android:layout_height="wrap_content"
+                                app:smsp_isOutlined="true"
+
+                                app:smsp_floatingLabelText="Jenis Body"
+                                app:smsp_hint="Body"
+                                app:smsp_enableFloatingLabel="true"
+                                app:smsp_multilineError="false" />
+                        </GridLayout>
+
+
+
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/spinnerTransmisi"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_row="0"
+                            android:layout_column="2"
+                            app:smsp_isOutlined="true"
+                            android:layout_height="wrap_content"
+                            app:smsp_floatingLabelText="Transmisi"
+
+                            app:smsp_hint="Transmisi"
+                            app:smsp_enableFloatingLabel="true"
+                            app:smsp_multilineError="false" />
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+                    <RelativeLayout
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_row="1"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_priceMin"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            android:hint="Harga min"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPriceMin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textSize="@dimen/_10ssp"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/black"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+                    <RelativeLayout
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_row="1"
+                        android:layout_columnWeight="1"
+                        android:layout_column="2"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_priceMax"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            android:hint="Harga max"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPriceMax"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textSize="@dimen/_10ssp"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/black"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+                </GridLayout>
+
+
+
+
+            </LinearLayout>
+        </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

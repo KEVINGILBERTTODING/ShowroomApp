@@ -11,11 +11,12 @@ public class UserModel {
     private String alamat;
     private String kota;
     private String provinsi;
+    private int role;
     private String sign_in;
     private int status;
 
 
-    public UserModel(int user_id, String email, String profile_photo, String nama_lengkap, String no_hp, String alamat, String kota, String provinsi, String sign_in, int status) {
+    public UserModel(int user_id, String email, String profile_photo, String nama_lengkap, String no_hp, String alamat, String kota, String provinsi, int role, String sign_in, int status) {
         this.user_id = user_id;
         this.email = email;
         this.profile_photo = profile_photo;
@@ -24,6 +25,7 @@ public class UserModel {
         this.alamat = alamat;
         this.kota = kota;
         this.provinsi = provinsi;
+        this.role = role;
         this.sign_in = sign_in;
         this.status = status;
     }
@@ -106,5 +108,13 @@ public class UserModel {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.rizkimotor.features.auth.ui.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentLoginBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.auth.viewmodel.AuthViewModel;
+import com.example.rizkimotor.features.home.admin.actvities.AdminHomeActivity;
 import com.example.rizkimotor.features.home.user.ui.activities.HomeActivity;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.example.rizkimotor.shared.SharedUserData;
@@ -35,6 +38,7 @@ public class LoginFragment extends Fragment {
     private AuthViewModel authViewModel;
     private UserService userService;
     private String TAG = Constants.LOG;
+    private UserModel userModel;
 
 
 
@@ -128,13 +132,13 @@ public class LoginFragment extends Fragment {
                     if (userModelResponseModel.getData().getUser_id() != 0 && userModelResponseModel.getData().getNama_lengkap() != null) {
 
 
-                        userService.saveInt(SharedUserData.PREF_USER_ID, userModelResponseModel.getData().getUser_id());
-                        userService.saveString(SharedUserData.PREF_USERNAME, userModelResponseModel.getData().getNama_lengkap());
-                        userService.saveString(SharedUserData.PREF_EMAIL, userModelResponseModel.getData().getEmail());
-                        userService.saveBool(SharedUserData.PREF_IS_LOGIN, true);
+                        userModel = userModelResponseModel.getData();
 
-                        startActivity(new Intent(requireActivity(), HomeActivity.class));
-                        requireActivity().finish();
+                        saveUserInfo(userModel);
+
+
+                        validateRole(userModelResponseModel.getData().getRole());
+
 
                     }else {
                         showToast(ErrorMsg.SOMETHING_WENT_WRONG);
@@ -148,6 +152,41 @@ public class LoginFragment extends Fragment {
             }
         });
 
+    }
+
+
+
+    private void validateRole(int role) {
+        if (role == 0) {
+            showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+            return;
+        }
+
+        if (role == 1) { // user
+            activityTransaction(new HomeActivity());
+
+            return;
+        }
+
+        if (role == 2) { // admin
+            activityTransaction(new AdminHomeActivity());
+            return;
+        }
+
+    }
+
+    private void saveUserInfo(UserModel userModel) {
+        userService.saveInt(SharedUserData.PREF_USER_ID, userModel.getUser_id());
+        userService.saveString(SharedUserData.PREF_USERNAME, userModel.getNama_lengkap());
+        userService.saveString(SharedUserData.PREF_EMAIL, userModel.getEmail());
+        userService.saveString(SharedUserData.PREF_PHOTO_PROFILE, userModel.getProfile_photo());
+        userService.saveBool(SharedUserData.PREF_IS_LOGIN, true);
+        userService.saveInt(SharedUserData.PREF_ROLE, userModel.getRole());
+    }
+
+    private void activityTransaction(Activity activity) {
+        startActivity(new Intent(requireActivity(), activity.getClass()));
+        requireActivity().finish();
     }
 
     private void fragmentTransaction(Fragment fragment) {

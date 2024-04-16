@@ -501,7 +501,6 @@ public class SearchFragment extends Fragment implements ClickListener {
         bottomSheetFilter.setState(BottomSheetBehavior.STATE_HIDDEN);
         binding.vOverlay.setVisibility(View.GONE);
         resetFilter();
-
     }
 
     private void resetFilter() {

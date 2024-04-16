@@ -28,21 +28,17 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.rizkimotor.MainActivity;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserHistoryTransactionBinding;
-import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
 import com.example.rizkimotor.features.car.user.ui.adapters.PhotoReviewAdapter;
-import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.features.transactions.user.adapters.ImageReviewAdapter;
 import com.example.rizkimotor.features.transactions.user.adapters.StatusAdapter;
 import com.example.rizkimotor.features.transactions.user.adapters.TransactionHistoryAdapter;
@@ -78,7 +74,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 @AndroidEntryPoint
 public class UserHistoryTransaction extends Fragment implements ItemClickListener {

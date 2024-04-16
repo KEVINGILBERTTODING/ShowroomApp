@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
@@ -40,12 +39,9 @@ import org.aviran.cookiebar2.CookieBar;
 import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.MediaType;

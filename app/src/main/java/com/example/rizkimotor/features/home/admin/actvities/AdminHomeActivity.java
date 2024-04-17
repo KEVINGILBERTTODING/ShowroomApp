@@ -19,20 +19,23 @@ import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFrag
 import com.example.rizkimotor.features.search.user.ui.fragments.SearchFragment;
 import com.example.rizkimotor.features.transactions.user.ui.fragments.UserHistoryTransaction;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
-
+@AndroidEntryPoint
 public class AdminHomeActivity extends AppCompatActivity {
     private ActivityAdminHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         binding = ActivityAdminHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         listener();
         fragmentTransaction(new AdminHomeFragment());
+
+
 
     }
 

@@ -9,6 +9,7 @@ import com.example.rizkimotor.data.model.ResponseFilterModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
+import com.example.rizkimotor.features.home.admin.model.ChartModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -163,5 +164,13 @@ public interface ApiService {
             @QueryMap HashMap<String, String> map
     );
 
+    @GET("admin/main")
+    Call<ResponseModel<ChartModel>> getChart();
+
+
+    @GET("admin/transaction/profit/download")
+    Call<ResponseBody> downloadProfitPdf(
+            @Query("admin_id") int adminId
+    );
 
 }

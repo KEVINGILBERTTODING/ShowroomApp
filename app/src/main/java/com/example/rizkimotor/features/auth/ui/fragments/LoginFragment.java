@@ -137,6 +137,8 @@ public class LoginFragment extends Fragment {
                         saveUserInfo(userModel);
 
 
+
+
                         validateRole(userModelResponseModel.getData().getRole());
 
 

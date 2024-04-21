@@ -38,4 +38,14 @@ public class AdminCarViewModel extends ViewModel {
         return responseModelMutableLiveData;
     }
 
+    public LiveData<ResponseModel> destroyCar(int carId) {
+        MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
+        if (carId != 0) {
+            return adminCarRepository.destroyCar(carId);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+        return responseModelMutableLiveData;
+    }
+
 }

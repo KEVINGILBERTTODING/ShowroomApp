@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +20,7 @@ import com.example.rizkimotor.data.viewmodel.car.CarViewModel;
 import com.example.rizkimotor.data.viewmodel.filter.FilterViewModel;
 import com.example.rizkimotor.data.viewmodel.search.SearchViewModel;
 import com.example.rizkimotor.databinding.FragmentCarBinding;
+import com.example.rizkimotor.features.car.admin.viewmodel.AdminCarViewModel;
 import com.example.rizkimotor.features.car.user.ui.fragments.CarDetailFragment;
 import com.example.rizkimotor.features.home.user.ui.adapters.car.CarAdapter;
 import com.example.rizkimotor.shared.SharedUserData;
@@ -26,6 +28,7 @@ import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.example.rizkimotor.util.listener.ClickListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +44,9 @@ public class CarFragment extends Fragment implements ClickListener {
     private CarViewModel carViewModel;
     private List<CarModel> allCarList;
     private FilterViewModel filterViewModel;
+    private BottomSheetBehavior bottomSheetAction;
+    private int mobilId, carPosition;
+    private AdminCarViewModel adminCarViewModel;
 
 
 
@@ -67,6 +73,10 @@ public class CarFragment extends Fragment implements ClickListener {
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         carViewModel = new ViewModelProvider(this).get(CarViewModel.class);
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
+        adminCarViewModel = new ViewModelProvider(this).get(AdminCarViewModel.class);
+
+        setUpBottomSheetAction();
+        bottomSheetAction.setState(BottomSheetBehavior.STATE_HIDDEN);
 
 
     }
@@ -95,6 +105,25 @@ public class CarFragment extends Fragment implements ClickListener {
         binding.fabAddCar.setOnClickListener(view -> {
             fragmentTransaction(new AddCarFragment());
         });
+
+        binding.vOverlay.setOnClickListener(view -> {
+            hideBottomSheetAction();
+        });
+
+        binding.cvDetail.setOnClickListener(view -> {
+            Fragment fragment = new CarDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(SharedUserData.CAR_ID, mobilId);
+            fragment.setArguments(bundle);
+            fragmentTransaction(fragment);
+
+        });
+
+
+        binding.cvDelete.setOnClickListener(view -> {
+            destroyCar();
+        });
+
 
     }
 
@@ -265,19 +294,78 @@ public class CarFragment extends Fragment implements ClickListener {
                 .commit();
     }
 
+    private void setUpBottomSheetAction() {
+
+
+        bottomSheetAction = BottomSheetBehavior.from(binding.bottomSheetAction);
+        bottomSheetAction.setHideable(true);
+
+        bottomSheetAction.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hideBottomSheetAction();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
+    }
+
+    private void showBottomSheetAction() {
+        binding.vOverlay.setVisibility(View.VISIBLE);
+        bottomSheetAction.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void hideBottomSheetAction() {
+        bottomSheetAction.setState(BottomSheetBehavior.STATE_HIDDEN);
+        binding.vOverlay.setVisibility(View.GONE);
+
+    }
+
+    private void destroyCar() {
+        carAdapter.destroyCar(carPosition);
+        hideBottomSheetAction();
+        adminCarViewModel.destroyCar(mobilId).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
+            @Override
+            public void onChanged(ResponseModel carModelResponseModel) {
+                if (carModelResponseModel != null && carModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+
+                    showToast("Berhasil menghapus data mobil");
+
+                }else {
+                    showToast(carModelResponseModel.getMessage());
+                }
+            }
+        });
+
+    }
+
+
 
 
 
     @Override
     public void onClickListener(int position, Object object) {
-        if (object != null) {
+        if (object != null ) {
 
             CarModel carModel = (CarModel) object;
-            Fragment fragment = new CarDetailFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(SharedUserData.CAR_ID, carModel.getMobil_id());
-            fragment.setArguments(bundle);
-            fragmentTransaction(fragment);
+
+
+            if (carModel.getMobil_id() != 0) {
+                mobilId = carModel.getMobil_id();
+                carPosition = position;
+            }else {
+                showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+
+            }
+
+            showBottomSheetAction();
         }else {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
         }

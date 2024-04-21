@@ -102,6 +102,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     }
 
+    public void destroyCar(int position) {
+        carModels.remove(position);
+        notifyDataSetChanged();
+        notifyItemRangeRemoved(carModels.size(), getItemCount());
+    }
+
     @Override
     public int getItemCount() {
         return carModels.size();

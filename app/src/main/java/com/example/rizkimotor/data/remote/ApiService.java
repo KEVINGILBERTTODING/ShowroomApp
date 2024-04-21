@@ -21,6 +21,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -183,5 +184,11 @@ public interface ApiService {
             @PartMap Map<String, RequestBody> map,
             @Part List<MultipartBody.Part> partList
     );
+
+    @DELETE("admin/car/destroy/{id}")
+    Call<ResponseModel> destroyCar(
+            @Path("id") int carId
+    );
+
 
 }

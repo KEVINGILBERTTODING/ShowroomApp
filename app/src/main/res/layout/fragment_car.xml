@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".features.car.admin.ui.fragments.CarFragment">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:paddingRight="@dimen/_10sdp"
+    android:paddingTop="@dimen/_16sdp"
+    android:paddingLeft="@dimen/_10sdp"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apakah ada mobil baru?"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/sembold"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tambah atau ubah data mobil"
+            android:fontFamily="@font/med"
+            android:includeFontPadding="false"
+            android:layout_alignParentLeft="true"
+            android:textSize="@dimen/_9ssp"/>
+
+
+        <SearchView
+            android:id="@+id/searchBar"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:padding="@dimen/_2sdp"
+            android:queryHint="Temukan mobil..."
+            android:divider="@null"
+            android:inputType="text"
+            style="@style/AppSearchView"
+            app:queryBackground="@drawable/bg_searchview"
+            android:background="@drawable/bg_searchview"
+            android:iconifiedByDefault="false"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/rvSearch"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/lrEmpty"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/sembold"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/_13ssp"
+            android:id="@+id/tvTitleEmpty"
+            android:textColor="@color/black"
+            android:text="Mobil tidak ditemukan"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/med"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/_10ssp"
+            android:textAlignment="center"
+            android:id="@+id/tvEmptyMessage"
+            android:text="Tidak ada hasil."
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        app:backgroundTint="@color/primary"
+        android:src="@drawable/baseline_add_24"
+        android:id="@+id/fabAddCar"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_alignParentBottom="true"
+        app:elevation="0dp"
+        app:tint="@color/black"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+
+
+
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

@@ -1,23 +1,18 @@
-package com.example.rizkimotor.features.home.admin.actvities;
+package com.example.rizkimotor.features.home.admin.ui.actvities;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.databinding.ActivityAdminHomeBinding;
-import com.example.rizkimotor.features.home.admin.fragments.AdminHomeFragment;
+import com.example.rizkimotor.features.car.admin.ui.fragments.CarFragment;
+import com.example.rizkimotor.features.home.admin.ui.fragments.AdminHomeFragment;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
-import com.example.rizkimotor.features.search.user.ui.fragments.SearchFragment;
-import com.example.rizkimotor.features.transactions.user.ui.fragments.UserHistoryTransaction;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
@@ -45,11 +40,11 @@ public class AdminHomeActivity extends AppCompatActivity {
             public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
 
                 if (i1 == 0) {
-                    fragmentTransaction(new HomeFragment());
+                    fragmentTransaction(new AdminHomeFragment());
                 } else if (i1 == 2) {
-                    fragmentTransaction(new UserHistoryTransaction());
+                    fragmentTransaction(new CarFragment());
                 } else if (i1 == 1) {
-                    fragmentTransaction(new SearchFragment());
+                    fragmentTransaction(new CarFragment());
                 } else if (i1 == 3) {
                     fragmentTransaction(new UserProfileFragment());
                 }

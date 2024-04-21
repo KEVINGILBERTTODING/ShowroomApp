@@ -9,7 +9,7 @@
     <item
         android:id="@+id/mnuCar"
         android:title="Mobil"
-        android:icon="@drawable/search"/>
+        android:icon="@drawable/ic_car"/>
 
     <item
         android:id="@+id/mnuTransaksi"

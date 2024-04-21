@@ -1,4 +1,4 @@
-package com.example.rizkimotor.features.home.admin.fragments;
+package com.example.rizkimotor.features.home.admin.ui.fragments;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;

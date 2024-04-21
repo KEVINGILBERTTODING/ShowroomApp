@@ -9,7 +9,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rizkimotor.data.services.UserService;
-import com.example.rizkimotor.features.home.admin.actvities.AdminHomeActivity;
+import com.example.rizkimotor.features.home.admin.ui.actvities.AdminHomeActivity;
 import com.example.rizkimotor.features.home.user.ui.activities.HomeActivity;
 import com.example.rizkimotor.shared.SharedUserData;
 

@@ -84,6 +84,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     private ImageReviewAdapter imageReviewAdapter;
     private PhotoReviewAdapter photoReviewAdapter;
     private String transactionId;
+
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 1;
 
     private int userId = 0, stateStatus = 2, mobilId = 0, reviewPosition;

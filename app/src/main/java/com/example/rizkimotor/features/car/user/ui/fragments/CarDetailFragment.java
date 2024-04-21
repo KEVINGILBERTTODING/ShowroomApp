@@ -268,8 +268,17 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
                             binding.tvDesc.setText(carModelResponseModel.getData().getDeskripsi());
                         }
 
+                        // sembunyikan cv action button ketika role admin atau owner
+
                         if (carModelResponseModel.getData().getStatus_mobil() == 1) {
-                            binding.cvButtonAction.setVisibility(View.VISIBLE);
+                            if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
+                                if (userService.loadInt(SharedUserData.PREF_ROLE) != 2) {
+                                    binding.cvButtonAction.setVisibility(View.VISIBLE);
+                                }
+                            }else {
+                                binding.cvButtonAction.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
                         HashMap map = new HashMap();

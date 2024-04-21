@@ -1,0 +1,1518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:padding="@dimen/_10sdp"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".features.car.admin.ui.fragments.AddCarFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/lrAppBar"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/_20sdp"
+                android:background="@drawable/ic_back"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_height="@dimen/_20sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tambah mobil baru"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/sembold"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18ssp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Form untuk menambahkan mobil baru."
+                android:fontFamily="@font/med"
+                android:includeFontPadding="false"
+                android:layout_alignParentLeft="true"
+                android:textSize="@dimen/_9ssp"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressLoad"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/lrEmpty"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/sembold"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/_13ssp"
+                android:id="@+id/tvTitleEmpty"
+                android:textColor="@color/black"
+                android:text="Terjadi kesalahan"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/med"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/_10ssp"
+                android:textAlignment="center"
+                android:id="@+id/tvEmptyMessage"
+                android:text="Gagal memuat data mobil."
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:id="@+id/mainScrollss"
+            android:visibility="gone"
+            android:layout_below="@+id/lrAppBar"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerMerk"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_column="0"
+                        app:smsp_hint="Merk"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+                        app:smsp_floatingLabelText="Merk"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerBody"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_column="2"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+
+                        app:smsp_floatingLabelText="Jenis Body"
+                        app:smsp_hint="Body"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+                </GridLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_model"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etModel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nama model"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="text"
+                            android:maxLines="3"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="0"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_plat_number"
+                            android:hint="Nomor plat"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPlatNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="text"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_engine_number"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etEngineNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nomor mesin"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="text"
+                                android:maxLines="3"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="0"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_no_rangka"
+                            android:hint="Nomor rangka"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etNoRangka"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="text"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_year"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etYear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Tahun"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="number"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:rowCount="2">
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerColor"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_column="0"
+                        app:smsp_hint="Warna"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+                        app:smsp_floatingLabelText="Merk"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerEngineCapacity"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_column="2"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+
+                        app:smsp_floatingLabelText="Jenis Body"
+                        app:smsp_hint="Kapasitas mesin"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+                </GridLayout>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:rowCount="2">
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerBahanBakar"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_column="0"
+                        app:smsp_hint="Bahan bakar"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+                        app:smsp_floatingLabelText="Merk"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerTransmisi"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_column="2"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+
+                        app:smsp_floatingLabelText="Jenis Body"
+                        app:smsp_hint="Transmisi"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerPassengerCapacity"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_column="0"
+                        app:smsp_hint="Kapasitas penumpang"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+                        app:smsp_floatingLabelText="Merk"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_km"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etKm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Kilometer"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        app:smsp_outlinedBoxColor="@color/black"
+                        android:id="@+id/spinnerTankCapacity"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_column="0"
+                        app:smsp_hint="Kapasitas tangki"
+                        android:layout_height="wrap_content"
+                        app:smsp_isOutlined="true"
+                        app:smsp_floatingLabelText="Merk"
+                        app:smsp_alwaysShowFloatingLabel="true"
+                        app:smsp_enableFloatingLabel="true"
+                        app:smsp_multilineError="false" />
+
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_harga_beli"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etHargaBeli"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Harga beli"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="0"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_biaya_perbaikan"
+                            android:hint="Biaya perbaikan"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etBiayaPerbaikan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_harga_jual"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etHargaJual"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Harga jual"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_gravity="center"
+                    android:rowCount="2">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="0"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_tgl_masuk"
+                            android:hint="Tanggal masuk"
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etTanggalMasuk"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="text"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_height="@dimen/_10sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_columnWeight="1"
+
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/til_diskon"
+
+                            android:textColor="@color/black"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:cursorColor="@color/primary"
+
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDiskon"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Diskon"
+                                android:fontFamily="@font/med"
+                                android:textColorHint="@color/black"
+                                android:inputType="numberDecimal"
+                                android:maxLines="3"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+
+                </GridLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_owner"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etOwner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nama pemilik"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="text"
+                            android:maxLines="3"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_link_yt"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLinYt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Link youtube"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:gravity="start"
+                            android:lines="2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_link_instagram"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLinkIg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Link instagram"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:gravity="start"
+                            android:lines="2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_link_fb"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLinkFb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Link facebook"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:gravity="start"
+                            android:lines="2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_link_desc"
+                        android:textColor="@color/black"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:cursorColor="@color/primary"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp">
+
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Deskripsi"
+                            android:fontFamily="@font/med"
+                            android:textColorHint="@color/black"
+                            android:inputType="textMultiLine"
+                            android:maxLines="4"
+                            android:gravity="start"
+                            android:lines="4"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </RelativeLayout>
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/med"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:textSize="@dimen/_11ssp"
+                    android:textColor="@color/black"
+                    android:text="Gambar mobil"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    app:contentPadding="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    android:layout_width="match_parent"
+                    app:cardBackgroundColor="@color/soft_red"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/icInfo"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:src="@drawable/ic_info"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/med"
+                            android:layout_toRightOf="@id/icInfo"
+                            android:textSize="@dimen/_8ssp"
+                            android:text="Ukuran file max 5 MB dan format yang dizinkan .png, .jpeg, .jpg"/>
+
+                    </RelativeLayout>
+
+
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:columnCount="3"
+                    android:rowCount="3">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="start"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar depan"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddFrontImg"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/rlFrontImg"
+                                android:visibility="gone"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteFrontImg"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivFrontCar"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="1"
+                        android:layout_gravity="center_horizontal|center"
+                        android:gravity="center_horizontal"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar kanan"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddRightImg"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/rlRightImg"
+                                android:visibility="gone"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteRightImg"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivRightCar"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="2"
+                        android:layout_columnWeight="1"
+
+                        android:layout_gravity="end"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar belakang"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_gravity="end"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddEndImg"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/rlBackImg"
+                                android:visibility="gone"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteEndImg"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivEndCar"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar kiri"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddLeftImg"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/rlLeftImg"
+                                android:visibility="gone"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteLeftImg"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivLeftCar"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="1"
+                        android:layout_gravity="center_horizontal|center"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_columnWeight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar detail"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddDet1Img"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:id="@+id/rlDet1"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteDet1Img"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivDet1Car"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_column="2"
+                        android:layout_columnWeight="1"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_gravity="end"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/med"
+                            android:textSize="@dimen/_9ssp"
+                            android:textColor="@color/black"
+                            android:text="Gambar detail"
+                            android:layout_height="wrap_content"/>
+
+
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/bg_add_picture"
+                            android:layout_height="@dimen/_50sdp">
+                            <ImageView
+                                android:layout_gravity="center_horizontal|center_vertical"
+                                android:layout_width="@dimen/_20sdp"
+                                android:id="@+id/ivAddDet2Img"
+                                android:tint="@color/card"
+                                android:layout_centerInParent="true"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/baseline_add_24"/>
+
+                            <RelativeLayout
+                                android:id="@+id/rlDet2"
+                                android:layout_width="match_parent"
+                                android:visibility="gone"
+                                android:layout_height="match_parent">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cvDeleteDet2Img"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+
+                                    android:layout_height="@dimen/_12sdp">
+                                    <ImageView
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_gravity="center_vertical|center_horizontal"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:tint="@color/red"
+                                        android:src="@drawable/ic_times"/>
+                                </androidx.cardview.widget.CardView>
+
+
+                                <ImageView
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="fitXY"
+                                    android:id="@+id/ivDet2Car"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/main_logo"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+
+
+
+                </GridLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:id="@+id/btnSubmit"
+                        android:fontFamily="@font/sembold"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_height="wrap_content"
+                        android:text="Simpan"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressSubmit"
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"/>
+
+                </RelativeLayout>
+
+
+
+
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+</layout>

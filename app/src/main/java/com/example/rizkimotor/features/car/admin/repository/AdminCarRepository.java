@@ -106,4 +106,31 @@ public class AdminCarRepository {
         return responseModelMutableLiveData;
 
     }
+
+    public LiveData<ResponseModel> update(int carId, Map<String, RequestBody> map, List<MultipartBody.Part> partList) {
+        MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.updateCar(carId, map, partList).enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                if (response != null && response.isSuccessful() && response.code() == 200 &&
+                        response.body() != null) {
+                    responseModelMutableLiveData.postValue(new ResponseModel(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, null));
+
+                }else {
+                    Gson gson = new Gson();
+                    ResponseModel responseModel = gson.fromJson(response.errorBody().charStream(), ResponseModel.class);
+                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, responseModel.getMessage(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+                Log.d("ERROR", "onFailure: " + t.getMessage());
+
+            }
+        });
+
+        return responseModelMutableLiveData;
+    }
 }

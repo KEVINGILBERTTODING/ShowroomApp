@@ -860,7 +860,7 @@ public class AddCarFragment extends Fragment {
 
 
         MultipartBody.Part partFront = MultipartBody.Part.createFormData("gambar1", getFileNameFromUri(uriFrontImg), requestBodyFrontImg);
-        MultipartBody.Part partRight = MultipartBody.Part.createFormData("gambar2", getFileNameFromUri(uriFrontImg), requestBodyRightImg);
+        MultipartBody.Part partRight = MultipartBody.Part.createFormData("gambar2", getFileNameFromUri(uriRightImg), requestBodyRightImg);
         MultipartBody.Part partBack = MultipartBody.Part.createFormData("gambar3", getFileNameFromUri(uriBackImg), requestBodyBackImg);
         MultipartBody.Part partLeft = MultipartBody.Part.createFormData("gambar4", getFileNameFromUri(uriLeftImg), requestBodyLeftImg);
         MultipartBody.Part partDet1 = MultipartBody.Part.createFormData("gambar5", getFileNameFromUri(uriDet1Img), requestBodyDet1Img);

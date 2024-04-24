@@ -60,4 +60,14 @@ public class AdminCarViewModel extends ViewModel {
 
         return responseModelMutableLiveData;
     }
+
+    public LiveData<ResponseModel> updateCar(int carId, Map<String, RequestBody> map, List<MultipartBody.Part> partList) {
+        MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
+        if (map != null && partList != null) {
+            return adminCarRepository.update(carId, map, partList);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+        return responseModelMutableLiveData;
+    }
 }

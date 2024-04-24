@@ -9,6 +9,7 @@ public class CarModel {
     private String nama_lengkap;
     private String tahun;
     private String tgl_masuk;
+    private int biaya_perbaikan;
     private String review_text;
     private String km;
     private String no_rangka;
@@ -163,28 +164,7 @@ public class CarModel {
     public void setGambar3(String gambar3) {
         this.gambar3 = gambar3;
     }
-    public String getImageIndex(int i) {
-        switch (i) {
-            case 1 :
-                return getGambar1();
-            case 2:
-                return getGambar2();
 
-            case 3:
-                return getGambar3();
-
-            case 4:
-                return getGambar4();
-            case 5:
-                return getGambar5();
-            case 6:
-                return getGambar6();
-
-            default:
-                return null;
-        }
-
-    }
 
     public String getGambar4() {
         if (gambar4 != null) {
@@ -502,5 +482,13 @@ public class CarModel {
 
     public void setHarga_beli(int harga_beli) {
         this.harga_beli = harga_beli;
+    }
+
+    public int getBiaya_perbaikan() {
+        return biaya_perbaikan;
+    }
+
+    public void setBiaya_perbaikan(int biaya_perbaikan) {
+        this.biaya_perbaikan = biaya_perbaikan;
     }
 }

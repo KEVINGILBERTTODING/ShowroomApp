@@ -88,6 +88,8 @@ public class UpdateCarFragment extends Fragment {
     private AdminCarViewModel adminCarViewModel;
     private int carId;
     private CarModel carModel;
+    private boolean isFrontUri = false, isBackUri = false, isLeftUri = false,
+            isRightUri = false, isDet1Uri = false, isDet2Uri = false;
     private int bahanBakarId, bodyId, kpmId, merkId, tangkiId, transId, colorId, kpmpId;
 
 
@@ -196,7 +198,7 @@ public class UpdateCarFragment extends Fragment {
             public void onChanged(ResponseModel<CarModel> carModelResponseModel) {
                 if (carModelResponseModel != null && carModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)
                 && carModelResponseModel.getData() != null) {
-                    Log.d(TAG, "onChanged: " + carModelResponseModel.getData().getGambar2());
+                    carModel = carModelResponseModel.getData();
                     getCarComponent(carModelResponseModel.getData());
                     initCarDetail(carModelResponseModel.getData());
 
@@ -207,23 +209,23 @@ public class UpdateCarFragment extends Fragment {
                     }
 
                     if (carModelResponseModel.getData().getGambar2() != null) {
-                        setImgUrl(carModelResponseModel.getData().getGambar2(), binding.ivRightCar, binding.rlRightImg, binding.ivRightCar);
+                        setImgUrl(carModelResponseModel.getData().getGambar2(), binding.ivRightCar, binding.rlRightImg, binding.ivAddRightImg);
                     }
 
                     if (carModelResponseModel.getData().getGambar3() != null) {
-                        setImgUrl(carModelResponseModel.getData().getGambar3(), binding.ivEndCar, binding.rlBackImg, binding.ivEndCar);
+                        setImgUrl(carModelResponseModel.getData().getGambar3(), binding.ivEndCar, binding.rlBackImg, binding.ivAddEndImg);
                     }
 
                     if (carModelResponseModel.getData().getGambar4() != null) {
-                        setImgUrl(carModelResponseModel.getData().getGambar4(), binding.ivLeftCar, binding.rlLeftImg, binding.ivLeftCar);
+                        setImgUrl(carModelResponseModel.getData().getGambar4(), binding.ivLeftCar, binding.rlLeftImg, binding.ivAddLeftImg);
                     }
 
                     if (carModelResponseModel.getData().getGambar5() != null) {
-                        setImgUrl(carModelResponseModel.getData().getGambar5(), binding.ivDet1Car, binding.rlDet1, binding.ivDet1Car);
+                        setImgUrl(carModelResponseModel.getData().getGambar5(), binding.ivDet1Car, binding.rlDet1, binding.ivAddDet1Img);
                     }
 
                     if (carModelResponseModel.getData().getGambar6() != null) {
-                        setImgUrl(carModelResponseModel.getData().getGambar6(), binding.ivDet2Car, binding.rlDet2, binding.ivDet2Car);
+                        setImgUrl(carModelResponseModel.getData().getGambar6(), binding.ivDet2Car, binding.rlDet2, binding.ivAddDet2Img);
                     }
 
                 }else {
@@ -237,11 +239,13 @@ public class UpdateCarFragment extends Fragment {
     }
 
     private void initCarDetail(CarModel data) {
+        binding.etModel.setText(data.getNama_model());
         binding.etDiskon.setText(formatRupiah(data.getDiskon()));
         binding.etPlatNumber.setText(data.getNo_plat());
         binding.etNoRangka.setText(data.getNo_rangka());
         binding.etEngineNumber.setText(data.getNo_mesin());
         binding.etYear.setText(data.getTahun());
+        binding.etBiayaPerbaikan.setText(formatRupiah(data.getBiaya_perbaikan()));
         binding.etKm.setText(data.getKm());
         binding.etHargaBeli.setText(formatRupiah(data.getHarga_beli()));
         binding.etHargaJual.setText(formatRupiah(data.getHarga_jual()));
@@ -251,6 +255,7 @@ public class UpdateCarFragment extends Fragment {
         binding.etLinkFb.setText(data.getUrl_facebook());
         binding.etLinkIg.setText(data.getUrl_instagram());
         binding.etDesc.setText(data.getDeskripsi());
+
     }
 
 
@@ -789,31 +794,68 @@ public class UpdateCarFragment extends Fragment {
         });
 
         binding.ivFrontCar.setOnClickListener(view -> {
-            previewPhoto(uriFrontImg);
+            if (isFrontUri) {
+                previewPhoto(uriFrontImg, null, isFrontUri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar1(), isFrontUri);
+
+            }
         });
 
 
         binding.ivEndCar.setOnClickListener(view -> {
-            previewPhoto(uriBackImg);
+            if (isFrontUri) {
+                previewPhoto(uriBackImg, null, isBackUri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar3(), isBackUri);
+
+            }
         });
 
 
         binding.ivLeftCar.setOnClickListener(view -> {
-            previewPhoto(uriLeftImg);
+            if (isLeftUri) {
+                previewPhoto(uriLeftImg, null, isLeftUri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar4(), isLeftUri);
+
+            }
         });
 
 
         binding.ivRightCar.setOnClickListener(view -> {
-            previewPhoto(uriRightImg);
+
+            if (isRightUri) {
+                previewPhoto(uriRightImg, null, isRightUri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar2(), isRightUri);
+
+            }
         });
 
 
         binding.ivDet1Car.setOnClickListener(view -> {
-            previewPhoto(uriDet1Img);
+            if (isDet1Uri) {
+                previewPhoto(uriDet1Img, null, isDet1Uri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar5(), isDet1Uri);
+
+            }
         });
 
         binding.ivDet2Car.setOnClickListener(view -> {
-            previewPhoto(uriDet2Img);
+            if (isDet2Uri) {
+                previewPhoto(uriDet2Img, null, isDet2Uri);
+
+            }else {
+                previewPhoto(null, carModel.getGambar6(), isDet2Uri);
+
+            }
         });
 
 
@@ -929,33 +971,33 @@ public class UpdateCarFragment extends Fragment {
             return;
         }
 
-        if (uriFrontImg == null) {
+        if (isFrontUri && uriFrontImg == null) {
             showToast("Anda belum memilih gambar mobil depan");
             return;
         }
 
 
-        if (uriBackImg == null) {
+        if (isBackUri && uriBackImg == null) {
             showToast("Anda belum memilih gambar mobil belakang");
             return;
         }
 
-        if (uriLeftImg == null) {
+        if (isLeftUri && uriLeftImg == null) {
             showToast("Anda belum memilih gambar mobil kiri");
             return;
         }
 
-        if (uriRightImg == null) {
+        if (isRightUri && uriRightImg == null) {
             showToast("Anda belum memilih gambar mobil kanan");
             return;
         }
 
-        if (uriDet1Img == null) {
+        if (isDet1Uri && uriDet1Img == null) {
             showToast("Anda belum memilih gambar detail mobil 1");
             return;
         }
 
-        if (uriDet2Img == null) {
+        if (isDet2Uri && uriDet2Img == null) {
             showToast("Anda belum memilih gambar detail mobil 2");
             return;
         }
@@ -970,8 +1012,10 @@ public class UpdateCarFragment extends Fragment {
 
     private void collectDataInput() {
         HashMap map = new HashMap();
+        map.put("mobil_id", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(carId)));
         map.put("merk_id", RequestBody.create(MediaType.parse("text/plain"),  String.valueOf(merkId)));
         map.put("body_id", RequestBody.create(MediaType.parse("text/plain"),  String.valueOf(bodyId)));
+        map.put("tgl_masuk", RequestBody.create(MediaType.parse("text/plain"),  binding.etTanggalMasuk.getText().toString()));
         map.put("nama_model", RequestBody.create(MediaType.parse("text/plain"),  binding.etModel.getText().toString()));
         map.put("no_plat", RequestBody.create(MediaType.parse("text/plain"),  binding.etPlatNumber.getText().toString()));
         map.put("no_mesin", RequestBody.create(MediaType.parse("text/plain"),  binding.etEngineNumber.getText().toString()));
@@ -988,7 +1032,6 @@ public class UpdateCarFragment extends Fragment {
         map.put("biaya_perbaikan", RequestBody.create(MediaType.parse("text/plain"), binding.etBiayaPerbaikan.getText().toString()));
         map.put("harga_jual", RequestBody.create(MediaType.parse("text/plain"), binding.etHargaJual.getText().toString()));
         map.put("diskon", RequestBody.create(MediaType.parse("text/plain"), binding.etDiskon.getText().toString()));
-        map.put("tgl_masuk", RequestBody.create(MediaType.parse("text/plain"), binding.etTanggalMasuk.getText().toString()));
         map.put("deskripsi", RequestBody.create(MediaType.parse("text/plain"), binding.etDesc.getText().toString()));
 
         if (!binding.etLinkFb.getText().toString().isEmpty()) {
@@ -1008,46 +1051,81 @@ public class UpdateCarFragment extends Fragment {
         }
 
         List<MultipartBody.Part> partList = new ArrayList<>();
-        RequestBody requestBodyFrontImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriFrontImg));
-        RequestBody requestBodyBackImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriBackImg));
-        RequestBody requestBodyLeftImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriLeftImg));
-        RequestBody requestBodyRightImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriRightImg));
-        RequestBody requestBodyDet1Img = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriDet1Img));
-        RequestBody requestBodyDet2Img = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriDet2Img));
+
+        if (isFrontUri && uriFrontImg != null) {
+            RequestBody requestBodyFrontImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriFrontImg));
+            MultipartBody.Part partFront = MultipartBody.Part.createFormData("gambar1", getFileNameFromUri(uriFrontImg), requestBodyFrontImg);
+            partList.add(partFront);
+
+        }
+
+        if (isBackUri && uriBackImg != null) {
+            RequestBody requestBodyBackImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriBackImg));
+
+            MultipartBody.Part partBack = MultipartBody.Part.createFormData("gambar3", getFileNameFromUri(uriBackImg), requestBodyBackImg);
+            partList.add(partBack);
 
 
-        MultipartBody.Part partFront = MultipartBody.Part.createFormData("gambar1", getFileNameFromUri(uriFrontImg), requestBodyFrontImg);
-        MultipartBody.Part partRight = MultipartBody.Part.createFormData("gambar2", getFileNameFromUri(uriFrontImg), requestBodyRightImg);
-        MultipartBody.Part partBack = MultipartBody.Part.createFormData("gambar3", getFileNameFromUri(uriBackImg), requestBodyBackImg);
-        MultipartBody.Part partLeft = MultipartBody.Part.createFormData("gambar4", getFileNameFromUri(uriLeftImg), requestBodyLeftImg);
-        MultipartBody.Part partDet1 = MultipartBody.Part.createFormData("gambar5", getFileNameFromUri(uriDet1Img), requestBodyDet1Img);
-        MultipartBody.Part partDet2 = MultipartBody.Part.createFormData("gambar6", getFileNameFromUri(uriDet2Img), requestBodyDet2Img);
+        }
 
-        partList.add(partFront);
-        partList.add(partBack);
-        partList.add(partLeft);
-        partList.add(partRight);
-        partList.add(partDet1);
-        partList.add(partDet2);
+        if (isRightUri && uriRightImg != null) {
+            RequestBody requestBodyRightImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriRightImg));
+            MultipartBody.Part partRight = MultipartBody.Part.createFormData("gambar2", getFileNameFromUri(uriRightImg), requestBodyRightImg);
 
-        storeCar(map, partList);
+            partList.add(partRight);
+
+        }
+
+        if (isLeftUri && uriLeftImg != null) {
+            RequestBody requestBodyLeftImg = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriLeftImg));
+            MultipartBody.Part partLeft = MultipartBody.Part.createFormData("gambar4", getFileNameFromUri(uriLeftImg), requestBodyLeftImg);
+            partList.add(partLeft);
+
+
+        }
+
+        if (isDet1Uri && uriDet1Img != null) {
+            RequestBody requestBodyDet1Img = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriDet1Img));
+            MultipartBody.Part partDet1 = MultipartBody.Part.createFormData("gambar5", getFileNameFromUri(uriDet1Img), requestBodyDet1Img);
+
+            partList.add(partDet1);
+
+        }
+
+        if (isDet2Uri && uriDet2Img != null) {
+            RequestBody requestBodyDet2Img = RequestBody.create(MediaType.parse("image/*"), contentResolver(uriDet2Img));
+
+
+            MultipartBody.Part partDet2 = MultipartBody.Part.createFormData("gambar6", getFileNameFromUri(uriDet2Img), requestBodyDet2Img);
+
+            partList.add(partDet2);
+
+        }
+
+        updateCar(map, partList);
+
+
+
+
 
     }
 
-    private void storeCar(Map<String, RequestBody> map, List<MultipartBody.Part> partList) {
+    private void updateCar(Map<String, RequestBody> map, List<MultipartBody.Part> partList) {
         binding.progressSubmit.setVisibility(View.VISIBLE);
         binding.btnSubmit.setVisibility(View.GONE);
-        adminCarViewModel.storeCar(map, partList).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
+        adminCarViewModel.updateCar(carId, map, partList).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
             @Override
             public void onChanged(ResponseModel responseModel) {
                 binding.btnSubmit.setVisibility(View.VISIBLE);
                 binding.progressSubmit.setVisibility(View.GONE);
                 if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
 
+                    Log.d(TAG, "onChanged: " + binding.etTanggalMasuk.getText().toString());
+
                     fragmentTransaction(new CarFragment());
                     CookieBar.build(requireActivity())
                             .setTitle("Berhasil")
-                            .setMessage("Berhasil menambahkan mobil baru")
+                            .setMessage("Berhasil mengubah data mobil")
                             .setCookiePosition(CookieBar.BOTTOM)
                             .setDuration(3000)
 
@@ -1072,33 +1150,39 @@ public class UpdateCarFragment extends Fragment {
                     switch (stateImgPicker) {
                         case "front":
                             uriFrontImg = uri;
+                            isFrontUri = true;
                             setImgUri(uri, binding.ivFrontCar, binding.rlFrontImg, binding.ivAddFrontImg);
                             break;
                         case "back" :
                             uriBackImg = uri;
+                            isBackUri = true;
                             setImgUri(uri, binding.ivEndCar, binding.rlBackImg, binding.ivAddEndImg);
 
                             break;
                         case "left" :
                             uriLeftImg = uri;
+                            isLeftUri = true;
                             setImgUri(uri, binding.ivLeftCar,binding.rlLeftImg, binding.ivAddLeftImg);
 
                             break;
 
                         case "right" :
                             uriRightImg = uri;
+                            isRightUri = true;
                             setImgUri(uri, binding.ivRightCar, binding.rlRightImg, binding.ivAddRightImg);
 
                             break;
 
                         case "det1" :
                             uriDet1Img = uri;
+                            isDet1Uri = true;
                             setImgUri(uri, binding.ivDet1Car, binding.rlDet1, binding.ivAddDet1Img);
 
                             break;
 
                         case "det2" :
                             uriDet2Img = uri;
+                            isDet2Uri = true;
                             setImgUri(uri, binding.ivDet2Car, binding.rlDet2, binding.ivAddDet2Img);
 
                             break;
@@ -1203,8 +1287,15 @@ public class UpdateCarFragment extends Fragment {
     }
 
 
-    private void previewPhoto(Uri uri) {
-        binding.photoView.setImageURI(uri);
+    private void previewPhoto(Uri uri, String url, boolean isUri) {
+        if (isUri == true) {
+            binding.photoView.setImageURI(uri);
+
+        }else {
+           Glide.with(requireContext())
+                   .load(url)
+                   .into(binding.photoView);
+        }
         showOverlay();
 
     }

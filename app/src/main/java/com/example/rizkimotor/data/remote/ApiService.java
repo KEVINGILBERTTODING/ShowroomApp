@@ -196,4 +196,12 @@ public interface ApiService {
     );
 
 
+    @Multipart
+    @POST("admin/car/update/{id}")
+    Call<ResponseModel> updateCar(
+            @Path("id") int carId,
+            @PartMap Map<String, RequestBody> map,
+            @Part List<MultipartBody.Part> partList
+    );
+
 }

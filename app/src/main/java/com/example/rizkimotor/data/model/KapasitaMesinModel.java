@@ -4,9 +4,9 @@ public class KapasitaMesinModel {
     private int km_id;
     private String kapasitas;
 
-    public KapasitaMesinModel() {
-
-
+    public KapasitaMesinModel(int km_id, String kapasitas) {
+        this.km_id = km_id;
+        this.kapasitas = kapasitas;
     }
 
     @Override

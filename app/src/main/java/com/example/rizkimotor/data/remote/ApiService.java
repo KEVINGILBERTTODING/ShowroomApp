@@ -190,5 +190,10 @@ public interface ApiService {
             @Path("id") int carId
     );
 
+    @GET("admin/car/{id}")
+    Call<ResponseModel<CarModel>> adminGetCarById(
+            @Path("id") int carId
+    );
+
 
 }

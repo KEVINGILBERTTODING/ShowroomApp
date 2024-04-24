@@ -89,11 +89,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.ivCar);
 
+            holder.tvCarStatus.setVisibility(View.GONE);
+            
         }else {
             Glide.with(context)
                     .load(carModels.get(holder.getBindingAdapterPosition()).getGambar1())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.ivCar);
+
+            holder.tvCarStatus.setVisibility(View.GONE);
         }
 
         holder.tvCredit.setText(formatRupiah(totalCredit) + " / bulan");

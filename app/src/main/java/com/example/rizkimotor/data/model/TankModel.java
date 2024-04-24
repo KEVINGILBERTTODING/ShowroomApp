@@ -4,7 +4,9 @@ public class TankModel {
     private int tangki_id;
     private String tangki;
 
-    public TankModel() {
+    public TankModel(int tangki_id, String tangki) {
+        this.tangki_id = tangki_id;
+        this.tangki = tangki;
     }
 
     @Override

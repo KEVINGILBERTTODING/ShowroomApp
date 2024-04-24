@@ -8,9 +8,12 @@ public class CarModel {
     private String no_plat;
     private String nama_lengkap;
     private String tahun;
+    private String tgl_masuk;
     private String review_text;
     private String km;
+    private String no_rangka;
     private int harga_jual;
+    private int harga_beli;
     private int diskon;
     private String deskripsi;
     private int status_mobil;
@@ -35,46 +38,22 @@ public class CarModel {
     private String bahan_bakar;
     private String image_review4;
     private String transmisi;
+    private String no_mesin;
+    private String nama_pemilik;
+    private int tangki_id;
+    private int warna_id;
+    private int merk_id;
+    private int body_id;
+    private int km_id;
+    private int bahan_bakar_id;
+    private int transmisi_id;
+    private int kp_id;
+
     private String kapasitas_mesin;
     private String kapasitas_penumpang;
     private double total_cicilan;
 
-    public CarModel(String nama_model, int mobil_id, String no_plat, String nama_lengkap, String tahun, String review_text, String km, int harga_jual, int diskon, String deskripsi, int status_mobil, String gambar1, String gambar2, String gambar3, int star, String gambar4, String gambar5, String gambar6, String merk, String tangki, String body, String warna, String url_youtube, String photo_customer, String url_instagram, String url_facebook, String image_review1, String image_review2, String image_review3, String bahan_bakar, String image_review4, String transmisi, String kapasitas_mesin, String kapasitas_penumpang, double total_cicilan) {
-        this.nama_model = nama_model;
-        this.mobil_id = mobil_id;
-        this.no_plat = no_plat;
-        this.nama_lengkap = nama_lengkap;
-        this.tahun = tahun;
-        this.review_text = review_text;
-        this.km = km;
-        this.harga_jual = harga_jual;
-        this.diskon = diskon;
-        this.deskripsi = deskripsi;
-        this.status_mobil = status_mobil;
-        this.gambar1 = gambar1;
-        this.gambar2 = gambar2;
-        this.gambar3 = gambar3;
-        this.star = star;
-        this.gambar4 = gambar4;
-        this.gambar5 = gambar5;
-        this.gambar6 = gambar6;
-        this.merk = merk;
-        this.tangki = tangki;
-        this.body = body;
-        this.warna = warna;
-        this.url_youtube = url_youtube;
-        this.photo_customer = photo_customer;
-        this.url_instagram = url_instagram;
-        this.url_facebook = url_facebook;
-        this.image_review1 = image_review1;
-        this.image_review2 = image_review2;
-        this.image_review3 = image_review3;
-        this.bahan_bakar = bahan_bakar;
-        this.image_review4 = image_review4;
-        this.transmisi = transmisi;
-        this.kapasitas_mesin = kapasitas_mesin;
-        this.kapasitas_penumpang = kapasitas_penumpang;
-        this.total_cicilan = total_cicilan;
+    public CarModel() {
     }
 
     public String getNama_model() {
@@ -183,6 +162,28 @@ public class CarModel {
 
     public void setGambar3(String gambar3) {
         this.gambar3 = gambar3;
+    }
+    public String getImageIndex(int i) {
+        switch (i) {
+            case 1 :
+                return getGambar1();
+            case 2:
+                return getGambar2();
+
+            case 3:
+                return getGambar3();
+
+            case 4:
+                return getGambar4();
+            case 5:
+                return getGambar5();
+            case 6:
+                return getGambar6();
+
+            default:
+                return null;
+        }
+
     }
 
     public String getGambar4() {
@@ -396,5 +397,110 @@ public class CarModel {
 
     public void setTotal_cicilan(double total_cicilan) {
         this.total_cicilan = total_cicilan;
+    }
+
+
+    public String getTgl_masuk() {
+        return tgl_masuk;
+    }
+
+    public void setTgl_masuk(String tgl_masuk) {
+        this.tgl_masuk = tgl_masuk;
+    }
+
+    public String getNo_rangka() {
+        return no_rangka;
+    }
+
+    public void setNo_rangka(String no_rangka) {
+        this.no_rangka = no_rangka;
+    }
+
+    public String getNo_mesin() {
+        return no_mesin;
+    }
+
+    public void setNo_mesin(String no_mesin) {
+        this.no_mesin = no_mesin;
+    }
+
+    public String getNama_pemilik() {
+        return nama_pemilik;
+    }
+
+    public void setNama_pemilik(String nama_pemilik) {
+        this.nama_pemilik = nama_pemilik;
+    }
+
+    public int getTangki_id() {
+        return tangki_id;
+    }
+
+    public void setTangki_id(int tangki_id) {
+        this.tangki_id = tangki_id;
+    }
+
+    public int getWarna_id() {
+        return warna_id;
+    }
+
+    public void setWarna_id(int warna_id) {
+        this.warna_id = warna_id;
+    }
+
+    public int getMerk_id() {
+        return merk_id;
+    }
+
+    public void setMerk_id(int merk_id) {
+        this.merk_id = merk_id;
+    }
+
+    public int getBody_id() {
+        return body_id;
+    }
+
+    public void setBody_id(int body_id) {
+        this.body_id = body_id;
+    }
+
+    public int getKm_id() {
+        return km_id;
+    }
+
+    public void setKm_id(int km_id) {
+        this.km_id = km_id;
+    }
+
+    public int getBahan_bakar_id() {
+        return bahan_bakar_id;
+    }
+
+    public void setBahan_bakar_id(int bahan_bakar_id) {
+        this.bahan_bakar_id = bahan_bakar_id;
+    }
+
+    public int getTransmisi_id() {
+        return transmisi_id;
+    }
+
+    public void setTransmisi_id(int transmisi_id) {
+        this.transmisi_id = transmisi_id;
+    }
+
+    public int getKp_id() {
+        return kp_id;
+    }
+
+    public void setKp_id(int kp_id) {
+        this.kp_id = kp_id;
+    }
+
+    public int getHarga_beli() {
+        return harga_beli;
+    }
+
+    public void setHarga_beli(int harga_beli) {
+        this.harga_beli = harga_beli;
     }
 }

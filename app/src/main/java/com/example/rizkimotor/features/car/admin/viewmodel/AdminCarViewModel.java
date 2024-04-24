@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.features.car.admin.repository.AdminCarRepository;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
@@ -48,4 +49,15 @@ public class AdminCarViewModel extends ViewModel {
         return responseModelMutableLiveData;
     }
 
+
+    public LiveData<ResponseModel<CarModel>> getCarById(int carId) {
+        MutableLiveData<ResponseModel<CarModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        if (carId != 0) {
+            return adminCarRepository.getCarById(carId);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+
+        return responseModelMutableLiveData;
+    }
 }

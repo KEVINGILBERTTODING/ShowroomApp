@@ -9,17 +9,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-
-import androidx.lifecycle.ViewModelProvider;
-
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
@@ -36,10 +25,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.adapter.SpinnerAdapter;
 import com.example.rizkimotor.data.model.BahanBakarModel;
 import com.example.rizkimotor.data.model.BodyModel;
+import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.ColorModel;
 import com.example.rizkimotor.data.model.KapasitaMesinModel;
 import com.example.rizkimotor.data.model.KapasitasPenumpangModel;
@@ -49,6 +49,7 @@ import com.example.rizkimotor.data.model.TankModel;
 import com.example.rizkimotor.data.model.TransmisiModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentAddCarBinding;
+import com.example.rizkimotor.databinding.FragmentUpdateCarBinding;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
 import com.example.rizkimotor.features.car.admin.model.CarComponentModel;
 import com.example.rizkimotor.features.car.admin.viewmodel.AdminCarViewModel;
@@ -65,11 +66,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.MediaType;
@@ -77,12 +80,14 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 @AndroidEntryPoint
-public class AddCarFragment extends Fragment {
-    private FragmentAddCarBinding binding;
+public class UpdateCarFragment extends Fragment {
+    private FragmentUpdateCarBinding binding;
     private String TAG = Constants.LOG;
     private CarViewModel carViewModel;
     private UserService userService;
     private AdminCarViewModel adminCarViewModel;
+    private int carId;
+    private CarModel carModel;
     private int bahanBakarId, bodyId, kpmId, merkId, tangkiId, transId, colorId, kpmpId;
 
 
@@ -99,15 +104,24 @@ public class AddCarFragment extends Fragment {
         super.onCreate(savedInstanceState);
         checkAndRequestStoragePermission();
 
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentAddCarBinding.inflate(inflater, container, false);
-        initService();
+        binding = FragmentUpdateCarBinding.inflate(inflater, container, false);
+        if (getArguments() != null && getArguments().getInt("car_id") != 0) {
+            carId = getArguments().getInt("car_id");
+            initService();
 
+        }else {
+            binding.lrEmpty.setVisibility(View.VISIBLE);
+            showToast("Gagal memuat data mobil");
+
+        }
 
 
         return binding.getRoot();
@@ -119,7 +133,8 @@ public class AddCarFragment extends Fragment {
 
         if (userService != null && userService.loadBool(SharedUserData.PREF_IS_LOGIN) == true) {
             init();
-            getCarComponent();
+
+            getCarDetail();
             listener();
 
         }else {
@@ -149,7 +164,8 @@ public class AddCarFragment extends Fragment {
         binding.etYear.setFocusable(false);
     }
 
-    private void getCarComponent() {
+
+    private void getCarComponent(CarModel carModel) {
         binding.progressLoad.setVisibility(View.VISIBLE);
         binding.lrEmpty.setVisibility(View.GONE);
         binding.mainScrollss.setVisibility(View.GONE);
@@ -160,7 +176,7 @@ public class AddCarFragment extends Fragment {
                 if (carComponentModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)
                 && carComponentModelResponseModel.getData() != null) {
                     binding.mainScrollss.setVisibility(View.VISIBLE);
-                    setUpSpinner(carComponentModelResponseModel.getData());
+                    setUpSpinner(carComponentModelResponseModel.getData(), carModel);
 
                 }else {
                     binding.mainScrollss.setVisibility(View.GONE);
@@ -173,7 +189,74 @@ public class AddCarFragment extends Fragment {
 
     }
 
-    private void setUpSpinner(CarComponentModel carComponentModel) {
+    private void getCarDetail() {
+
+        adminCarViewModel.getCarById(carId).observe(getViewLifecycleOwner(), new Observer<ResponseModel<CarModel>>() {
+            @Override
+            public void onChanged(ResponseModel<CarModel> carModelResponseModel) {
+                if (carModelResponseModel != null && carModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)
+                && carModelResponseModel.getData() != null) {
+                    Log.d(TAG, "onChanged: " + carModelResponseModel.getData().getGambar2());
+                    getCarComponent(carModelResponseModel.getData());
+                    initCarDetail(carModelResponseModel.getData());
+
+
+                    if (carModelResponseModel.getData().getGambar1() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar1(), binding.ivFrontCar, binding.rlFrontImg, binding.ivAddFrontImg);
+
+                    }
+
+                    if (carModelResponseModel.getData().getGambar2() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar2(), binding.ivRightCar, binding.rlRightImg, binding.ivRightCar);
+                    }
+
+                    if (carModelResponseModel.getData().getGambar3() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar3(), binding.ivEndCar, binding.rlBackImg, binding.ivEndCar);
+                    }
+
+                    if (carModelResponseModel.getData().getGambar4() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar4(), binding.ivLeftCar, binding.rlLeftImg, binding.ivLeftCar);
+                    }
+
+                    if (carModelResponseModel.getData().getGambar5() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar5(), binding.ivDet1Car, binding.rlDet1, binding.ivDet1Car);
+                    }
+
+                    if (carModelResponseModel.getData().getGambar6() != null) {
+                        setImgUrl(carModelResponseModel.getData().getGambar6(), binding.ivDet2Car, binding.rlDet2, binding.ivDet2Car);
+                    }
+
+                }else {
+                    binding.mainScrollss.setVisibility(View.GONE);
+                    binding.lrEmpty.setVisibility(View.VISIBLE);
+                    showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+                }
+            }
+        });
+
+    }
+
+    private void initCarDetail(CarModel data) {
+        binding.etDiskon.setText(formatRupiah(data.getDiskon()));
+        binding.etPlatNumber.setText(data.getNo_plat());
+        binding.etNoRangka.setText(data.getNo_rangka());
+        binding.etEngineNumber.setText(data.getNo_mesin());
+        binding.etYear.setText(data.getTahun());
+        binding.etKm.setText(data.getKm());
+        binding.etHargaBeli.setText(formatRupiah(data.getHarga_beli()));
+        binding.etHargaJual.setText(formatRupiah(data.getHarga_jual()));
+        binding.etTanggalMasuk.setText(data.getTgl_masuk());
+        binding.etOwner.setText(data.getNama_pemilik());
+        binding.etLinYt.setText(data.getUrl_youtube());
+        binding.etLinkFb.setText(data.getUrl_facebook());
+        binding.etLinkIg.setText(data.getUrl_instagram());
+        binding.etDesc.setText(data.getDeskripsi());
+    }
+
+
+
+
+    private void setUpSpinner(CarComponentModel carComponentModel, CarModel carModel) {
 
 
         if (
@@ -189,31 +272,108 @@ public class AddCarFragment extends Fragment {
         ) {
             spinnerIsComplete = true;
 
-//
-            SpinnerAdapter<BahanBakarModel> spinnerBahanBakar = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataBahanBakar());
+            List<BahanBakarModel> bahanBakarModels = new ArrayList<>();
+            bahanBakarModels.add( new BahanBakarModel(carModel.getBahan_bakar_id(), carModel.getBahan_bakar()));
+            for (BahanBakarModel bahanBakarModel1 : carComponentModel.getDataBahanBakar()) {
+                if (carModel.getBahan_bakar_id() != bahanBakarModel1.getBahan_bakar_id()) {
+                    bahanBakarModels.add(bahanBakarModel1);
+                }
+            }
+
+
+
+
+            SpinnerAdapter<BahanBakarModel> spinnerBahanBakar = new SpinnerAdapter<>(requireContext(), bahanBakarModels);
             binding.spinnerBahanBakar.setAdapter(spinnerBahanBakar);
+            binding.spinnerBahanBakar.setSelection(0, true);
 
-            SpinnerAdapter<BodyModel> spinnerBody = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataBody());
+            List<BodyModel> bodyModels = new ArrayList<>();
+            bodyModels.add( new BodyModel(carModel.getBahan_bakar_id(), carModel.getBahan_bakar()));
+            for (BodyModel bodyModelist : carComponentModel.getDataBody()) {
+                if (carModel.getBody_id() != bodyModelist.getBody_id()) {
+                    bodyModels.add(bodyModelist);
+                }
+            }
+
+            SpinnerAdapter<BodyModel> spinnerBody = new SpinnerAdapter<>(requireContext(), bodyModels);
             binding.spinnerBody.setAdapter(spinnerBody);
+            binding.spinnerBody.setSelection(0, true);
 
-            SpinnerAdapter<KapasitasPenumpangModel> kpmpSpinner  = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataKapasitasPenumpang());
+
+            List<KapasitasPenumpangModel> kpmsList = new ArrayList<>();
+            kpmsList.add( new KapasitasPenumpangModel(carModel.getKp_id(), carModel.getKapasitas_penumpang()));
+            for (KapasitasPenumpangModel kmp : carComponentModel.getDataKapasitasPenumpang()) {
+                if (carModel.getKm_id() != kmp.getKp_id()) {
+                    kpmsList.add(kmp);
+                }
+            }
+
+            SpinnerAdapter<KapasitasPenumpangModel> kpmpSpinner  = new SpinnerAdapter<>(requireContext(), kpmsList);
             binding.spinnerPassengerCapacity.setAdapter(kpmpSpinner);
+            binding.spinnerPassengerCapacity.setSelection(0);
 
-            SpinnerAdapter<MerkModel> spinnerMerk  = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataMerk());
+
+            List<MerkModel> merkModelList = new ArrayList<>();
+            merkModelList.add( new MerkModel(carModel.getMerk_id(), carModel.getMerk()));
+            for (MerkModel merkModel : carComponentModel.getDataMerk()) {
+                if (carModel.getMerk_id() != merkModel.getMerk_id()) {
+                    merkModelList.add(merkModel);
+                }
+            }
+
+            SpinnerAdapter<MerkModel> spinnerMerk  = new SpinnerAdapter<>(requireContext(),merkModelList);
             binding.spinnerMerk.setAdapter(spinnerMerk);
+            binding.spinnerMerk.setSelection(0);
 
-            SpinnerAdapter<TankModel> tankSpinner = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataTangki());
+            List<TankModel> tankModelList = new ArrayList<>();
+            tankModelList.add( new TankModel(carModel.getTangki_id(), carModel.getTangki()));
+            for (TankModel tankModel : carComponentModel.getDataTangki()) {
+                if (carModel.getTangki_id() != tankModel.getTangki_id()) {
+                    tankModelList.add(tankModel);
+                }
+            }
+
+            SpinnerAdapter<TankModel> tankSpinner = new SpinnerAdapter<>(requireContext(), tankModelList);
             binding.spinnerTankCapacity.setAdapter(tankSpinner);
+            binding.spinnerTankCapacity.setSelection(0);
 
-            SpinnerAdapter<TransmisiModel> spinnerTransmistion = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataTransmisi());
+            List<TransmisiModel> transmitionList = new ArrayList<>();
+            transmitionList.add( new TransmisiModel(carModel.getTransmisi_id(), carModel.getTransmisi()));
+            for (TransmisiModel transmitionModel : carComponentModel.getDataTransmisi()) {
+                if (carModel.getTransmisi_id() != transmitionModel.getTransmisi_id()) {
+                    transmitionList.add(transmitionModel);
+                }
+            }
+
+            SpinnerAdapter<TransmisiModel> spinnerTransmistion = new SpinnerAdapter<>(requireContext(), transmitionList);
             binding.spinnerTransmisi.setAdapter(spinnerTransmistion);
+            binding.spinnerTransmisi.setSelection(0);
 
-            SpinnerAdapter<ColorModel> spinnerColor = new SpinnerAdapter<>(requireContext(), carComponentModel.getDataWarna());
+
+            List<ColorModel> colorModelList = new ArrayList<>();
+            colorModelList.add( new ColorModel(carModel.getWarna_id(), carModel.getWarna()));
+            for (ColorModel colorModel : carComponentModel.getDataWarna()) {
+                if (carModel.getWarna_id() != colorModel.getWarna_id()) {
+                    colorModelList.add(colorModel);
+                }
+            }
+
+            SpinnerAdapter<ColorModel> spinnerColor = new SpinnerAdapter<>(requireContext(), colorModelList);
             binding.spinnerColor.setAdapter(spinnerColor);
+            binding.spinnerColor.setSelection(0);
+
+            List<KapasitaMesinModel> kapasitaMesinModelList = new ArrayList<>();
+            kapasitaMesinModelList.add( new KapasitaMesinModel(carModel.getKm_id(), carModel.getKapasitas_mesin()));
+            for (KapasitaMesinModel kapasitasMesinModel : carComponentModel.getDataKapasitasMesin()) {
+                if (carModel.getKm_id() !=  kapasitasMesinModel.getKm_id()) {
+                    kapasitaMesinModelList.add(kapasitasMesinModel);
+                }
+            }
 
 
-            SpinnerAdapter<KapasitaMesinModel> spinnerKpm= new SpinnerAdapter<>(requireContext(), carComponentModel.getDataKapasitasMesin());
+            SpinnerAdapter<KapasitaMesinModel> spinnerKpm= new SpinnerAdapter<>(requireContext(), kapasitaMesinModelList);
             binding.spinnerEngineCapacity.setAdapter(spinnerKpm);
+            binding.spinnerEngineCapacity.setSelection(0);
 
 
 
@@ -368,19 +528,17 @@ public class AddCarFragment extends Fragment {
         });
 
         binding.ivAddEndImg.setOnClickListener(view -> {
-            stateImgPicker = "front";
+            stateImgPicker = "back";
             pickMedia.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         });
 
         binding.ivAddLeftImg.setOnClickListener(view -> {
-            if (checkPermissionUploadImage()) {
-                stateImgPicker = "left";
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
-                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                        .build());
-            }
+            stateImgPicker = "left";
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
         });
 
 
@@ -389,7 +547,6 @@ public class AddCarFragment extends Fragment {
             pickMedia.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
-
         });
 
         binding.ivAddDet1Img.setOnClickListener(view -> {
@@ -976,6 +1133,15 @@ public class AddCarFragment extends Fragment {
         rlAdd.setVisibility(View.VISIBLE);
     }
 
+    private void setImgUrl(String url, ImageView iv, RelativeLayout rlAdd, ImageView ivAdd) {
+        Glide.with(requireContext())
+                        .load(url)
+                        .override(200, 200)
+                        .into(iv);
+        ivAdd.setVisibility(View.GONE);
+        rlAdd.setVisibility(View.VISIBLE);
+    }
+
     private void getDatePicker(TextView tvDate) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
         datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
@@ -1151,54 +1317,30 @@ public class AddCarFragment extends Fragment {
         }
     }
 
-//    private void resetInput() {
-//        merkId = 0;
-//        bodyId = 0;
-//        binding.etModel.setText("");
-//        binding.etNoRangka.setText("");
-//        binding.etPlatNumber.setText("");
-//        binding.etEngineNumber.setText("");
-//        binding.etYear.setText("");
-//        colorId = 0;
-//        kpmpId = 0;
-//        kpmId = 0;
-//        bahanBakarId = 0;
-//        transId = 0;
-//        tangkiId = 0;
-//        binding.etKm.setText("0");
-//        binding.etHargaJual.setText("0");
-//        binding.etHargaBeli.setText("0");
-//        binding.etBiayaPerbaikan.setText("0");
-//        binding.etDiskon.setText("0");
-//        binding.etOwner.setText("");
-//        binding.etTanggalMasuk.setText("");
-//        binding.etDesc.setText("");
-//        binding.etLinYt.setText("");
-//        binding.etLinkIg.setText("");
-//        binding.etLinkFb.setText("");
-//
-//        binding.spinnerMerk.clearSelection();
-//        binding.spinnerBody.clearSelection();
-//        binding.spinnerColor.clearSelection();
-//        binding.spinnerEngineCapacity.clearSelection();
-//        binding.spinnerBahanBakar.clearSelection();
-//        binding.spinnerTransmisi.clearSelection();
-//        binding.spinnerPassengerCapacity.clearSelection();
-//        binding.spinnerTankCapacity.clearSelection();
-//
-//        deleteImage(uriFrontImg, binding.ivAddFrontImg, binding.rlFrontImg);
-//        deleteImage(uriBackImg, binding.ivAddEndImg, binding.rlBackImg);
-//        deleteImage(uriLeftImg, binding.ivAddLeftImg, binding.rlLeftImg);
-//        deleteImage(uriRightImg, binding.ivAddRightImg, binding.rlRightImg);
-//        deleteImage(uriDet1Img, binding.ivAddDet1Img, binding.rlDet1);
-//        deleteImage(uriDet2Img, binding.ivAddDet2Img, binding.rlDet2);
-//    }
+
+    public static String formatRupiah(int nominal) {
+        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+
+        formatRp.setCurrencySymbol("Rp ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        // Mengatur jumlah digit desimal menjadi 0
+        kursIndonesia.setMaximumFractionDigits(0);
+
+
+        kursIndonesia.setDecimalFormatSymbols(formatRp);
+        return kursIndonesia.format(nominal);
+    }
 
     private void fragmentTransaction(Fragment fragment) {
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameHomeAdmin, fragment)
                 .commit();
     }
+
+
 
 
 

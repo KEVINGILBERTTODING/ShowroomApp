@@ -6,7 +6,7 @@
         android:background="@color/white"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".features.car.admin.ui.fragments.AddCarFragment">
+        tools:context=".features.car.admin.ui.fragments.UpdateCarFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tambah mobil baru"
+                android:text="Ubah data mobil"
                 android:includeFontPadding="false"
                 android:fontFamily="@font/sembold"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Form untuk menambahkan mobil baru."
+                android:text="Form untuk mengubah data mobil."
                 android:fontFamily="@font/med"
                 android:includeFontPadding="false"
                 android:layout_alignParentLeft="true"
@@ -183,7 +183,6 @@
                             android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="text"
-                            android:maxLines="3"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -859,7 +858,6 @@
                             android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textMultiLine"
-                            android:maxLines="3"
                             android:gravity="start"
                             android:lines="2"
                             android:textColor="@color/black"
@@ -896,7 +894,6 @@
                             android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textMultiLine"
-                            android:maxLines="3"
                             android:gravity="start"
                             android:lines="2"
                             android:textColor="@color/black"
@@ -932,7 +929,6 @@
                             android:fontFamily="@font/med"
                             android:textColorHint="@color/black"
                             android:inputType="textMultiLine"
-                            android:maxLines="3"
                             android:gravity="start"
                             android:lines="2"
                             android:textColor="@color/black"
@@ -971,7 +967,6 @@
                             android:inputType="textMultiLine"
                             android:maxLines="4"
                             android:gravity="start"
-                            android:lines="4"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_11sdp"></com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>

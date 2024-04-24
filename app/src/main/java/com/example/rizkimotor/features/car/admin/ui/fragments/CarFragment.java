@@ -124,6 +124,13 @@ public class CarFragment extends Fragment implements ClickListener {
             destroyCar();
         });
 
+        binding.cvEdit.setOnClickListener(view -> {
+            Fragment fragment = new UpdateCarFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("car_id", mobilId);
+            fragment.setArguments(bundle);
+            fragmentTransaction(fragment);
+        });
 
     }
 

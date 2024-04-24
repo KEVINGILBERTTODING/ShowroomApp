@@ -4,7 +4,9 @@ public class BahanBakarModel {
     private int bahan_bakar_id;
     private String bahan_bakar;
 
-    public BahanBakarModel() {
+    public BahanBakarModel(int bahan_bakar_id, String bahan_bakar) {
+        this.bahan_bakar_id = bahan_bakar_id;
+        this.bahan_bakar = bahan_bakar;
     }
 
     @Override

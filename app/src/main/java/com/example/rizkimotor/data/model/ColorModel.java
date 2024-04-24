@@ -4,9 +4,10 @@ public class ColorModel {
     private int warna_id;
     private String warna;
 
-    public ColorModel() {
+    public ColorModel(int warna_id, String warna) {
+        this.warna_id = warna_id;
+        this.warna = warna;
     }
-
 
     @Override
     public String toString() {

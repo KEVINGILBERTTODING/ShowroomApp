@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.rizkimotor.R;
+import com.example.rizkimotor.data.model.CarModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.remote.ApiService;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
@@ -69,7 +70,7 @@ public class AdminCarRepository {
                 }else {
                     Gson gson = new Gson();
                     ResponseModel responseModel = gson.fromJson(response.errorBody().charStream(), ResponseModel.class);
-                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, responseModel.getMessage(), null));
                 }
             }
 
@@ -81,5 +82,28 @@ public class AdminCarRepository {
         });
 
         return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<CarModel>> getCarById(int carId) {
+        MutableLiveData<ResponseModel<CarModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.adminGetCarById(carId).enqueue(new Callback<ResponseModel<CarModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<CarModel>> call, Response<ResponseModel<CarModel>> response) {
+                if (response != null && response.code() == 200 && response.isSuccessful()) {
+                    responseModelMutableLiveData.postValue(new ResponseModel(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
+
+                }else {
+                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<CarModel>> call, Throwable t) {
+                responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+
+            }
+        });
+        return responseModelMutableLiveData;
+
     }
 }

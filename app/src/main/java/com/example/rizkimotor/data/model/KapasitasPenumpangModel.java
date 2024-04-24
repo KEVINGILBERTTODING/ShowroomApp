@@ -5,7 +5,9 @@ public class KapasitasPenumpangModel {
      private String kapasitas;
 
 
-    public KapasitasPenumpangModel() {
+    public KapasitasPenumpangModel(int kp_id, String kapasitas) {
+        this.kp_id = kp_id;
+        this.kapasitas = kapasitas;
     }
 
     @Override

@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.adapter.SpinnerAdapter;
@@ -165,6 +166,14 @@ public class CarFragment extends Fragment implements ClickListener {
 
         });
 
+        binding.swipeRefesh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getAllCar();
+                binding.swipeRefesh.setRefreshing(false);
+            }
+        });
+
         binding.btnDownload.setOnClickListener(view -> {
             downloadCarReport();
         });
@@ -301,6 +310,7 @@ public class CarFragment extends Fragment implements ClickListener {
         binding.rvSearch.setVisibility(View.GONE);
         binding.lrEmpty.setVisibility(View.GONE);
         binding.rvSearch.setAdapter(null);
+        binding.swipeRefesh.setRefreshing(false);
 
         if (allCarList != null) {
             binding.progressLoad.setVisibility(View.GONE);
@@ -523,6 +533,8 @@ public class CarFragment extends Fragment implements ClickListener {
 
 
     }
+
+
 
 
 

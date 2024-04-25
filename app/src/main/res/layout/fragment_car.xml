@@ -58,14 +58,21 @@
 
 
         </RelativeLayout>
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
+        
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefesh"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/rvSearch"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/rvSearch"
+                android:layout_height="wrap_content"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
 
 
     </LinearLayout>
@@ -209,7 +216,7 @@
                                                 android:id="@+id/ic_cv_detail"
                                                 app:cardElevation="0dp"
                                                 android:layout_marginRight="@dimen/_10sdp"
-                                                app:cardBackgroundColor="@color/blue"
+                                                app:cardBackgroundColor="@color/soft_blue"
                                                 app:cardCornerRadius="@dimen/_5sdp"
                                                 android:layout_width="@dimen/_20sdp"
                                                 android:layout_centerVertical="true"
@@ -218,7 +225,7 @@
                                                 <ImageView
                                                     android:layout_width="@dimen/_15sdp"
                                                     android:src="@drawable/ic_eye"
-                                                    android:tint="@color/white"
+                                                    android:tint="@color/blue"
                                                     android:layout_gravity="center_horizontal|center_vertical"
                                                     android:layout_height="@dimen/_15sdp"/>
 
@@ -277,7 +284,7 @@
                                                 android:id="@+id/ic_cv_edit"
                                                 app:cardElevation="0dp"
                                                 android:layout_marginRight="@dimen/_10sdp"
-                                                app:cardBackgroundColor="@color/primary"
+                                                app:cardBackgroundColor="@color/bg_second"
                                                 app:cardCornerRadius="@dimen/_5sdp"
                                                 android:layout_width="@dimen/_20sdp"
                                                 android:layout_centerVertical="true"
@@ -286,7 +293,7 @@
                                                 <ImageView
                                                     android:layout_width="@dimen/_15sdp"
                                                     android:src="@drawable/ic_edit"
-                                                    android:tint="@color/black"
+                                                    android:tint="@color/primary"
                                                     android:layout_gravity="center_horizontal|center_vertical"
                                                     android:layout_height="@dimen/_15sdp"/>
 
@@ -346,7 +353,7 @@
                                                 android:id="@+id/ic_cv_delete"
                                                 app:cardElevation="0dp"
                                                 android:layout_marginRight="@dimen/_10sdp"
-                                                app:cardBackgroundColor="@color/red"
+                                                app:cardBackgroundColor="@color/soft_red"
                                                 app:cardCornerRadius="@dimen/_5sdp"
                                                 android:layout_width="@dimen/_20sdp"
                                                 android:layout_centerVertical="true"
@@ -355,7 +362,7 @@
                                                 <ImageView
                                                     android:layout_width="@dimen/_15sdp"
                                                     android:src="@drawable/ic_delete"
-                                                    android:tint="@color/white"
+                                                    android:tint="@color/red"
                                                     android:layout_gravity="center_horizontal|center_vertical"
                                                     android:layout_height="@dimen/_15sdp"/>
 

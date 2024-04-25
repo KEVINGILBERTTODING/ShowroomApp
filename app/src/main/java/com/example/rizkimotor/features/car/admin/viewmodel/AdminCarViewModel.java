@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.rizkimotor.data.model.CarModel;
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.features.car.admin.repository.AdminCarRepository;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +70,17 @@ public class AdminCarViewModel extends ViewModel {
         }else {
             responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseDownloaModel> downloadCarReport(String id, HashMap map) {
+        MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
+        if (id != null) {
+            return adminCarRepository.downloadCarReport(id, map);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+
         return responseModelMutableLiveData;
     }
 }

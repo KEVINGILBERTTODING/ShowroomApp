@@ -204,4 +204,10 @@ public interface ApiService {
             @Part List<MultipartBody.Part> partList
     );
 
+    @GET("admin/car/report/{id}")
+    Call<ResponseBody> downloadCarReport(
+            @Path("id") String id,
+            @QueryMap HashMap<String, String> map
+    );
+
 }

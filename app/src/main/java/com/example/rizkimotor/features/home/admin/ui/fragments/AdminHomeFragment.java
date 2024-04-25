@@ -101,6 +101,10 @@ public class AdminHomeFragment extends Fragment {
                 downloadProfitPdf();
             }
         });
+
+        binding.btnRefresh.setOnClickListener(view -> {
+            fetchDataChart();
+        });
     }
 
     private void init() {

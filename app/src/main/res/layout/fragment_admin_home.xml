@@ -39,6 +39,7 @@
                 android:id="@+id/btnRefresh"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
                 android:text="Muat ulang"/>
         </LinearLayout>

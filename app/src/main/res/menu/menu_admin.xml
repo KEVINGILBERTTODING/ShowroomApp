@@ -14,7 +14,7 @@
     <item
         android:id="@+id/mnuTransaksi"
         android:title="Transaksi"
-        android:icon="@drawable/history"/>
+        android:icon="@drawable/ic_transaction"/>
 
     <item
         android:id="@+id/mnuProfile"

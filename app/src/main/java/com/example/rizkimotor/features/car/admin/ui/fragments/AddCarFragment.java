@@ -458,7 +458,8 @@ public class AddCarFragment extends Fragment {
                         parsed = 0.00;
                     }
 
-                    String formatted = formatRupiah.format(parsed);
+                    String formatted =
+                            formatRupiah.format(parsed);
 
                     current = formatted;
                     binding.etHargaBeli.setText(formatted);

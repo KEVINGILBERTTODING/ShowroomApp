@@ -11,6 +11,7 @@ import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.car.admin.model.CarComponentModel;
 import com.example.rizkimotor.features.home.admin.model.ChartModel;
+import com.example.rizkimotor.features.transactions.admin.model.ResponseAdminTransactionModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -209,5 +210,33 @@ public interface ApiService {
             @Path("id") String id,
             @QueryMap HashMap<String, String> map
     );
+
+    @GET("admin/transaction/all/{status}")
+    Call<ResponseModel<ResponseAdminTransactionModel>> adminGetTransaction(
+            @Path("status") int status
+    );
+
+    @GET("downloadfile/{type}/{filename}")
+    Call<ResponseBody> downloadFileServer(
+            @Path("type") String type,
+            @Path("filename") String fileName
+    );
+
+    @DELETE("admin/transaction/destroy/{id}/{payment}")
+    Call<ResponseModel> deleteTransaction(
+            @Path("id") String transactionId,
+            @Path("payment") int payment
+    );
+
+    @FormUrlEncoded
+    @POST("admin/transaction/update/{transId}")
+    Call<ResponseModel> updateStatusTransaction(
+            @Path("transId") String transId,
+            @FieldMap HashMap<String, String> map
+    );
+
+
+
+
 
 }

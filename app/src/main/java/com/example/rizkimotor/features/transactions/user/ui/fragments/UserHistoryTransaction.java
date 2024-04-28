@@ -656,7 +656,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         }
 
         if (status == 0) {
-            binding.tvStatusTrans.setText("Tidak Vald");
+            binding.tvStatusTrans.setText("Tidak Valid");
             binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.red));
             binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_red));
             return;

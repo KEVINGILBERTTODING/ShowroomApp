@@ -1,15 +1,12 @@
-package com.example.rizkimotor.features.transactions.user.adapters;
+package com.example.rizkimotor.features.transactions.admin.adapters;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -29,12 +26,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> {
+public class AdminTransactionHistoryAdapter extends RecyclerView.Adapter<AdminTransactionHistoryAdapter.ViewHolder> {
     private Context context;
     private List<TransactionModel> transactionModels;
     private ItemClickListener itemClickListener;
 
-    public TransactionHistoryAdapter(Context context, List<TransactionModel> transactionModels) {
+    public AdminTransactionHistoryAdapter(Context context, List<TransactionModel> transactionModels) {
         this.context = context;
         this.transactionModels = transactionModels;
     }
@@ -47,13 +44,13 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
     @NonNull
     @Override
-    public TransactionHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdminTransactionHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.list_history_transactions, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransactionHistoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminTransactionHistoryAdapter.ViewHolder holder, int position) {
 
        holder.tvCarName.setText(transactionModels.get(holder.getBindingAdapterPosition()).getNama_model());
        holder.tvMerk.setText(transactionModels.get(holder.getBindingAdapterPosition()).getMerk());
@@ -68,13 +65,6 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
         holder.tvNominal.setText(formatRupiah(transactionModels.get(holder.getBindingAdapterPosition()).getTotal_pembayaran()));
 
-        if (transactionModels.get(holder.getBindingAdapterPosition()).getStatus() == 1 &&
-        transactionModels.get(holder.getBindingAdapterPosition()).getReview_text() == null) {
-            holder.btnReview.setVisibility(View.VISIBLE);
-        }else {
-            holder.btnReview.setVisibility(View.GONE);
-        }
-
         if (transactionModels.get(holder.getBindingAdapterPosition()).getPayment_method().equals("1")) {
             holder.tvPaymentMethod.setText("Tunai");
         } else if (transactionModels.get(holder.getBindingAdapterPosition()).getPayment_method().equals("2")) {
@@ -87,6 +77,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             holder.tvPaymentMethod.setText("-");
         }
 
+
     }
 
     @Override
@@ -94,12 +85,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         return transactionModels.size();
     }
 
-    public void setSuccessReview(int position) {
 
-        transactionModels.get(position).setReview_text("review_text");
-        notifyDataSetChanged();
-
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPaymentMethod, tvDateTrans, tvStatus, tvCarName, tvMerk, tvNominal;
@@ -119,11 +105,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             tvNominal = itemView.findViewById(R.id.tvTotalTransaction);
             btnReview = itemView.findViewById(R.id.btnReview);
 
-            btnReview.setOnClickListener(view -> {
-                if (itemClickListener != null) {
-                    itemClickListener.itemClickListener("review", getBindingAdapterPosition(), transactionModels.get(getBindingAdapterPosition()));
-                }
-            });
+
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener != null) {
@@ -132,6 +114,12 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             });
 
         }
+    }
+
+    public void deleteTransaction(int position) {
+        transactionModels.remove(position);
+        notifyDataSetChanged();
+        notifyItemRangeRemoved(transactionModels.size(), getItemCount());
     }
 
     public static String convertDate(String isoDate) {
@@ -160,6 +148,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             textView.setTextColor(context.getColor(R.color.green));
             textView.setText("Selesai");
 
+
         }else  if (status == 2) {
             cardStatus.setCardBackgroundColor(context.getColor(R.color.bg_second));
             textView.setTextColor(context.getColor(R.color.primary));
@@ -176,6 +165,11 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             textView.setText("Tidak Valid");
 
         }
+    }
+
+    public void updateState(int position, int status) {
+        transactionModels.get(position).setStatus(status);
+        notifyDataSetChanged();
     }
 
     public static String formatRupiah(long nominal) {

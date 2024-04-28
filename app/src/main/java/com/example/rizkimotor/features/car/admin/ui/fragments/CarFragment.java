@@ -155,6 +155,7 @@ public class CarFragment extends Fragment implements ClickListener {
         binding.vOverlay.setOnClickListener(view -> {
             hideBottomSheetFilter();
             hideBottomSheetAction();
+            hideBottomSheetOption();
         });
 
         binding.cvDetail.setOnClickListener(view -> {
@@ -337,7 +338,7 @@ public class CarFragment extends Fragment implements ClickListener {
                 binding.rvSearch.setVisibility(View.GONE);
                 binding.lrEmpty.setVisibility(View.GONE);
                 binding.rvSearch.setAdapter(null);
-                if (listResponseModel != null && listResponseModel.getData().size() > 0) {
+                if (listResponseModel != null && listResponseModel.getData() != null && listResponseModel.getData().size() > 0) {
                     allCarList = listResponseModel.getData();
                     carAdapter = new CarAdapter(requireContext(), allCarList);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2);

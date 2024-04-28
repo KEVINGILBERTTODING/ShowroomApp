@@ -13,6 +13,7 @@ import com.example.rizkimotor.features.car.admin.ui.fragments.CarFragment;
 import com.example.rizkimotor.features.home.admin.ui.fragments.AdminHomeFragment;
 import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
+import com.example.rizkimotor.features.transactions.admin.ui.AdminTransactionFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
@@ -41,11 +42,12 @@ public class AdminHomeActivity extends AppCompatActivity {
 
                 if (i1 == 0) {
                     fragmentTransaction(new AdminHomeFragment());
-                } else if (i1 == 2) {
+                }  else if (i1 == 1) {
                     fragmentTransaction(new CarFragment());
-                } else if (i1 == 1) {
-                    fragmentTransaction(new CarFragment());
-                } else if (i1 == 3) {
+                }else if (i1 == 2) {
+                    fragmentTransaction(new AdminTransactionFragment());
+                }
+                else if (i1 == 3) {
                     fragmentTransaction(new UserProfileFragment());
                 }
             }

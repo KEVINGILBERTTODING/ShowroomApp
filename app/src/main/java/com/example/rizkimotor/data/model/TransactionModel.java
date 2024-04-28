@@ -105,6 +105,10 @@ public class TransactionModel {
         return ApiService.END_POINT + "data/evidence/" + bukti_pembayaran;
     }
 
+    public String getBukti_pembayaran_name() {
+        return bukti_pembayaran;
+    }
+
     public void setBukti_pembayaran(String bukti_pembayaran) {
         this.bukti_pembayaran = bukti_pembayaran;
     }
@@ -234,6 +238,8 @@ public class TransactionModel {
         }
     }
 
+
+
     public String getKtp_istri() {
         if (ktp_istri != null) {
             return ApiService.END_POINT + "data/credit/" + ktp_istri;
@@ -246,6 +252,36 @@ public class TransactionModel {
     public String getKk() {
         if (kk != null) {
             return ApiService.END_POINT + "data/credit/" + kk;
+
+        }else {
+            return  null;
+        }
+    }
+
+
+    public String getKtp_suami_file() {
+        if (ktp_suami != null) {
+            return  ktp_suami;
+
+        }else {
+            return  null;
+        }
+    }
+
+
+
+    public String getKtp_istri_file() {
+        if (ktp_istri != null) {
+            return  ktp_istri;
+
+        }else {
+            return  null;
+        }
+    }
+
+    public String getKk_file() {
+        if (kk != null) {
+            return kk;
 
         }else {
             return  null;

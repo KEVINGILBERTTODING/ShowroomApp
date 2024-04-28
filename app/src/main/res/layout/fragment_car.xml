@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apakah ada mobil baru?"
+            android:text="Daftar mobil"
             android:includeFontPadding="false"
             android:fontFamily="@font/sembold"
             android:layout_alignParentLeft="true"
@@ -560,7 +560,7 @@
 
                                                 <ImageView
                                                     android:layout_width="@dimen/_15sdp"
-                                                    android:src="@drawable/ic_edit"
+                                                    android:src="@drawable/ic_filter"
                                                     android:tint="@color/green"
                                                     android:layout_gravity="center_horizontal|center_vertical"
                                                     android:layout_height="@dimen/_15sdp"/>

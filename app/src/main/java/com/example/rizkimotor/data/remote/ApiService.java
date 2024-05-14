@@ -36,7 +36,7 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ApiService {
-    public static final String IP_ADDRESS = "192.168.18.113";
+    public static final String IP_ADDRESS = "192.168.1.7";
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
     public static final String END_POINT =  "http://" + IP_ADDRESS + ":8000/";
 
@@ -238,7 +238,7 @@ public interface ApiService {
 
     @GET("admin/transaction/filter")
     Call<ResponseModel<List<TransactionModel>>> filterTransaction(
-            @FieldMap HashMap<String, String> hashMap
+            @QueryMap HashMap<String, String> hashMap
     );
 
 

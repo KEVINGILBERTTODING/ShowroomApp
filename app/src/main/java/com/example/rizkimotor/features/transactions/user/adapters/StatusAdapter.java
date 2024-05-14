@@ -67,6 +67,11 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     }
 
+    public void setSelectedState(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return statusList.size();

@@ -102,9 +102,10 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
     private List<String> statusList = new ArrayList<>();
     private List<String> statusListSpinnerFilter = new ArrayList<>();
     private TransactionModel transactionModel;
+    private boolean isValidationReport;
 
 
-    private int transactionPosition, statusTransaction, statusFilterState, userId,
+    private int transactionPosition, statusTransaction, userId,
     role;
 
     private PhotoViewAdapter photoReviewAdapter;
@@ -117,8 +118,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
     private List<TransactionModel> transactionModels;
     private BottomSheetBehavior bottomSheetDetailTransaction, bottomSheetOption, bottomSheetFilter;
     private AdminTransactionHistoryAdapter adminTransactionHistoryAdapter;
-    private List<FinanceModel> financeModelList;
-    private List<CarModel> carModelList;
+    private StatusAdapter statusAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -298,6 +298,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         });
 
         binding.cvFilter.setOnClickListener(view -> {
+            hidebottomSheetOption();
 
             showbottomSheetFilter();
 
@@ -328,9 +329,20 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             showDatePicker(binding.etDateEnd);
         });
 
-        binding.btnDownloadReport.setOnClickListener(view -> {
-            stateFormatFile = "application/pdf";
+
+        binding.btnFilter.setOnClickListener(view -> {
+            isValidationReport = false;
+
             validateFilter();
+
+        });
+
+        binding.btnDownloadReport.setOnClickListener(view -> {
+            isValidationReport = true;
+            stateFormatFile = "application/pdf";
+           validateFilter();
+
+
         });
     }
 
@@ -367,18 +379,27 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
             statusStateSpinnerFilter = 1;
 
+            statusAdapter.setSelectedState(2);
         }else  if (status.equals("Proses")) {
             statusStateSpinnerFilter = 2;
+            statusAdapter.setSelectedState(1);
+
 
         }else  if (status.equals("Finance proses")) {
             statusStateSpinnerFilter = 3;
+            statusAdapter.setSelectedState(3);
+
 
         }else  if (status.equals("Semua")) {
             statusStateSpinnerFilter = 4;
+            statusAdapter.setSelectedState(0);
+
 
         }
         else {
             statusStateSpinnerFilter = 0;
+            statusAdapter.setSelectedState(4);
+
 
 
         }
@@ -394,7 +415,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         statusList.add(new Pair<>("Proses Finance", "3"));
         statusList.add(new Pair<>("Tidak Valid", "0"));
 
-        StatusAdapter statusAdapter = new StatusAdapter(requireContext(), statusList);
+        statusAdapter = new StatusAdapter(requireContext(), statusList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.rvStatus.setAdapter(statusAdapter);
         binding.rvStatus.setLayoutManager(linearLayoutManager);
@@ -484,9 +505,13 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         binding.etOngkir.setText("");
     }
 
-    private void getTransaction() {
+    private void filterTransaction() {
+        HashMap map  = new HashMap();
+        map.put("status", String.valueOf(statusStateSpinnerFilter));
+        map.put("date_from", binding.etDateFrom.getText().toString());
+        map.put("date_end", binding.etDateEnd.getText().toString());
 
-        try {
+
             binding.progressLoadTrans.setVisibility(View.VISIBLE);
             binding.rvTransactions.setVisibility(View.GONE);
             binding.lrEmpty.setVisibility(View.GONE);
@@ -494,33 +519,23 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             binding.lrError.setVisibility(View.GONE);
             binding.rvTransactions.setAdapter(null);
             binding.swipeRefesh.setRefreshing(false);
+            binding.fabAction.setVisibility(View.GONE);
 
 
 
 
-            adminTransactionViewModel.getTransaction(stateStatus).observe(getViewLifecycleOwner(), new Observer<ResponseModel<ResponseAdminTransactionModel>>() {
+
+            adminTransactionViewModel.filterTransaction(map).observe(getViewLifecycleOwner(), new Observer<ResponseModel<List<TransactionModel>>>() {
                 @Override
-                public void onChanged(ResponseModel<ResponseAdminTransactionModel> listResponseModel) {
+                public void onChanged(ResponseModel<List<TransactionModel>> listResponseModel) {
                     binding.progressLoadTrans.setVisibility(View.GONE);
+                    binding.fabAction.setVisibility(View.GONE);
+                    hidebottomSheetFilter();
                     if (listResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
-                        if (listResponseModel.getData() != null && listResponseModel.getData() != null && listResponseModel.getData().getDataTransactions()
-                        != null && listResponseModel.getData().getDataTransactions().size() > 0) {
-                            transactionModels = listResponseModel.getData().getDataTransactions();
-                            binding.fabAction.setVisibility(View.VISIBLE);
-                            if (listResponseModel.getData().getFinanceModelList() != null) {
-                                financeModelList = listResponseModel.getData().getFinanceModelList();
+                        if (listResponseModel.getData() != null && listResponseModel.getData() != null && listResponseModel.getData().size() > 0
+                              ) {
+                            transactionModels = listResponseModel.getData();
 
-                            }else {
-                                financeModelList = null;
-                            }
-
-                            if (listResponseModel.getData().getCarModelList() != null) {
-                                carModelList = listResponseModel.getData().getCarModelList();
-
-
-                            }else {
-                                carModelList = null;
-                            }
 
                             adminTransactionHistoryAdapter = new AdminTransactionHistoryAdapter(requireContext(), transactionModels);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false);
@@ -538,19 +553,68 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
                         }
                     }else {
-                        binding.lrError.setVisibility(View.VISIBLE);
-                        showToast(listResponseModel.getMessage());
-                        binding.fabAction.setVisibility(View.GONE);
+                        binding.lrEmpty.setVisibility(View.VISIBLE);
+
+
 
                     }
                 }
             });
-        }catch (Throwable e) {
-            binding.lrError.setVisibility(View.VISIBLE);
-            showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+
+    }
+
+    private void getTransaction() {
+
+
+            binding.progressLoadTrans.setVisibility(View.VISIBLE);
+            binding.rvTransactions.setVisibility(View.GONE);
+            binding.lrEmpty.setVisibility(View.GONE);
+            binding.lrErrorLogin.setVisibility(View.GONE);
+            binding.lrError.setVisibility(View.GONE);
+            binding.rvTransactions.setAdapter(null);
+            binding.swipeRefesh.setRefreshing(false);
             binding.fabAction.setVisibility(View.GONE);
 
-        }
+
+
+
+
+            adminTransactionViewModel.getTransaction(stateStatus).observe(getViewLifecycleOwner(), new Observer<ResponseModel<ResponseAdminTransactionModel>>() {
+                @Override
+                public void onChanged(ResponseModel<ResponseAdminTransactionModel> listResponseModel) {
+                    binding.progressLoadTrans.setVisibility(View.GONE);
+                    binding.fabAction.setVisibility(View.VISIBLE);
+                    if (listResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+                        if (listResponseModel.getData() != null && listResponseModel.getData() != null && listResponseModel.getData().getDataTransactions()
+                        != null && listResponseModel.getData().getDataTransactions().size() > 0) {
+                            transactionModels = listResponseModel.getData().getDataTransactions();
+
+
+
+                            adminTransactionHistoryAdapter = new AdminTransactionHistoryAdapter(requireContext(), transactionModels);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false);
+                            binding.rvTransactions.setAdapter(adminTransactionHistoryAdapter);
+                            binding.rvTransactions.setLayoutManager(linearLayoutManager);
+                            binding.rvTransactions.setHasFixedSize(true);
+                            binding.rvTransactions.setVisibility(View.VISIBLE);
+                            adminTransactionHistoryAdapter.setItemClickListener(AdminTransactionFragment.this);
+
+
+                        }else {
+
+                            binding.lrEmpty.setVisibility(View.VISIBLE);
+                            binding.fabAction.setVisibility(View.GONE);
+
+                        }
+                    }else {
+                        binding.lrEmpty.setVisibility(View.VISIBLE);
+                        showToast(listResponseModel.getMessage());
+
+
+                    }
+                }
+            });
+
     }
 
     private void showToast(String message) {
@@ -568,7 +632,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             return;
         }
 
-        if (statusFilterState > 4) {
+        if (statusStateSpinnerFilter > 4) {
             showCookieBar("Error", "Status tidak valid");
             return;
         }
@@ -577,15 +641,15 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         int yearDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(0, 4));
         int monthDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(6, 7));
         int monthDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(6, 7));
-        int dayDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(9, 10));
-        int dayDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(9, 10));
+        int dayDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(binding.etDateFrom.length() - 2));
+        int dayDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(binding.etDateEnd.length() - 2));
 
         Log.d(TAG, "validateFilter: " + String.valueOf(yearDateFrom));
         Log.d(TAG, "validateFilter: " + String.valueOf(yearDateEnd));
         Log.d(TAG, "validateFilter: " + String.valueOf(monthDateEnd));
         Log.d(TAG, "validateFilter: " + String.valueOf(monthDateFrom));
         Log.d(TAG, "validateFilter: " + String.valueOf(dayDateFrom));
-        Log.d(TAG, "validateFilter: " + String.valueOf(dayDateFrom));
+        Log.d(TAG, "validateFilter: " + String.valueOf(dayDateEnd));
 
         if (yearDateEnd < yearDateFrom) {
             showCookieBar("Error", "Tahun tidak valid");
@@ -598,7 +662,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                return;
            }
 
-            if (monthDateEnd == monthDateFrom && dayDateFrom > dayDateEnd) {
+            if (monthDateFrom == monthDateEnd  && dayDateFrom > dayDateEnd) {
                 showCookieBar("Error", "Tanggal tidak valid");
                 return;
             }
@@ -616,8 +680,22 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
         }
 
-        downloadTransReport();
+        if (isValidationReport) {
+            downloadTransReport();
+        }else {
+            filterTransaction();
+
+        }
+
+
+
     }
+
+
+
+
+
+
 
     private void downloadTransReport() {
         HashMap<String, String> map = new HashMap<>();

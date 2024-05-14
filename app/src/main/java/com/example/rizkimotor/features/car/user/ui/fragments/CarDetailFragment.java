@@ -185,15 +185,8 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
         });
 
         binding.btnSimulasiKredit.setOnClickListener(view -> {
-            if (!isLogin()) {
-                fragmentTransaction(new LoginFragment());
-                showSnackbar("Pemberitahuan", "Anda harus login terlebih dahulu");
-
-            }else {
-                showBottomSheetFinance();
-                getAllFinance();
-            }
-
+            showBottomSheetFinance();
+            getAllFinance();
 
         });
 

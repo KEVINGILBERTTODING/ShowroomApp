@@ -5,7 +5,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
+import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.data.remote.ApiService;
 import com.example.rizkimotor.features.transactions.admin.model.ResponseAdminTransactionModel;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
@@ -13,9 +15,11 @@ import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,9 +93,8 @@ public class AdminTransactionRepository {
 
                     Log.d("TAG", "onResponse: " + response.code());
 
-//                    Gson gson = new Gson();
-//                    ResponseModel responseModel = gson.fromJson(response.errorBody().charStream(), ResponseModel.class);
-//                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, responseModel.getMessage(), null));
+
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
                 }
             }
 
@@ -102,6 +105,55 @@ public class AdminTransactionRepository {
 
             }
         });
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<List<TransactionModel>>> filterTransaction(HashMap<String, String> map) {
+        MutableLiveData<ResponseModel<List<TransactionModel>>> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.filterTransaction(map).enqueue(new Callback<ResponseModel<List<TransactionModel>>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<List<TransactionModel>>> call, Response<ResponseModel<List<TransactionModel>>> response) {
+                if (response != null && response.isSuccessful() && response.code() == 200) {
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
+                }else {
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG,null));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<List<TransactionModel>>> call, Throwable t) {
+                responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG,null));
+
+
+
+            }
+        });
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseDownloaModel> downloadTransReport(HashMap<String, String> map) {
+        MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.downloadReportTransaction(map).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.code() == 200 ) {
+                    responseModelMutableLiveData.postValue(new ResponseDownloaModel(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body()));
+
+                }else {
+
+                    responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TAG", "onFailure: " + t.getMessage());
+                responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+
+            }
+        });
+
         return responseModelMutableLiveData;
     }
 }

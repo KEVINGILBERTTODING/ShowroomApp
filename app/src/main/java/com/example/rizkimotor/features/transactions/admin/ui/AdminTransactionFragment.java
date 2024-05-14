@@ -1,6 +1,7 @@
 package com.example.rizkimotor.features.transactions.admin.ui;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -67,6 +70,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import org.aviran.cookiebar2.CookieBar;
 import org.aviran.cookiebar2.OnActionClickListener;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,20 +100,22 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
     private UserTransactionViewModel userTransactionViewModel;
     private DownloadViewModel downloadViewModel;
     private List<String> statusList = new ArrayList<>();
+    private List<String> statusListSpinnerFilter = new ArrayList<>();
     private TransactionModel transactionModel;
 
 
-    private int transactionPosition, statusTransaction;
+    private int transactionPosition, statusTransaction, statusFilterState, userId,
+    role;
 
     private PhotoViewAdapter photoReviewAdapter;
-    private String transactionId, paymentMethod;
+    private String transactionId, paymentMethod, stateFormatFile;
 
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 1;
 
-    private int stateStatus = 4, statusStateSpinner;
+    private int stateStatus = 4, statusStateSpinner, statusStateSpinnerFilter;
     private String TAG = Constants.LOG, fileState, fileDownloadName;
     private List<TransactionModel> transactionModels;
-    private BottomSheetBehavior bottomSheetDetailTransaction;
+    private BottomSheetBehavior bottomSheetDetailTransaction, bottomSheetOption, bottomSheetFilter;
     private AdminTransactionHistoryAdapter adminTransactionHistoryAdapter;
     private List<FinanceModel> financeModelList;
     private List<CarModel> carModelList;
@@ -139,8 +145,12 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
 
         try {
-            if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
+            if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)
+                    && userService.loadInt(SharedUserData.PREF_USER_ID) != 0) {
                 checkAndRequestStoragePermission();
+                userId = userService.loadInt(SharedUserData.PREF_USER_ID);
+                role = userService.loadInt(SharedUserData.PREF_ROLE);
+                Log.d(TAG, "role gweh: " + role);
 
                 binding.lrErrorLogin.setVisibility(View.GONE);
                 adminTransactionViewModel = new ViewModelProvider(this).get(AdminTransactionViewModel.class);
@@ -151,11 +161,17 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                 initStatusCategories();
                 getTransaction();
                 initSpinnerStatus();
+                initSpinnerStatusFilter();
 
 
                 setUpBottomSheetDetailTrans();
                 bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
 
+                setUpBottomSheetOption();
+                bottomSheetOption.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                setUpBottomSheetFilter();
+                bottomSheetFilter.setState(BottomSheetBehavior.STATE_HIDDEN);
 
             }else {
                 binding.lrErrorLogin.setVisibility(View.VISIBLE);
@@ -185,6 +201,10 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         binding.vOverlay.setOnClickListener(view -> {
 
             hideBottomSheetDetailTrans();
+            hidebottomSheetFilter();
+            hidebottomSheetOption();
+            binding.fabAction.setVisibility(View.VISIBLE);
+
 
         });
 
@@ -261,6 +281,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
         binding.btnDownloadFile.setOnClickListener(view -> {
             if (fileState != null && fileDownloadName != null) {
+                stateFormatFile = "image/*";
                 downloadFile();
             }else {
                 showToast("Gambar tidak valid");
@@ -269,6 +290,47 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
         binding.btnSubmit.setOnClickListener(view -> {
             validateUpdateStatus();
+        });
+
+        binding.fabAction.setOnClickListener(view -> {
+            showbottomSheetOption();
+            binding.fabAction.setVisibility(View.GONE);
+        });
+
+        binding.cvFilter.setOnClickListener(view -> {
+
+            showbottomSheetFilter();
+
+        });
+
+        binding.spinnerStatusFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSpinnerFilter(statusListSpinnerFilter.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        binding.vOverlayFilter.setOnClickListener(view -> {
+            hidebottomSheetFilter();
+            binding.fabAction.setVisibility(View.VISIBLE);
+        });
+
+        binding.etDateFrom.setOnClickListener(view -> {
+            showDatePicker(binding.etDateFrom);
+        });
+
+        binding.etDateEnd.setOnClickListener(view -> {
+            showDatePicker(binding.etDateEnd);
+        });
+
+        binding.btnDownloadReport.setOnClickListener(view -> {
+            stateFormatFile = "application/pdf";
+            validateFilter();
         });
     }
 
@@ -294,6 +356,33 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             binding.tilOngkir.setVisibility(View.GONE);
             binding.tilAlasan.setVisibility(View.VISIBLE);
         }
+
+
+    }
+
+    private void selectedSpinnerFilter(String status) {
+
+
+        if (status.equals("Valid")) {
+
+            statusStateSpinnerFilter = 1;
+
+        }else  if (status.equals("Proses")) {
+            statusStateSpinnerFilter = 2;
+
+        }else  if (status.equals("Finance proses")) {
+            statusStateSpinnerFilter = 3;
+
+        }else  if (status.equals("Semua")) {
+            statusStateSpinnerFilter = 4;
+
+        }
+        else {
+            statusStateSpinnerFilter = 0;
+
+
+        }
+
 
 
     }
@@ -376,7 +465,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                         binding.progressSubmit.setVisibility(View.GONE);
                         binding.btnSubmit.setVisibility(View.VISIBLE);
                         if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
-                            adminTransactionHistoryAdapter.updateState(transactionPosition, statusStateSpinner);
+                            getTransaction();
                             hideBottomSheetDetailTrans();
                             showCookieBar("Success", responseModel.getMessage());
 
@@ -417,6 +506,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                         if (listResponseModel.getData() != null && listResponseModel.getData() != null && listResponseModel.getData().getDataTransactions()
                         != null && listResponseModel.getData().getDataTransactions().size() > 0) {
                             transactionModels = listResponseModel.getData().getDataTransactions();
+                            binding.fabAction.setVisibility(View.VISIBLE);
                             if (listResponseModel.getData().getFinanceModelList() != null) {
                                 financeModelList = listResponseModel.getData().getFinanceModelList();
 
@@ -444,22 +534,131 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                         }else {
 
                             binding.lrEmpty.setVisibility(View.VISIBLE);
+                            binding.fabAction.setVisibility(View.GONE);
+
                         }
                     }else {
                         binding.lrError.setVisibility(View.VISIBLE);
                         showToast(listResponseModel.getMessage());
+                        binding.fabAction.setVisibility(View.GONE);
+
                     }
                 }
             });
         }catch (Throwable e) {
             binding.lrError.setVisibility(View.VISIBLE);
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+            binding.fabAction.setVisibility(View.GONE);
+
         }
     }
 
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    private void validateFilter() {
+        if (binding.etDateFrom.getText().toString().isEmpty()) {
+            binding.etDateFrom.setError("Tidak boleh kosong");
+            return;
+        }
+
+        if (binding.etDateEnd.getText().toString().isEmpty()) {
+            binding.etDateEnd.setError("Tidak boleh kosong");
+            return;
+        }
+
+        if (statusFilterState > 4) {
+            showCookieBar("Error", "Status tidak valid");
+            return;
+        }
+
+        int yearDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(0, 4));
+        int yearDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(0, 4));
+        int monthDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(6, 7));
+        int monthDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(6, 7));
+        int dayDateFrom = Integer.parseInt(binding.etDateFrom.getText().toString().substring(9, 10));
+        int dayDateEnd = Integer.parseInt(binding.etDateEnd.getText().toString().substring(9, 10));
+
+        Log.d(TAG, "validateFilter: " + String.valueOf(yearDateFrom));
+        Log.d(TAG, "validateFilter: " + String.valueOf(yearDateEnd));
+        Log.d(TAG, "validateFilter: " + String.valueOf(monthDateEnd));
+        Log.d(TAG, "validateFilter: " + String.valueOf(monthDateFrom));
+        Log.d(TAG, "validateFilter: " + String.valueOf(dayDateFrom));
+        Log.d(TAG, "validateFilter: " + String.valueOf(dayDateFrom));
+
+        if (yearDateEnd < yearDateFrom) {
+            showCookieBar("Error", "Tahun tidak valid");
+            return;
+        }
+
+        if (yearDateEnd == yearDateFrom) {
+           if (monthDateEnd < monthDateFrom) {
+               showCookieBar("Error", "Bulan tidak valid");
+               return;
+           }
+
+            if (monthDateEnd == monthDateFrom && dayDateEnd < dayDateFrom) {
+                showCookieBar("Error", "Tanggal tidak valid");
+                return;
+            }
+        }
+
+        if (userId == 0) {
+            showCookieBar("Error", "Anda tidak memiliki akses untuk mengakses fitur ini");
+            return;
+
+        }
+
+        if (role == 0 || role == 1) {
+            showCookieBar("Error", "Anda tidak memiliki akses untuk mengakses fitur ini");
+            return;
+
+        }
+
+        downloadTransReport();
+    }
+
+    private void downloadTransReport() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", String.valueOf(userId));
+        map.put("role", String.valueOf(role));
+        map.put("status", String.valueOf(statusFilterState));
+        map.put("date_from", binding.etDateFrom.getText().toString());
+        map.put("date_end", binding.etDateEnd.getText().toString());
+        binding.progressDownloadReport.setVisibility(View.VISIBLE);
+        binding.btnDownloadReport.setVisibility(View.GONE);
+        adminTransactionViewModel.downloadTransactionReport(map).observe(getViewLifecycleOwner()
+                , new Observer<ResponseDownloaModel>() {
+                    @Override
+                    public void onChanged(ResponseDownloaModel responseModel) {
+                        binding.progressDownloadReport.setVisibility(View.GONE);
+                        binding.btnDownloadReport.setVisibility(View.VISIBLE);
+                        Log.d(TAG, "onChanged: " + fileState + " " + fileDownloadName);
+                        if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
+                            try {
+                                // check permisssion
+                                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                                    String fileName = "Laporan_transaksi_" + binding.etDateFrom.getText() + "-" + binding.etDateEnd.getText();
+                                    savefile(fileName, responseModel.getResponseBody().bytes());
+                                } else {
+                                    showToast("Akses tidak diberikan");
+                                    checkAndRequestStoragePermission();
+
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }else {
+                            showToast(responseModel.getMessage());
+                        }
+                    }
+                });
+
+    }
+
 
     private void downloadFile() {
         binding.progressDownloadFile.setVisibility(View.VISIBLE);
@@ -524,6 +723,8 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
     private void showBottomSheetDetailTrans() {
         binding.vOverlay.setVisibility(View.VISIBLE);
         bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+        binding.fabAction.setVisibility(View.GONE);
+
     }
 
     private void hideBottomSheetDetailTrans() {
@@ -531,8 +732,106 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
         bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
         binding.vOverlay.setVisibility(View.GONE);
+        binding.fabAction.setVisibility(View.VISIBLE);
+
 
       
+    }
+
+    private void setUpBottomSheetOption() {
+
+
+        bottomSheetOption = BottomSheetBehavior.from(binding.bottomSheetOption);
+        bottomSheetOption.setHideable(true);
+
+        bottomSheetOption.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hidebottomSheetOption();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+    private void showbottomSheetOption() {
+        binding.fabAction.setVisibility(View.GONE);
+
+        binding.vOverlay.setVisibility(View.VISIBLE);
+        bottomSheetOption.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+    }
+
+    private void hidebottomSheetOption() {
+        resetState();
+
+        bottomSheetOption.setState(BottomSheetBehavior.STATE_HIDDEN);
+        binding.vOverlay.setVisibility(View.GONE);
+        binding.fabAction.setVisibility(View.VISIBLE);
+
+
+
+    }
+
+    private void setUpBottomSheetFilter() {
+
+
+        bottomSheetFilter = BottomSheetBehavior.from(binding.bottomSheetFilter);
+        bottomSheetFilter.setHideable(true);
+
+        bottomSheetFilter.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hidebottomSheetFilter();
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
+    }
+
+    private void showbottomSheetFilter() {
+        disableEdittext();
+        binding.fabAction.setVisibility(View.GONE);
+
+        binding.vOverlayFilter.setVisibility(View.VISIBLE);
+        bottomSheetFilter.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+    }
+
+    private void hidebottomSheetFilter() {
+        resetState();
+
+
+        binding.vOverlayFilter.setVisibility(View.GONE);
+        binding.fabAction.setVisibility(View.VISIBLE);
+        bottomSheetFilter.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+
+
+    }
+
+    private void disableEdittext() {
+        binding.etDateFrom.setEnabled(true);
+        binding.etDateFrom.setFocusable(false);
+
+        binding.etDateEnd.setEnabled(true);
+        binding.etDateEnd.setFocusable(false);
     }
 
 
@@ -629,7 +928,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         Uri uri = FileProvider.getUriForFile(requireContext(), "com.example.rizkimotor", file);
 
 
-        intent.setDataAndType(uri, "image/*");
+        intent.setDataAndType(uri, stateFormatFile);
 
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -708,6 +1007,48 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         binding.spinnerStatus.setAdapter(spinnerAdapter);
     }
 
+    private void initSpinnerStatusFilter() {
+
+        statusListSpinnerFilter.add("Semua");
+        statusListSpinnerFilter.add("Valid");
+        statusListSpinnerFilter.add("Proses");
+        statusListSpinnerFilter.add("Finance proses");
+        statusListSpinnerFilter.add("Tidak valid");
+
+
+
+        SpinnerAdapter spinnerAdapterFilter = new SpinnerAdapter(requireContext(), statusListSpinnerFilter);
+        binding.spinnerStatusFilter.setAdapter(spinnerAdapterFilter);
+        binding.spinnerStatusFilter.setSelection(0);
+    }
+
+
+
+    private void showDatePicker(TextView tvDate) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
+        datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String dateFormatted, monthFormatted;
+                if (month < 10) {
+                    monthFormatted = String.format("%02d", month + 1);
+                }else {
+                    monthFormatted = String.valueOf(month + 1);
+                }
+
+                if (dayOfMonth < 10) {
+                    dateFormatted = String.format("%02d",dayOfMonth);
+                }else {
+                    dateFormatted = String.valueOf(dayOfMonth);
+                }
+
+                tvDate.setText(year + "-" + monthFormatted + "-" + dateFormatted);
+
+            }
+        });
+
+        datePickerDialog.show();
+    }
 
     private void setTransFile(TransactionModel data) {
 

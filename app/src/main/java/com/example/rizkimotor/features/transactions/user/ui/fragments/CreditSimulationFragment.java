@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,21 @@ import com.example.rizkimotor.data.model.CreditModel;
 import com.example.rizkimotor.data.model.FinanceModel;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.remote.ApiService;
+import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.data.viewmodel.finance.FinanceViewModel;
 import com.example.rizkimotor.databinding.FragmentCreditSimulationBinding;
+import com.example.rizkimotor.features.auth.ui.fragments.LoginFragment;
+import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.features.transactions.user.viewmodel.UserCreditViewModel;
+import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.slider.RangeSlider;
+
+import org.aviran.cookiebar2.CookieBar;
+import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -47,6 +55,7 @@ public class CreditSimulationFragment extends Fragment {
     private int monthDuration = 0;
 
     private FinanceViewModel financeViewModel;
+    private  UserService userService;
     private BottomSheetBehavior bottomSheetCredit, bottomSheetFinance;
 
 
@@ -75,6 +84,9 @@ public class CreditSimulationFragment extends Fragment {
     private void init(){
         userCreditViewModel = new ViewModelProvider(this).get(UserCreditViewModel.class);
         financeViewModel = new ViewModelProvider(this).get(FinanceViewModel.class);
+        userService = new UserService();
+        userService.initService(requireContext());
+
 
 
         try {
@@ -209,19 +221,51 @@ public class CreditSimulationFragment extends Fragment {
 
 
         binding.btnCreditNow.setOnClickListener(view -> {
-            Fragment fragment = new CreditTransactionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("finance_id", financeId);
-            bundle.putInt("car_id", carId);
-            bundle.putString("car_name", carName);
-            bundle.putInt("car_price", carPrice);
-            bundle.putString("finance_name", financeName);
-            fragment.setArguments(bundle);
-            fragmentTransaction(fragment);
+            if (isLogin()) {
+                Fragment fragment = new CreditTransactionFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("finance_id", financeId);
+                bundle.putInt("car_id", carId);
+                bundle.putString("car_name", carName);
+                bundle.putInt("car_price", carPrice);
+                bundle.putString("finance_name", financeName);
+                fragment.setArguments(bundle);
+                fragmentTransaction(fragment);
+
+            }else  {
+                showCookieBar("Akses ditolak", "Anda harus login terlebih dahulu", "Login");
+
+            }
+
         });
 
 
 
+    }
+
+    private void showCookieBar(String title, String message, String action) {
+        CookieBar.build(requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setDuration(5000)
+                .setAction(action, new OnActionClickListener() {
+                    @Override
+                    public void onClick() {
+                        fragmentTransaction(new LoginFragment());
+                    }
+                })
+                .show();
+
+    }
+
+    Boolean isLogin() {
+
+        if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private void getDp() {

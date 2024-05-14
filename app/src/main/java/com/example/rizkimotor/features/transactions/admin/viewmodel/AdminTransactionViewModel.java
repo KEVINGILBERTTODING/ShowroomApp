@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.data.model.ResponseModel;
+import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.transactions.admin.model.ResponseAdminTransactionModel;
 import com.example.rizkimotor.features.transactions.admin.repositories.AdminTransactionRepository;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,6 +54,27 @@ public class AdminTransactionViewModel extends ViewModel {
             responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }
         return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<List<TransactionModel>>> filterTransaction(HashMap<String, String> map) {
+        MutableLiveData<ResponseModel<List<TransactionModel>>> responseModelMutableLiveData = new MutableLiveData<>();
+        if ( map != null) {
+            return adminTransactionRepository.filterTransaction( map);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG,null));
+
+        }
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseDownloaModel> downloadTransactionReport(HashMap<String, String> map) {
+        MutableLiveData<ResponseDownloaModel> responseDownloaModelMutableLiveData = new MutableLiveData<>();
+        if (map != null) {
+            return adminTransactionRepository.downloadTransReport(map);
+        }else {
+            responseDownloaModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+        }
+        return responseDownloaModelMutableLiveData;
     }
 
 }

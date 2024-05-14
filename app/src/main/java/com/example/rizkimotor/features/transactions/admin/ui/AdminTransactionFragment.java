@@ -598,7 +598,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
                return;
            }
 
-            if (monthDateEnd == monthDateFrom && dayDateEnd < dayDateFrom) {
+            if (monthDateEnd == monthDateFrom && dayDateFrom > dayDateEnd) {
                 showCookieBar("Error", "Tanggal tidak valid");
                 return;
             }
@@ -623,7 +623,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         HashMap<String, String> map = new HashMap<>();
         map.put("user_id", String.valueOf(userId));
         map.put("role", String.valueOf(role));
-        map.put("status", String.valueOf(statusFilterState));
+        map.put("status", String.valueOf(statusStateSpinnerFilter));
         map.put("date_from", binding.etDateFrom.getText().toString());
         map.put("date_end", binding.etDateEnd.getText().toString());
         binding.progressDownloadReport.setVisibility(View.VISIBLE);
@@ -1020,6 +1020,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
         SpinnerAdapter spinnerAdapterFilter = new SpinnerAdapter(requireContext(), statusListSpinnerFilter);
         binding.spinnerStatusFilter.setAdapter(spinnerAdapterFilter);
         binding.spinnerStatusFilter.setSelection(0);
+
     }
 
 
@@ -1260,6 +1261,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             Pair<String, String> statusList = (Pair<String, String>) object;
             stateStatus = Integer.parseInt(statusList.second);
             Log.d("TAG", "itemClickListener: " + stateStatus);
+            Log.d(TAG, "itemClickListener:  diklik");
 
             getTransaction();
         } else if (type != null && type.equals(Constants.REVIEW_IMAGE) && object != null) {

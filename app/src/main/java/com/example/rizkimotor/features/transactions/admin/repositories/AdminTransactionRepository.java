@@ -133,6 +133,7 @@ public class AdminTransactionRepository {
     }
 
     public LiveData<ResponseDownloaModel> downloadTransReport(HashMap<String, String> map) {
+        Log.d("TAG", "downloadTransReport: " + map.toString());
         MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
         apiService.downloadReportTransaction(map).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -149,7 +150,7 @@ public class AdminTransactionRepository {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("TAG", "onFailure: " + t.getMessage());
-                responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
+                responseModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE_SERVER, "Server error", null));
 
             }
         });

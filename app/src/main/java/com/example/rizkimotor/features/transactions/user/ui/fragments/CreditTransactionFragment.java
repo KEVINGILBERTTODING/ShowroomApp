@@ -60,6 +60,7 @@ public class CreditTransactionFragment extends Fragment {
     private String contentPicker;
     private UserCreditViewModel userCreditViewModel;
     private boolean isValid = false;
+    private int role = 0;
     private Uri ktpSuamiUri, ktpIstriUri, kKUri;
 
     @Override
@@ -82,6 +83,7 @@ public class CreditTransactionFragment extends Fragment {
     private void initService() {
         userService.initService(requireContext());
         userId = userService.loadInt(SharedUserData.PREF_USER_ID);
+        role = userService.loadInt(SharedUserData.PREF_ROLE);
 
     }
 
@@ -151,11 +153,13 @@ public class CreditTransactionFragment extends Fragment {
     }
 
     private void getUser() {
+
+
         binding.progressLoading.setVisibility(View.VISIBLE);
         binding.mainScroll.setVisibility(View.GONE);
         binding.lrError.setVisibility(View.GONE);
 
-        userProfileViewModel.profile(userId).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
+        userProfileViewModel.profile(String.valueOf(userId), role).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
             @Override
             public void onChanged(ResponseModel<UserModel> userModelResponseModel) {
                 binding.progressLoading.setVisibility(View.GONE);

@@ -543,6 +543,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/til_phone_number"
                                 android:fontFamily="@font/med"
+                                android:visibility="gone"
 
                                 android:textColor="@color/black"
                                 app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
@@ -576,6 +577,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/til_city"
+                                android:visibility="gone"
                                 android:fontFamily="@font/med"
 
                                 android:textColor="@color/black"
@@ -612,6 +614,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/til_province"
                                 android:fontFamily="@font/med"
+                                android:visibility="gone"
                                 android:textColor="@color/black"
                                 app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                                 app:boxCornerRadiusBottomStart="@dimen/_10sdp"
@@ -646,6 +649,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/til_Address"
+                                android:visibility="gone"
                                 android:fontFamily="@font/med"
 
                                 android:textColor="@color/black"

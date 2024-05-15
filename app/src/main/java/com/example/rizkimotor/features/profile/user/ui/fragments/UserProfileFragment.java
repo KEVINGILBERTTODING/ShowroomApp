@@ -56,7 +56,7 @@ public class UserProfileFragment extends Fragment {
     private UserService userService = new UserService();
     private UserProfileViewModel userProfileViewModel;
     private String TAG = Constants.LOG;
-    private int userId = 0;
+    private int userId = 0, role = 0;
 
     private UserModel userModel;
 
@@ -110,6 +110,7 @@ public class UserProfileFragment extends Fragment {
         userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
         userService.initService(requireContext());
         userId = userService.loadInt(SharedUserData.PREF_USER_ID);
+        role = userService.loadInt(SharedUserData.PREF_ROLE);
 
     }
 
@@ -219,25 +220,6 @@ public class UserProfileFragment extends Fragment {
             return;
         }
 
-        if (phoneNumber.isEmpty()) {
-            binding.tilPhoneNumber.setError("No handphone tidak boleh kosong");
-            return;
-        }
-
-        if (address.isEmpty()) {
-            binding.tilAddress.setError("Alamat tidak boleh kosong");
-            return;
-        }
-
-        if (city.isEmpty()) {
-            binding.tilCity.setError("Kota tidak boleh kosong");
-            return;
-        }
-
-        if (province.isEmpty()) {
-            binding.tilProvince.setError("Province tidak boleh kosong");
-            return;
-        }
         if (email.isEmpty()) {
             binding.tilEmail.setError("Email tidak boleh kosong");
             return;
@@ -246,6 +228,29 @@ public class UserProfileFragment extends Fragment {
         if (userId == 0) {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
         }
+
+        if (role == 1) { // jika user bukan admin
+            if (phoneNumber.isEmpty()) {
+                binding.tilPhoneNumber.setError("No handphone tidak boleh kosong");
+                return;
+            }
+
+            if (address.isEmpty()) {
+                binding.tilAddress.setError("Alamat tidak boleh kosong");
+                return;
+            }
+
+            if (city.isEmpty()) {
+                binding.tilCity.setError("Kota tidak boleh kosong");
+                return;
+            }
+
+            if (province.isEmpty()) {
+                binding.tilProvince.setError("Province tidak boleh kosong");
+                return;
+            }
+        }
+
 
 
         updateUserBio(fullname, phoneNumber, address, city, province, email);
@@ -306,6 +311,7 @@ public class UserProfileFragment extends Fragment {
         HashMap<String, String> map = new HashMap<>();
         map.put("old_password", oldPw);
         map.put("new_password", newPw);
+        map.put("role", String.valueOf(role));
         map.put("user_id", String.valueOf(userId));
 
         userProfileViewModel.updatePassword(map).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
@@ -329,40 +335,70 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void setUserInfo() {
-        binding.etFullName.setText(userModel.getNama_lengkap());
-        if (userModel.getNo_hp() != null) {
-            binding.etPhoneNumber.setText(userModel.getNo_hp());
+
+
+
+        if (role == 1) { // user
+            if (userModel.getEmail() != null && userModel.getSign_in().equals("email")) {
+                binding.etEmail.setText(userModel.getEmail());
+
+            }
+
+            if (userModel.getKota() != null) {
+                binding.etCity.setText(userModel.getKota());
+
+            }
+
+            if (userModel.getProvinsi() != null) {
+                binding.etProvince.setText(userModel.getProvinsi());
+
+            }
+
+
+            if (userModel.getAlamat() != null) {
+                binding.etAddress.setText(userModel.getAlamat());
+
+            }
+            if (userModel.getNo_hp() != null) {
+                binding.etPhoneNumber.setText(userModel.getNo_hp());
+
+            }
+
+            binding.etFullName.setText(userModel.getNama_lengkap());
+
+
+        }else if (role == 2) { // user
+
+
+            if (userModel.getEmail() != null) {
+                binding.etEmail.setText(userModel.getEmail());
+
+
+            }
+
+            if (userModel.getName() != null) {
+                binding.etFullName.setText(userModel.getName());
+            }
 
         }
 
-        if (userModel.getKota() != null) {
-            binding.etCity.setText(userModel.getKota());
-
-        }
-
-        if (userModel.getProvinsi() != null) {
-            binding.etProvince.setText(userModel.getProvinsi());
-
-        }
 
 
 
-        if (userModel.getEmail() != null && userModel.getSign_in().equals("email")) {
-            binding.etEmail.setText(userModel.getEmail());
 
-        }
 
-        if (userModel.getAlamat() != null) {
-            binding.etAddress.setText(userModel.getAlamat());
 
-        }
+
+
     }
 
 
     private void getProfile() {
 
-        if (userId != 0) {
-            userProfileViewModel.profile(userId).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
+
+
+        if (userId != 0 && role  != 0) {
+            userProfileViewModel.profile(String.valueOf(userId), role).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
                 @Override
                 public void onChanged(ResponseModel<UserModel> userModelResponseModel) {
                     if (userModelResponseModel != null && userModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
@@ -376,20 +412,31 @@ public class UserProfileFragment extends Fragment {
                 }
             });
         }else {
-            showToast("Gagal memuat data pengguna");
+            showSnackbar("Error", "Gagal memuat data pengguna");
         }
     }
 
     private void setUser() {
-        Glide.with(requireContext())
-                .load(userModel.getProfile_photo())
-                .override(70, 70)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.ivProfile);
+        if (role == 1) { // user
+            Glide.with(requireContext())
 
-        if (userModel.getSign_in().equals("google")) {
-            binding.rlEmail.setVisibility(View.GONE);
+                    .load(userModel.getProfile_photo())
+                    .override(70, 70)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(binding.ivProfile);
+
+            if (userModel.getSign_in().equals("google")) {
+                binding.rlEmail.setVisibility(View.GONE);
+            }
+        } else if (role == 2) { // admin
+            Glide.with(requireContext())
+
+                    .load(userModel.getPhoto_profile())
+                    .override(70, 70)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(binding.ivProfile);
         }
+
 
 
     }
@@ -527,6 +574,14 @@ public class UserProfileFragment extends Fragment {
 
             }
         });
+
+        // hide beberapa form jika bukan admin
+        if (role == 1) { // user
+            binding.etPhoneNumber.setVisibility(View.VISIBLE);
+            binding.etAddress.setVisibility(View.VISIBLE);
+            binding.etCity.setVisibility(View.VISIBLE);
+            binding.etProvince.setVisibility(View.VISIBLE);
+        }
 
 
     }

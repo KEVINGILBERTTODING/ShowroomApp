@@ -59,11 +59,12 @@ public class UserProfileRepository {
         return responseModelMutableLiveData;
     }
 
-    public LiveData<ResponseModel<UserModel>> profile(int userId) {
+    public LiveData<ResponseModel<UserModel>> profile(String userId, int role) {
         MutableLiveData<ResponseModel<UserModel>> responseModelMutableLiveData = new MutableLiveData<>();
-        apiService.getUserById(userId).enqueue(new Callback<ResponseModel<UserModel>>() {
+        apiService.getUserById(userId, role).enqueue(new Callback<ResponseModel<UserModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<UserModel>> call, Response<ResponseModel<UserModel>> response) {
+                Log.d("get profile", "onResponse: " + response.body());
                 if (response != null && response.code() == 200 && response.body() != null) {
                     responseModelMutableLiveData.postValue(new ResponseModel<>(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
                 }else {

@@ -6,6 +6,8 @@ public class UserModel {
     private int user_id;
     private String email;
     private String profile_photo;
+    private String photo_profile;
+    private String name;
     private String nama_lengkap;
     private String no_hp;
     private String alamat;
@@ -16,10 +18,12 @@ public class UserModel {
     private int status;
 
 
-    public UserModel(int user_id, String email, String profile_photo, String nama_lengkap, String no_hp, String alamat, String kota, String provinsi, int role, String sign_in, int status) {
+    public UserModel(int user_id, String email, String profile_photo, String photo_profile, String name, String nama_lengkap, String no_hp, String alamat, String kota, String provinsi, int role, String sign_in, int status) {
         this.user_id = user_id;
         this.email = email;
         this.profile_photo = profile_photo;
+        this.photo_profile = photo_profile;
+        this.name = name;
         this.nama_lengkap = nama_lengkap;
         this.no_hp = no_hp;
         this.alamat = alamat;
@@ -49,6 +53,11 @@ public class UserModel {
     public String getProfile_photo() {
         return ApiService.END_POINT + "data/profile_photo/" + profile_photo;
     }
+
+    public String getPhoto_profile() {
+        return ApiService.END_POINT + "data/profile_photo/" + photo_profile;
+    }
+
 
     public void setProfile_photo(String profile_photo) {
         this.profile_photo = profile_photo;
@@ -116,5 +125,13 @@ public class UserModel {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -43,10 +43,10 @@ public class UserProfileViewModel extends ViewModel {
         return responseModelMutableLiveData;
     }
 
-    public LiveData<ResponseModel<UserModel>> profile(int userId) {
+    public LiveData<ResponseModel<UserModel>> profile(String userId, int role) {
         MutableLiveData<ResponseModel<UserModel>> responseModelMutableLiveData = new MutableLiveData<>();
-        if (userId != 0) {
-            return userProfileRepository.profile(userId);
+        if (!userId.equals("0") && role != 0) {
+            return userProfileRepository.profile(userId, role);
         }else {
             responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }

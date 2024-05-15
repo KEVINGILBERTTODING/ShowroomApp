@@ -36,7 +36,7 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ApiService {
-    public static final String IP_ADDRESS = "192.168.1.7";
+    public static final String IP_ADDRESS = "192.168.18.113";
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
     public static final String END_POINT =  "http://" + IP_ADDRESS + ":8000/";
 
@@ -91,9 +91,10 @@ public interface ApiService {
             @Part MultipartBody.Part imageFile
             );
 
-    @GET("client/profile/{id}")
+    @GET("client/profile/{id}/{role}")
     Call<ResponseModel<UserModel>> getUserById(
-            @Path("id") int userId
+            @Path("id") String userId,
+            @Path("role") int role
     );
 
     @Multipart

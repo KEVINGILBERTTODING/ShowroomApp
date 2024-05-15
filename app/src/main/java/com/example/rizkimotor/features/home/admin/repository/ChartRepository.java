@@ -1,11 +1,15 @@
 package com.example.rizkimotor.features.home.admin.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.remote.ApiService;
 import com.example.rizkimotor.features.home.admin.model.ChartModel;
+import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
+import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 
@@ -43,6 +47,36 @@ public class ChartRepository {
 
             }
         });
+        return responseModelMutableLiveData;
+    }
+
+    public LiveData<ResponseModel<FilterChartModel>> filterChartProfit(String month) {
+        MutableLiveData<ResponseModel<FilterChartModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        apiService.filterChartProfit(month).enqueue(new Callback<ResponseModel<FilterChartModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<FilterChartModel>> call, Response<ResponseModel<FilterChartModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("Error filter", "onResponse: " + response.body());
+
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(SuccessMsg.SUCCESS_STATE, SuccessMsg.SUCCESS_MSG, response.body().getData()));
+
+                }else {
+                    Log.d("Error filter", "onResponse: " + "ASASSASSASAS");
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<FilterChartModel>> call, Throwable t) {
+                Log.d("Error filter", "onResponse: " + t.getMessage());
+
+
+                responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.ERR_STATE_SERVER, null));
+
+            }
+
+        });
+
         return responseModelMutableLiveData;
     }
 }

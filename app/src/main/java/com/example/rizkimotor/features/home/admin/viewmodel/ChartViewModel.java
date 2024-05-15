@@ -1,11 +1,14 @@
 package com.example.rizkimotor.features.home.admin.viewmodel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.features.home.admin.model.ChartModel;
+import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
 import com.example.rizkimotor.features.home.admin.repository.ChartRepository;
+import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
 import javax.inject.Inject;
 
@@ -22,5 +25,15 @@ public class ChartViewModel extends ViewModel {
 
     public LiveData<ResponseModel<ChartModel>> getChart() {
         return chartRepository.getChart();
+    }
+
+    public LiveData<ResponseModel<FilterChartModel>> filterChartProfit(String month) {
+        MutableLiveData<ResponseModel<FilterChartModel>> responseModelMutableLiveData = new MutableLiveData<>();
+        if (month != null && !month.isEmpty()) {
+            return chartRepository.filterChartProfit(month);
+        }else {
+            responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, "Bulan tidak valid", null));
+        }
+        return responseModelMutableLiveData;
     }
 }

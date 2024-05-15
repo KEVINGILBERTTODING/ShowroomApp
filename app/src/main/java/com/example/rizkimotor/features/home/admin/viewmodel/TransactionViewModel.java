@@ -8,6 +8,8 @@ import com.example.rizkimotor.data.model.ResponseDownloaModel;
 import com.example.rizkimotor.features.home.admin.repository.TransactionRepository;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -21,10 +23,10 @@ public class TransactionViewModel extends ViewModel {
         this.transactionRepository = transactionRepository;
     }
 
-    public LiveData<ResponseDownloaModel> downloadProfit(int adminId) {
+    public LiveData<ResponseDownloaModel> downloadProfit(HashMap<String, String> map) {
         MutableLiveData<ResponseDownloaModel> responseDownloaModelMutableLiveData = new MutableLiveData<>();
-        if (adminId != 0) {
-            return transactionRepository.downloadProfit(adminId);
+        if (map != null) {
+            return transactionRepository.downloadProfit(map);
         }else {
             responseDownloaModelMutableLiveData.postValue(new ResponseDownloaModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }

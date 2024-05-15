@@ -11,6 +11,7 @@ import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.car.admin.model.CarComponentModel;
 import com.example.rizkimotor.features.home.admin.model.ChartModel;
+import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
 import com.example.rizkimotor.features.transactions.admin.model.ResponseAdminTransactionModel;
 
 import java.util.HashMap;
@@ -36,7 +37,10 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ApiService {
-    public static final String IP_ADDRESS = "192.168.18.113";
+//    public static final String IP_ADDRESS = "192.168.18.113"; // kantor
+    public static final String IP_ADDRESS = "192.168.1.7"; // kos
+
+
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
     public static final String END_POINT =  "http://" + IP_ADDRESS + ":8000/";
 
@@ -174,7 +178,7 @@ public interface ApiService {
 
     @GET("admin/transaction/profit/download")
     Call<ResponseBody> downloadProfitPdf(
-            @Query("admin_id") int adminId
+            @QueryMap HashMap<String, String> map
     );
 
     @GET("admin/car/getDataCarComponents")
@@ -247,6 +251,14 @@ public interface ApiService {
     Call<ResponseBody> downloadReportTransaction(
             @QueryMap HashMap<String, String> map
     );
+
+
+    @GET("admin/profit/filter/{month}")
+    Call<ResponseModel<FilterChartModel>> filterChartProfit(
+            @Path("month") String month
+    );
+
+
 
 
 

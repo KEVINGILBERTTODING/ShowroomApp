@@ -75,57 +75,93 @@
                 android:textSize="@dimen/_9ssp"/>
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Grafik pemasukan dan keuntungan tahun ini!"
                 android:fontFamily="@font/sembold"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_17ssp"/>
+                android:textSize="@dimen/_15ssp"/>
 
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/progressDownlloadProfit"/>
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/btnDownloadPemasukanReport"
-                    android:layout_height="wrap_content"
-
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/med"
-                    android:textSize="@dimen/_10ssp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Unduh"/>
-
-            </RelativeLayout>
-
-
-            <androidx.core.widget.NestedScrollView
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/swipeRefesh"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content">
 
-                    <com.github.mikephil.charting.charts.LineChart
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+
+                            android:id="@+id/progressDownlloadProfit"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:id="@+id/btnDownloadPemasukanReport"
+                                android:layout_height="wrap_content"
+
+                                android:textColor="@color/primary"
+                                android:fontFamily="@font/med"
+                                app:backgroundTint="@color/bg_second"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:textSize="@dimen/_10ssp"
+                                android:text="Unduh"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:id="@+id/btnFilter"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/blue"
+                                android:fontFamily="@font/med"
+                                app:backgroundTint="@color/soft_blue"
+                                android:textSize="@dimen/_10ssp"
+                                android:text="Filter"/>
+                        </LinearLayout>
+
+
+
+
+                    </RelativeLayout>
+
+
+                    <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
-                        android:id="@+id/chatProfit"
-                        android:layout_height="@dimen/_300sdp"/>
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:layout_width="match_parent"
+                                android:id="@+id/chatProfit"
+                                android:layout_height="@dimen/_300sdp"/>
+
+                        </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
 
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
 
 
 

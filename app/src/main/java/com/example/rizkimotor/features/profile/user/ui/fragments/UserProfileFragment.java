@@ -153,7 +153,7 @@ public class UserProfileFragment extends Fragment {
             inputPwVal();
         });
 
-        binding.cvInfo.setOnClickListener(view -> {
+        binding.rlInfo.setOnClickListener(view -> {
             showSnackbar("Info", "Versi aplikasi telah terbaru");
         });
 

@@ -10,6 +10,9 @@ import com.example.rizkimotor.data.remote.ApiService;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
@@ -26,9 +29,9 @@ public class TransactionRepository {
         this.apiService = apiService;
     }
 
-    public LiveData<ResponseDownloaModel> downloadProfit(int adminId) {
+    public LiveData<ResponseDownloaModel> downloadProfit(HashMap<String, String> map) {
         MutableLiveData<ResponseDownloaModel> responseModelMutableLiveData = new MutableLiveData<>();
-        apiService.downloadProfitPdf(adminId).enqueue(new Callback<ResponseBody>() {
+        apiService.downloadProfitPdf(map).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.code() == 200 ) {

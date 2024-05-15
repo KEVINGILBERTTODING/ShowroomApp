@@ -33,10 +33,10 @@ public class UserProfileViewModel extends ViewModel {
 
 
 
-    public LiveData<ResponseModel> updatePhotoProfile(RequestBody userId, MultipartBody.Part part) {
+    public LiveData<ResponseModel> updatePhotoProfile(HashMap<String, RequestBody> map, MultipartBody.Part part) {
         MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
         if (part != null) {
-            return userProfileRepository.updatePhotoProfile(userId, part);
+            return userProfileRepository.updatePhotoProfile(map, part);
         }else {
             responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, ErrorMsg.SOMETHING_WENT_WRONG, null));
         }

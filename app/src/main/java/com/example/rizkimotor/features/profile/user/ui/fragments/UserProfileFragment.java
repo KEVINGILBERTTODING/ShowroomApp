@@ -497,11 +497,14 @@ public class UserProfileFragment extends Fragment {
             }
 
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imageData);
-            RequestBody requestUserId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId));
+            HashMap<String, RequestBody> map = new HashMap<>();
+            map.put("user_id", RequestBody.create(MediaType.parse("text/plan"), String.valueOf(userId)));
+            map.put("role", RequestBody.create(MediaType.parse("text/plan"), String.valueOf(role)));
+
 
             MultipartBody.Part part = MultipartBody.Part.createFormData("photo", filename, requestBody);
 
-            userProfileViewModel.updatePhotoProfile(requestUserId, part).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
+            userProfileViewModel.updatePhotoProfile(map, part).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
                 @Override
                 public void onChanged(ResponseModel responseModel) {
                     binding.tvSimpan.setVisibility(View.GONE);

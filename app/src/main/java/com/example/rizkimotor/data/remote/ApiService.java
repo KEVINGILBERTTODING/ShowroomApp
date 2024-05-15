@@ -87,7 +87,7 @@ public interface ApiService {
     @Multipart
     @POST("client/profile/updatephoto")
     Call<ResponseModel> updatePhotoProfile(
-            @Part("user_id") RequestBody userId,
+            @PartMap HashMap<String, RequestBody> map,
             @Part MultipartBody.Part imageFile
             );
 

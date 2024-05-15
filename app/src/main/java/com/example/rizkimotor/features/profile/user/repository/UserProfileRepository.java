@@ -33,19 +33,21 @@ public class UserProfileRepository {
 
 
 
-    public LiveData<ResponseModel> updatePhotoProfile(RequestBody userId, MultipartBody.Part part) {
+    public LiveData<ResponseModel> updatePhotoProfile(HashMap<String, RequestBody> map, MultipartBody.Part part) {
 
 
         MutableLiveData<ResponseModel> responseModelMutableLiveData = new MutableLiveData<>();
-        apiService.updatePhotoProfile(userId, part).enqueue(new Callback<ResponseModel>() {
+        apiService.updatePhotoProfile(map, part).enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     responseModelMutableLiveData.postValue(new ResponseModel(SuccessMsg.SUCCESS_STATE, response.body().getMessage(), null));
                 }else {
 
+                    Gson gson = new Gson();
+                    ResponseModel responseModel = gson.fromJson(response.errorBody().charStream(), ResponseModel.class);
 
-                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, response.body().getMessage(), null));
+                    responseModelMutableLiveData.postValue(new ResponseModel(ErrorMsg.ERR_STATE, responseModel.getMessage(), null));
                 }
             }
 

@@ -90,8 +90,11 @@ public class UserProfileRepository {
                 if (response != null && response.code() == 200 && response.body() != null) {
                     responseModelMutableLiveData.postValue(new ResponseModel<>(SuccessMsg.SUCCESS_STATE, response.body().getMessage(), null));
                 }else {
-                    Log.d("TAG", "onResponse: " + response.code());
-                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, response.body().getMessage(), null));
+                    Log.d("TAG", "onResponse: " + response);
+
+                    Gson gson = new Gson();
+                    ResponseModel responseModel = gson.fromJson(response.errorBody().charStream(), ResponseModel.class);
+                    responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, responseModel.getMessage(), null));
 
                 }
             }

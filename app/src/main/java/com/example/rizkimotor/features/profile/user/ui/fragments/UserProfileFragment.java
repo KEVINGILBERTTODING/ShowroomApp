@@ -56,7 +56,8 @@ public class UserProfileFragment extends Fragment {
     private UserService userService = new UserService();
     private UserProfileViewModel userProfileViewModel;
     private String TAG = Constants.LOG;
-    private int userId = 0, role = 0;
+    private int userId = 0;
+    private int role = 0; // 1 = user --- 2 == admin
 
     private UserModel userModel;
 
@@ -152,6 +153,10 @@ public class UserProfileFragment extends Fragment {
             inputPwVal();
         });
 
+        binding.cvInfo.setOnClickListener(view -> {
+            showSnackbar("Info", "Versi aplikasi telah terbaru");
+        });
+
         binding.rlLogOut.setOnClickListener(view -> {
             CookieBar.build(requireActivity())
                     .setTitle("Peringatan")
@@ -227,6 +232,7 @@ public class UserProfileFragment extends Fragment {
 
         if (userId == 0) {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
+            return;
         }
 
         if (role == 1) { // jika user bukan admin
@@ -249,11 +255,17 @@ public class UserProfileFragment extends Fragment {
                 binding.tilProvince.setError("Province tidak boleh kosong");
                 return;
             }
+
+            updateUserBio(fullname, phoneNumber, address, city, province, email);
+
+        }else if (role == 2) { // admin
+
+            updateUserBio(fullname, "", "", "","", email);
         }
 
 
 
-        updateUserBio(fullname, phoneNumber, address, city, province, email);
+
 
     }
 
@@ -265,17 +277,29 @@ public class UserProfileFragment extends Fragment {
 
         map.put("nama_lengkap", fullname);
 
-        if (userModel.getSign_in().equals("email")) {
-            map.put("sign_in", userModel.getSign_in());
+        if (role == 1) {
+            if (userModel.getSign_in().equals("email")) {
+                map.put("sign_in", userModel.getSign_in());
+                map.put("email", email);
+            }else {
+                map.put("sign_in", userModel.getSign_in());
+            }
+            map.put("no_hp", phoneNumber);
+            map.put("alamat", address);
+            map.put("kota", city);
+            map.put("provinsi", province);
+            map.put("user_id", userId);
+            map.put("role", role);
+
+        }else if (role == 2) {
             map.put("email", email);
-        }else {
-            map.put("sign_in", userModel.getSign_in());
+            map.put("user_id", userId);
+            map.put("role", role);
+
         }
-        map.put("no_hp", phoneNumber);
-        map.put("alamat", address);
-        map.put("kota", city);
-        map.put("provinsi", province);
-        map.put("user_id", userId);
+
+
+
 
         userProfileViewModel.updateProfile(map).observe(getViewLifecycleOwner(), new Observer<ResponseModel>() {
 
@@ -286,10 +310,13 @@ public class UserProfileFragment extends Fragment {
                 if (responseModel != null && responseModel.getState().equals(SuccessMsg.SUCCESS_STATE)) {
                     userModel.setNama_lengkap(fullname);
                     userModel.setEmail(email);
-                    userModel.setNo_hp(phoneNumber);
-                    userModel.setAlamat(address);
-                    userModel.setKota(city);
-                    userModel.setProvinsi(province);
+
+                    if (role == 1) { // user
+                        userModel.setNo_hp(phoneNumber);
+                        userModel.setAlamat(address);
+                        userModel.setKota(city);
+                        userModel.setProvinsi(province);
+                    }
 
                     userService.saveString(SharedUserData.PREF_USERNAME, fullname);
                     binding.tvName.setText(fullname);

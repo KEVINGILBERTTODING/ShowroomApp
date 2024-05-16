@@ -19,6 +19,7 @@
             android:background="#FFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:abb_tabColor="@color/black"
             app:abb_selectedTabType="text"
             android:layout_alignParentBottom="true"
             app:abb_indicatorAppearance="round"

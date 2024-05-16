@@ -182,11 +182,7 @@
                                 android:layout_height="@dimen/_15sdp"/>
                         </RelativeLayout>
 
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_1sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:background="@color/card"/>
+
 
 
                         <RelativeLayout

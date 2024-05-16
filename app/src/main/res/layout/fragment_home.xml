@@ -25,15 +25,15 @@
                     android:fontFamily="@font/bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_25ssp"
+                    android:textSize="@dimen/_22ssp"
                     android:includeFontPadding="false"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/black"
                     android:text="Rizki Motor" />
                 <TextView
                     android:id="@+id/tvFullname"
                     android:layout_width="match_parent"
                     android:fontFamily="@font/reg"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black2"
                     android:textSize="@dimen/_10ssp"
                     android:layout_height="wrap_content"
                     android:text="Guest" />

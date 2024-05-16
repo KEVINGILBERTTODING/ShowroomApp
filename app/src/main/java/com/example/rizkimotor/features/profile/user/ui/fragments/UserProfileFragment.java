@@ -122,9 +122,11 @@ public class UserProfileFragment extends Fragment {
 
     private void listener() {
         binding.ivProfile.setOnClickListener(view -> {
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
+            if (userModel.getSign_in() != null && userModel.getSign_in().equals("email")) {
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
         });
 
         binding.tvSimpan.setOnClickListener(view -> {
@@ -146,6 +148,7 @@ public class UserProfileFragment extends Fragment {
         });
 
         binding.tvSaveBio.setOnClickListener(view -> {
+
             inputProfileValidation();
         });
 
@@ -231,15 +234,20 @@ public class UserProfileFragment extends Fragment {
             return;
         }
 
-        if (email.isEmpty()) {
-            binding.tilEmail.setError("Email tidak boleh kosong");
-            return;
-        }
+       if (userModel.getSign_in().equals("email")) {
+           if (email.isEmpty()) {
+               binding.tilEmail.setError("Email tidak boleh kosong");
+               return;
+           }
+       }
 
         if (userId == 0) {
             showToast(ErrorMsg.SOMETHING_WENT_WRONG);
             return;
         }
+
+        Log.d(TAG, "inputProfileValidation:" + role);
+
 
         if (role == 1) { // jika user bukan admin
             if (phoneNumber.isEmpty()) {
@@ -272,12 +280,9 @@ public class UserProfileFragment extends Fragment {
 
 
 
-
     }
 
-    private void setUpUiState() {
 
-    }
 
     private void  updateUserBio(String fullname, String phoneNumber, String address, String city, String province, String email) {
         binding.tvSaveBio.setVisibility(View.GONE);
@@ -404,7 +409,7 @@ public class UserProfileFragment extends Fragment {
             binding.etFullName.setText(userModel.getNama_lengkap());
 
 
-        }else if (role == 2) { // user
+        }else if (role == 2) { // admin
 
 
             if (userModel.getEmail() != null) {
@@ -437,7 +442,6 @@ public class UserProfileFragment extends Fragment {
 
                         userModel = userModelResponseModel.getData();
                         setUser();
-                        setUpUiState();
 
 
                     }else {

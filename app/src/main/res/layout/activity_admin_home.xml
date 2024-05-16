@@ -28,6 +28,11 @@
             app:abb_indicatorHeight="4dp"
             app:abb_indicatorLocation="bottom"
             app:abb_tabs="@menu/menu_admin"
+            app:abb_tabColor="@color/black"
+            app:abb_badgeBackgroundColor="@color/black"
+            app:abb_indicatorColor="@color/black"
+            app:abb_tabColorSelected="@color/black"
+            app:abb_badgeTextColor="@color/black"
             app:abb_selectedIndex="0" />
 
     </RelativeLayout>

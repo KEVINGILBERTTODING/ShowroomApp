@@ -4,14 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.ResponseModel;
@@ -25,7 +34,19 @@ import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
+import org.aviran.cookiebar2.CookieBar;
+import org.aviran.cookiebar2.OnActionClickListener;
+
+import java.util.HashMap;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -37,6 +58,10 @@ public class LoginFragment extends Fragment {
     private UserService userService;
     private String TAG = Constants.LOG;
     private UserModel userModel;
+
+
+
+    private ActivityResultLauncher<Intent> signInLauncher;
 
 
 
@@ -56,6 +81,8 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         listener();
+        initFirebase();
+
 
         // Inflate the layout for this fragment
         return binding.getRoot();
@@ -70,6 +97,15 @@ public class LoginFragment extends Fragment {
 
     }
 
+    private void initFirebase() {
+        // Inisialisasi Activity Result Launcher
+        signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Intent data = result.getData();
+                    handleGoogleSignInResult(data);
+                });
+    }
+
 
     private void listener() {
         binding.btnLogin.setOnClickListener(view -> {
@@ -80,6 +116,10 @@ public class LoginFragment extends Fragment {
         binding.tvRegister.setOnClickListener(view -> {
             Fragment fragment = new RegisterFragment();
             fragmentTransaction(fragment);
+        });
+
+        binding.btnLoginGoogle.setOnClickListener(view -> {
+            signInWithGoogle();
         });
     }
 
@@ -101,6 +141,43 @@ public class LoginFragment extends Fragment {
 
         login();
 
+
+    }
+
+    private void authGoogle(HashMap<String, String> map)  {
+        binding.btnLoginGoogle.setVisibility(View.GONE);
+        binding.loadingGoogle.setVisibility(View.VISIBLE);
+        authViewModel.authGoogle(map).observe(getViewLifecycleOwner(), new Observer<ResponseModel<UserModel>>() {
+            @Override
+            public void onChanged(ResponseModel<UserModel> userModelResponseModel) {
+                binding.btnLoginGoogle.setVisibility(View.VISIBLE);
+                binding.loadingGoogle.setVisibility(View.GONE);
+                if (userModelResponseModel != null && userModelResponseModel.getState().equals(SuccessMsg.SUCCESS_STATE)
+                && userModelResponseModel.getData() != null) {
+                    UserModel userModel1 = userModelResponseModel.getData();
+                    saveUserInfo(userModel1);
+
+                    startActivity(new Intent(requireActivity(), HomeActivity.class));
+                    requireActivity().finish();
+                    showToast("Selamat datang " + userModel1.getNama_lengkap());
+
+
+                }else {
+                    showToast(userModelResponseModel.getMessage());
+                }
+            }
+        });
+
+    }
+
+    private void showCookieBar(String title, String message) {
+        CookieBar.build(requireActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setDuration(4000)
+
+                .show();
 
     }
 
@@ -194,6 +271,45 @@ public class LoginFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
+    private void signInWithGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+
+
+        signInLauncher.launch(signInIntent);
+    }
+
+    private void handleGoogleSignInResult(Intent data) {
+
+        try {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            authViewModel.signInWithGoogle(credential);
+
+            HashMap<String, String> map = new HashMap<>();
+            map.put("nama_lengkap", account.getDisplayName());
+            map.put("email", account.getEmail());
+            map.put("profile_photo", account.getPhotoUrl().toString());
+            Log.d(TAG, "handleGoogleSignInResult: " + map);
+
+            authGoogle(map);
+
+        } catch (ApiException e) {
+
+            Log.d(TAG, "handleGoogleSignInResult: " + e);
+            showToast(e.getMessage().toString());
+
+
+        }
+    }
+
 
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();

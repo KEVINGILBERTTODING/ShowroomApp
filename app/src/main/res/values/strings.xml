@@ -29,4 +29,6 @@
     <string name="message_transaction_success">
        Transaksi Anda sedang kami proses. Terima kasih atas kepercayaan Anda. Silakan hubungi kami jika Anda membutuhkan bantuan lebih lanjut.
     </string>
+
+    <string name="default_web_client_id">463365809602-hckjgeoc36g64isu4cc4h8qt7hk7pcvu.apps.googleusercontent.com</string>
 </resources>

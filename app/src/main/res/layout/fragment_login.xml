@@ -124,17 +124,47 @@
                         />
 
 
+
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
                         app:cornerRadius="@dimen/_16sdp"
-                       android:layout_centerInParent="true"
+                        android:layout_centerInParent="true"
                         android:layout_height="wrap_content"
-                        app:backgroundTint="@color/primary"
+                        app:backgroundTint="@color/bg_second"
                         android:id="@+id/btnLogin"
                         android:fontFamily="@font/med"
                         android:textSize="@dimen/_12ssp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/primary"
                         android:text="Login"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:id="@+id/loading_google"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        />
+
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        app:cornerRadius="@dimen/_16sdp"
+                        android:layout_centerInParent="true"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/soft_blue"
+                        android:id="@+id/btnLoginGoogle"
+                        app:iconTint="@color/blue"
+                        app:icon="@drawable/ic_filter"
+                        android:fontFamily="@font/med"
+                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/blue"
+                        android:text="Masuk dengan akun google"/>
                 </RelativeLayout>
 
 

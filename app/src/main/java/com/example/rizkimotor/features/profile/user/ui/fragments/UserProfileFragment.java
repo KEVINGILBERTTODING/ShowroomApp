@@ -28,6 +28,7 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
+import com.example.rizkimotor.features.auth.viewmodel.AuthViewModel;
 import com.example.rizkimotor.features.profile.user.viewmodel.UserProfileViewModel;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
@@ -57,6 +58,7 @@ public class UserProfileFragment extends Fragment {
     private UserProfileViewModel userProfileViewModel;
     private String TAG = Constants.LOG;
     private int userId = 0;
+    private AuthViewModel authViewModel;
     private int role = 0; // 1 = user --- 2 == admin
 
     private UserModel userModel;
@@ -109,6 +111,7 @@ public class UserProfileFragment extends Fragment {
 
     private void init() {
         userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         userService.initService(requireContext());
         userId = userService.loadInt(SharedUserData.PREF_USER_ID);
         role = userService.loadInt(SharedUserData.PREF_ROLE);
@@ -179,6 +182,10 @@ public class UserProfileFragment extends Fragment {
 
     private void logOut() {
         userService.destroy();
+
+        if (userModel.getSign_in().equals("google")) {
+            authViewModel.signOutGoogle();
+        }
 
         startActivity(new Intent(requireActivity(), AuthActivity.class));
         requireActivity().finish();

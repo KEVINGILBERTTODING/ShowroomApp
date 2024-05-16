@@ -1,5 +1,7 @@
 package com.example.rizkimotor.features.auth.viewmodel;
 
+import android.app.Activity;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,6 +10,8 @@ import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.repository.auth.AuthRepository;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 
@@ -56,10 +60,26 @@ public class AuthViewModel extends ViewModel {
 
 
 
-
-
     }
 
+    public LiveData<ResponseModel<UserModel>> authGoogle(HashMap<String, String> map) {
+        MutableLiveData<ResponseModel<UserModel>> responseModelMutableLiveData1 = new MutableLiveData<>();
+        if (map != null) {
+            return authRepository.authGoogle(map);
+        }else{
+            responseModelMutableLiveData1.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE, ErrorMsg.SERVER_ERR, null));
+
+        }
+        return responseModelMutableLiveData1;
+    }
+
+    public void signInWithGoogle( AuthCredential credential) {
+        authRepository.signInWithGoogle(credential);
+    }
+
+    public void signOutGoogle() {
+        authRepository.signOut();
+    }
 
 
 

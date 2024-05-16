@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463365809602",
+    "project_id": "rizqi-motor-32f51",
+    "storage_bucket": "rizqi-motor-32f51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463365809602:android:6665a57cda8380bedbe25b",
+        "android_client_info": {
+          "package_name": "com.example.rizkimotor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463365809602-hckjgeoc36g64isu4cc4h8qt7hk7pcvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9_9wAHRkyJ7-VpojZkymgvFB5IWMiSQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463365809602-hckjgeoc36g64isu4cc4h8qt7hk7pcvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

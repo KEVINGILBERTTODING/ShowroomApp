@@ -37,8 +37,8 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ApiService {
-//    public static final String IP_ADDRESS = "192.168.18.113"; // kantor
-    public static final String IP_ADDRESS = "192.168.1.7"; // kos
+    public static final String IP_ADDRESS = "192.168.18.113"; // kantor
+//    public static final String IP_ADDRESS = "192.168.1.7"; // kos
 
 
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";
@@ -256,6 +256,12 @@ public interface ApiService {
     @GET("admin/profit/filter/{month}")
     Call<ResponseModel<FilterChartModel>> filterChartProfit(
             @Path("month") String month
+    );
+
+    @FormUrlEncoded
+    @POST("auth/login/google")
+    Call<ResponseModel<UserModel>> authGoogle(
+            @FieldMap HashMap<String, String> map
     );
 
 

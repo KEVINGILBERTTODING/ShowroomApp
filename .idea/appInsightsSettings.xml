@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.rizkimotor" />
+                  <option name="mobileSdkAppId" value="1:463365809602:android:6665a57cda8380bedbe25b" />
+                  <option name="projectId" value="rizqi-motor-32f51" />
+                  <option name="projectNumber" value="463365809602" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

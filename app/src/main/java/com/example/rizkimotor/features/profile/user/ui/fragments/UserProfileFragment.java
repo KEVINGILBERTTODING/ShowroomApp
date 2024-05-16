@@ -116,6 +116,7 @@ public class UserProfileFragment extends Fragment {
         userId = userService.loadInt(SharedUserData.PREF_USER_ID);
         role = userService.loadInt(SharedUserData.PREF_ROLE);
 
+
     }
 
 
@@ -183,7 +184,7 @@ public class UserProfileFragment extends Fragment {
     private void logOut() {
         userService.destroy();
 
-        if (userModel.getSign_in().equals("google")) {
+        if (userModel.getSign_in() != null && userModel.getSign_in().equals("google")) {
             authViewModel.signOutGoogle();
         }
 
@@ -221,8 +222,6 @@ public class UserProfileFragment extends Fragment {
         String city = binding.etCity.getText().toString();
         String province = binding.etProvince.getText().toString();
         String email = binding.etEmail.getText().toString();
-
-
 
 
 
@@ -273,6 +272,10 @@ public class UserProfileFragment extends Fragment {
 
 
 
+
+    }
+
+    private void setUpUiState() {
 
     }
 
@@ -419,11 +422,6 @@ public class UserProfileFragment extends Fragment {
 
 
 
-
-
-
-
-
     }
 
 
@@ -439,6 +437,8 @@ public class UserProfileFragment extends Fragment {
 
                         userModel = userModelResponseModel.getData();
                         setUser();
+                        setUpUiState();
+
 
                     }else {
                         showToast(userModelResponseModel.getMessage());
@@ -452,6 +452,7 @@ public class UserProfileFragment extends Fragment {
 
     private void setUser() {
         if (role == 1) { // user
+            Log.d(TAG, "setUser: " + userModel.getProfile_photo());
             Glide.with(requireContext())
 
                     .load(userModel.getProfile_photo())
@@ -461,7 +462,15 @@ public class UserProfileFragment extends Fragment {
 
             if (userModel.getSign_in().equals("google")) {
                 binding.rlEmail.setVisibility(View.GONE);
+                binding.tilEmail.setVisibility(View.GONE);
+
+                binding.rlPrivacy.setVisibility(View.GONE);
+
             }
+            binding.tilCity.setVisibility(View.VISIBLE);
+            binding.tilProvince.setVisibility(View.VISIBLE);
+            binding.tilAddress.setVisibility(View.VISIBLE);
+            binding.tilPhoneNumber.setVisibility(View.VISIBLE);
         } else if (role == 2) { // admin
             Glide.with(requireContext())
 

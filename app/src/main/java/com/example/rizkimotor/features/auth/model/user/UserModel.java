@@ -51,11 +51,20 @@ public class UserModel {
     }
 
     public String getProfile_photo() {
+        if (sign_in != null && sign_in.equals("google")) { // jika login google
+            return  profile_photo;
+        }
         return ApiService.END_POINT + "data/profile_photo/" + profile_photo;
     }
 
     public String getPhoto_profile() {
-        return ApiService.END_POINT + "data/profile_photo/" + photo_profile;
+
+
+            return ApiService.END_POINT + "data/profile_photo/" + photo_profile;
+
+
+
+
     }
 
 

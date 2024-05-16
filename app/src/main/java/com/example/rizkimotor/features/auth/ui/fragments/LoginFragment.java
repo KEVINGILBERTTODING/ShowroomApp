@@ -170,16 +170,7 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private void showCookieBar(String title, String message) {
-        CookieBar.build(requireActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setCookiePosition(CookieBar.BOTTOM)
-                .setDuration(4000)
 
-                .show();
-
-    }
 
     private void setErrorInput(TextInputLayout til, String message) {
         til.setError(message);

@@ -3,19 +3,12 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../Adisti" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../Joystation" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../MVVMCRUD" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../MVVMCRUD2" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../MVVMKotlin" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../Recipe-app" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../RumahRaga" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../Steries" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../TiroBerita-App" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../ViewContact" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../assist_cp_app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../mylab" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../sigap-app" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../signin_google" vcs="Git" />
   </component>
 </project>

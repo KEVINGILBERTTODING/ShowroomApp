@@ -99,6 +99,8 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         super.onCreate(savedInstanceState);
         userService.initService(requireContext());
 
+
+
     }
 
     @Override
@@ -117,6 +119,12 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
 
     private void init() {
 
+        setUpBottomSheetReview();
+        bottomSheetReview.setState(BottomSheetBehavior.STATE_HIDDEN);
+        setUpBottomSheetDetailTrans();
+        bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+
         if (userService.loadBool(SharedUserData.PREF_IS_LOGIN)) {
             checkAndRequestStoragePermission();
 
@@ -128,13 +136,10 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
             initStatusCategories();
             getTransaction();
 
-            setUpBottomSheetReview();
-            bottomSheetReview.setState(BottomSheetBehavior.STATE_HIDDEN);
-            setUpBottomSheetDetailTrans();
-            bottomSheetDetailTransaction.setState(BottomSheetBehavior.STATE_HIDDEN);
 
 
         }else {
+
             binding.lrErrorLogin.setVisibility(View.VISIBLE);
         }
 

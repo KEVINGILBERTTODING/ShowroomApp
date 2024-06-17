@@ -24,7 +24,7 @@
             android:fontFamily="@font/sembold"
             android:layout_alignParentLeft="true"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"/>
+            android:textSize="@dimen/_15ssp"/>
 
 
         <SearchView
@@ -33,17 +33,16 @@
             android:layout_width="match_parent"
             android:padding="@dimen/_2sdp"
             android:queryHint="Temukan mobil..."
-            android:divider="@null"
             android:inputType="text"
             style="@style/AppSearchView"
-            app:queryBackground="@drawable/bg_searchview"
             android:background="@drawable/bg_searchview"
             android:iconifiedByDefault="false"
+
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/rvSearch"
             android:layout_height="wrap_content"/>
 
@@ -94,13 +93,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
-        app:backgroundTint="@color/black"
+        app:backgroundTint="@color/primary"
         android:src="@drawable/ic_filter"
         android:id="@+id/fabFilter"
         android:layout_margin="@dimen/_3sdp"
         android:layout_alignParentBottom="true"
         app:elevation="0dp"
-        app:tint="@color/white"
+        app:tint="@color/black"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"/>
 

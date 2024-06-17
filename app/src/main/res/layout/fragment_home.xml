@@ -25,7 +25,7 @@
                     android:fontFamily="@font/bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_22ssp"
+                    android:textSize="@dimen/_18ssp"
                     android:includeFontPadding="false"
                     android:textColor="@color/black"
                     android:text="Rizki Motor" />
@@ -51,7 +51,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_below="@id/appBar"
             android:layout_height="match_parent">
 

@@ -59,10 +59,10 @@
                 android:layout_height="wrap_content">
                 <ImageButton
                     android:id="@+id/btnBack"
-                    android:layout_width="@dimen/_20sdp"
+                    android:layout_width="@dimen/_18sdp"
                     android:background="@drawable/ic_back"
                     android:layout_alignParentLeft="true"
-                    android:layout_height="@dimen/_20sdp"/>
+                    android:layout_height="@dimen/_18sdp"/>
                 <ImageButton
                     android:id="@+id/btnWhastapp"
                     android:layout_width="@dimen/_20sdp"

@@ -28,7 +28,7 @@
                     android:fontFamily="@font/sembold"
                     android:layout_alignParentLeft="true"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp"/>
+                    android:textSize="@dimen/_15ssp"/>
 
                 <TextView
                     android:id="@+id/tvSimpan"

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        tools:context=".features.car.user.ui.fragments.CarDetailFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/lrError"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/sembold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/black"
+                    android:text="Terjadi Kesalahan"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/med"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/_10ssp"
+                    android:textAlignment="center"
+                    android:text="@string/err_message"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/btnRefresh"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Muat ulang"/>
+            </LinearLayout>
+
+
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:id="@+id/mainScroll"
+                android:layout_above="@id/cvButtonAction"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+
+                    <androidx.cardview.widget.CardView
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_200sdp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:background="@color/card"
+                            android:layout_height="match_parent">
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginRight="@dimen/_8sdp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_height="wrap_content">
+                            <TextView
+
+                                android:background="@color/card"
+                                android:layout_width="@dimen/_190sdp"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_13ssp"
+                                android:textColor="@color/black"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+
+                                android:background="@color/card"
+                                android:layout_width="@dimen/_130sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_8ssp"
+                                android:textColor="@color/black"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+
+                                android:background="@color/card"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:fontFamily="@font/sembold"
+                                android:textSize="@dimen/_15ssp"
+                                android:textColor="@color/black"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
+
+
+
+
+                    <TextView
+
+                        android:background="@color/card"
+                        android:layout_width="@dimen/_190sdp"
+                        android:fontFamily="@font/sembold"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.cardview.widget.CardView
+
+                android:visibility="gone"
+                android:id="@+id/cvButtonAction"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                app:contentPadding="@dimen/_8sdp"
+                app:cardElevation="0dp"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/med"
+                        android:id="@+id/btnSimulasiKredit"
+                        android:textSize="@dimen/_10ssp"
+                        app:cornerRadius="@dimen/_8sdp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/black"
+                        android:text="Simulasi Kredit"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/med"
+                        app:cornerRadius="@dimen/_8sdp"
+                        android:id="@+id/btnPesanSekarang"
+                        android:textSize="@dimen/_10ssp"
+                        android:backgroundTint="@color/blue"
+                        android:layout_alignParentRight="true"
+                        android:text="Pesan Sekarang"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/rlPhotoView"
+                android:layout_width="match_parent"
+                android:background="@color/overlay"
+                android:visibility="gone"
+                android:layout_height="match_parent">
+
+                <io.getstream.photoview.PhotoView
+                    android:id="@+id/photoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/main_logo"/>
+
+                <ImageButton
+                    android:background="@drawable/ic_times"
+                    android:layout_width="@dimen/_24sdp"
+                    android:id="@+id/btnClosePreviewPhoto"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="@color/white"
+                    android:layout_height="@dimen/_24sdp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

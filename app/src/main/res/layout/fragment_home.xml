@@ -93,13 +93,21 @@
                         android:visibility="gone"
                         android:layout_height="wrap_content"/>
 
-                    <ProgressBar
+                    <com.facebook.shimmer.ShimmerFrameLayout
                         android:id="@+id/carProgressBar"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:progressTint="@color/primary"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_height="wrap_content"/>
+                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+
+                            layout="@layout/car_item_layout_shimmer"/>
+
+
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 
                 </LinearLayout>
 
@@ -130,12 +138,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silahkan swipe ke atas untuk memuat ulang halaman atau periksa koneksi internet anda"
-                android:fontFamily="@font/med"
+                android:text="Silahkan swipe ke bawah untuk memuat ulang halaman atau periksa koneksi internet anda."
+                android:fontFamily="@font/reg"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp"/>
+                android:textSize="@dimen/_8ssp"/>
         </LinearLayout>
 
 

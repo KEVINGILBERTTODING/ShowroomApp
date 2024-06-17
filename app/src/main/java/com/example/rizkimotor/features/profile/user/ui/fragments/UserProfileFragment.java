@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.rizkimotor.R;
 import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentUserProfileBinding;
@@ -179,6 +180,9 @@ public class UserProfileFragment extends Fragment {
                     .setTitle("Peringatan")
                     .setMessage("Apakah Anda yakin ingin keluar?")
                     .setCookiePosition(CookieBar.BOTTOM)
+                    .setBackgroundColor(R.color.soft_red)
+                    .setTitleColor(R.color.red)
+                    .setMessageColor(R.color.black)
                     .setDuration(5000)
                     .setAction("Ya, keluar", new OnActionClickListener() {
                         @Override
@@ -502,6 +506,9 @@ public class UserProfileFragment extends Fragment {
                 .setTitle(title)
                 .setMessage(message)
                 .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.soft_blue)
+                .setTitleColor(R.color.blue)
+                .setMessageColor(R.color.black)
                 .show();
     }
 

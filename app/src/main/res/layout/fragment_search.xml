@@ -39,6 +39,20 @@
 
             android:layout_height="wrap_content"/>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/progressLoad"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+
+                layout="@layout/car_item_layout_shimmer"/>
+
+
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
@@ -50,13 +64,6 @@
 
 
 
-
-    <ProgressBar
-        android:id="@+id/progressLoad"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/lrEmpty"

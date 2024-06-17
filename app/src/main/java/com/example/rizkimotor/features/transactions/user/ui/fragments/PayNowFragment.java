@@ -414,6 +414,9 @@ public class PayNowFragment extends Fragment {
                 .setTitle(title)
                 .setMessage(message)
                 .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.bg_second)
+                .setMessageColor(R.color.black)
+                .setTitleColor(R.color.primary)
                 .setDuration(5000)
                 .setAction(action, new OnActionClickListener() {
                     @Override

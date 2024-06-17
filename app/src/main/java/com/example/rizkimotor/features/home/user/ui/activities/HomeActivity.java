@@ -20,6 +20,7 @@ import com.example.rizkimotor.features.search.user.ui.fragments.SearchFragment;
 import com.example.rizkimotor.features.transactions.user.ui.fragments.UserHistoryTransaction;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import me.ibrahimsn.lib.OnItemSelectedListener;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 @AndroidEntryPoint
@@ -46,24 +47,20 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        binding.bottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+        binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
-            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
+            public boolean onItemSelect(int i) {
 
-                if (i1 == 0) {
+                if (i == 0) {
                     fragmentTransaction(new HomeFragment());
-                } else if (i1 == 2) {
+                } else if (i == 2) {
                     fragmentTransaction(new UserHistoryTransaction());
-                } else if (i1 == 1) {
+                } else if (i == 1) {
                     fragmentTransaction(new SearchFragment());
-                } else if (i1 == 3) {
+                } else if (i == 3) {
                     fragmentTransaction(new UserProfileFragment());
                 }
-            }
-
-            @Override
-            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
-
+                return false;
             }
         });
     }

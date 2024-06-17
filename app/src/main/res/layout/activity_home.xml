@@ -10,28 +10,23 @@
 
         <FrameLayout
             android:id="@+id/frameHome"
-            android:layout_above="@id/bottom_bar"
+            android:layout_above="@id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <nl.joery.animatedbottombar.AnimatedBottomBar
-            android:id="@+id/bottom_bar"
-            android:background="#FFF"
+        <me.ibrahimsn.lib.SmoothBottomBar
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:abb_tabColor="@color/black"
-            app:abb_badgeBackgroundColor="@color/black"
-            app:abb_indicatorColor="@color/black"
-            app:abb_tabColorSelected="@color/black"
-            app:abb_badgeTextColor="@color/black"
-            app:abb_selectedTabType="text"
             android:layout_alignParentBottom="true"
-            app:abb_indicatorAppearance="round"
-            app:abb_indicatorMargin="16dp"
-            app:abb_indicatorHeight="4dp"
-            app:abb_indicatorLocation="bottom"
-            app:abb_tabs="@menu/bottom_bar"
-            app:abb_selectedIndex="0" />
+            android:layout_height="70dp"
+            app:backgroundColor="@color/background"
+            app:indicatorColor="@color/bg_second"
+            app:textColor="@color/primary"
+            app:activeItem="0"
+            app:iconTintActive="@color/primary"
+            app:iconTint="@color/black"
+            app:menu="@menu/bottom_bar"/>
+
 
     </RelativeLayout>
 </layout>

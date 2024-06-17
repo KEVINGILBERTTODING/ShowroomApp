@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,9 +77,21 @@ public class HomeFragment extends Fragment implements ClickListener {
 
         binding.tvFullname.setText("Hai, " +username +"!");
         getCar();
+        listener();
 
 
         return binding.getRoot();
+    }
+
+    private void listener() {
+        binding.swipeRefesh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCar();
+                getAppInfo();
+                binding.swipeRefesh.setRefreshing(false);
+            }
+        });
     }
 
     private void init() {
@@ -118,6 +131,7 @@ public class HomeFragment extends Fragment implements ClickListener {
 
     private void getCar() {
         binding.rvCar.setVisibility(View.GONE);
+        binding.lrError.setVisibility(View.GONE);
         binding.carProgressBar.setVisibility(View.VISIBLE);
        carViewModel.getAllCar().observe(getViewLifecycleOwner(), new Observer<ResponseModel<List<CarModel>>>() {
            @Override
@@ -135,6 +149,7 @@ public class HomeFragment extends Fragment implements ClickListener {
                    carAdapter.onClickListener(HomeFragment.this);
 
                }else {
+                   binding.lrError.setVisibility(View.VISIBLE);
                    showToast(listResponseModel.getMessage());
                }
            }

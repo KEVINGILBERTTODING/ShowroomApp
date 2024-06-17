@@ -15,6 +15,7 @@ import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFrag
 import com.example.rizkimotor.features.transactions.admin.ui.AdminTransactionFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import me.ibrahimsn.lib.OnItemSelectedListener;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 @AndroidEntryPoint
 public class AdminHomeActivity extends AppCompatActivity {
@@ -35,25 +36,20 @@ public class AdminHomeActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        binding.bottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+        binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
-            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
-
-                if (i1 == 0) {
+            public boolean onItemSelect(int i) {
+                if (i == 0) {
                     fragmentTransaction(new AdminHomeFragment());
-                }  else if (i1 == 1) {
+                }  else if (i == 1) {
                     fragmentTransaction(new CarFragment());
-                }else if (i1 == 2) {
+                }else if (i == 2) {
                     fragmentTransaction(new AdminTransactionFragment());
                 }
-                else if (i1 == 3) {
+                else if (i == 3) {
                     fragmentTransaction(new UserProfileFragment());
                 }
-            }
-
-            @Override
-            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
-
+                return false;
             }
         });
     }

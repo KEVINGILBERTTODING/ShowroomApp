@@ -89,6 +89,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tvDescPhoto"
+
                             android:text="Pasang foto profile keren kamu!"
                             android:fontFamily="@font/reg"
                             android:textSize="@dimen/_8ssp"/>

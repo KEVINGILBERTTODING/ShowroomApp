@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment implements ClickListener {
     // void get banner
 
     private void getAppInfo() {
+        imgBannerList.clear();
         appViewModel.getAppInfo().observe(getViewLifecycleOwner(), new Observer<ResponseModel<AppInfoModel>>() {
             @Override
             public void onChanged(ResponseModel<AppInfoModel> appInfoModelResponseModel) {
@@ -120,7 +121,7 @@ public class HomeFragment extends Fragment implements ClickListener {
                            );
                    phoneNumber = appInfoModelResponseModel.getData().getNo_hp();
 
-                    // put slide model
+
 
                 }else {
                     showToast(ErrorMsg.SOMETHING_WENT_WRONG);

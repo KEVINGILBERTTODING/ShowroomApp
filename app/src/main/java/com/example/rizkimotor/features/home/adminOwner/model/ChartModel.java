@@ -1,4 +1,4 @@
-package com.example.rizkimotor.features.home.admin.model;
+package com.example.rizkimotor.features.home.adminOwner.model;
 
 public class ChartModel {
     private MonthModel data_pemasukan;

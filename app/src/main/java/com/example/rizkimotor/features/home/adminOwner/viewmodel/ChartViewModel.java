@@ -1,13 +1,13 @@
-package com.example.rizkimotor.features.home.admin.viewmodel;
+package com.example.rizkimotor.features.home.adminOwner.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.rizkimotor.data.model.ResponseModel;
-import com.example.rizkimotor.features.home.admin.model.ChartModel;
-import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
-import com.example.rizkimotor.features.home.admin.repository.ChartRepository;
+import com.example.rizkimotor.features.home.adminOwner.model.ChartModel;
+import com.example.rizkimotor.features.home.adminOwner.model.FilterChartModel;
+import com.example.rizkimotor.features.home.adminOwner.repository.ChartRepository;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 
 import javax.inject.Inject;

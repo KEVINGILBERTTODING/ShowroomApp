@@ -94,13 +94,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
-        app:backgroundTint="@color/bg_second"
+        app:backgroundTint="@color/black"
         android:src="@drawable/ic_filter"
         android:id="@+id/fabFilter"
         android:layout_margin="@dimen/_3sdp"
         android:layout_alignParentBottom="true"
         app:elevation="0dp"
-        app:tint="@color/primary"
+        app:tint="@color/white"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"/>
 

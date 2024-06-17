@@ -106,6 +106,9 @@ public class UserProfileFragment extends Fragment {
         }
 
 
+        Log.d(TAG, "ROLE: " + userService.loadInt(SharedUserData.PREF_ROLE));
+
+
         return binding.getRoot();
     }
 
@@ -234,7 +237,7 @@ public class UserProfileFragment extends Fragment {
             return;
         }
 
-       if (userModel.getSign_in().equals("email")) {
+       if (userModel.getSign_in() != null && userModel.getSign_in().equals("email")) {
            if (email.isEmpty()) {
                binding.tilEmail.setError("Email tidak boleh kosong");
                return;
@@ -246,7 +249,6 @@ public class UserProfileFragment extends Fragment {
             return;
         }
 
-        Log.d(TAG, "inputProfileValidation:" + role);
 
 
         if (role == 1) { // jika user bukan admin
@@ -272,7 +274,7 @@ public class UserProfileFragment extends Fragment {
 
             updateUserBio(fullname, phoneNumber, address, city, province, email);
 
-        }else if (role == 2) { // admin
+        }else if (role == 2 || role == 3) { // admin
 
             updateUserBio(fullname, "", "", "","", email);
         }
@@ -306,7 +308,7 @@ public class UserProfileFragment extends Fragment {
             map.put("user_id", userId);
             map.put("role", role);
 
-        }else if (role == 2) {
+        }else if (role == 2 || role == 3) {
             map.put("email", email);
             map.put("user_id", userId);
             map.put("role", role);
@@ -409,7 +411,7 @@ public class UserProfileFragment extends Fragment {
             binding.etFullName.setText(userModel.getNama_lengkap());
 
 
-        }else if (role == 2) { // admin
+        }else if (role == 2 || role == 3) { // admin & owner
 
 
             if (userModel.getEmail() != null) {
@@ -475,7 +477,7 @@ public class UserProfileFragment extends Fragment {
             binding.tilProvince.setVisibility(View.VISIBLE);
             binding.tilAddress.setVisibility(View.VISIBLE);
             binding.tilPhoneNumber.setVisibility(View.VISIBLE);
-        } else if (role == 2) { // admin
+        } else if (role == 2 || role == 3) { // admin
             Glide.with(requireContext())
 
                     .load(userModel.getPhoto_profile())

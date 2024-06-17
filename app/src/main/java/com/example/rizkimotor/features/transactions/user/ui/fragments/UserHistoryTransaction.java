@@ -203,6 +203,7 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
     }
 
     private void getTransaction() {
+
         if (userId != 0) {
             binding.progressLoadTrans.setVisibility(View.VISIBLE);
             binding.rvTransactions.setVisibility(View.GONE);

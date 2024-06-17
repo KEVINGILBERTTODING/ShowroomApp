@@ -572,7 +572,7 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 app:contentPadding="@dimen/_8sdp"
                 android:layout_width="match_parent"
-                app:cardCornerRadius="@dimen/_20sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
                 android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content">
                 <RelativeLayout
@@ -584,6 +584,7 @@
                         android:fontFamily="@font/med"
                         android:id="@+id/btnSimulasiKredit"
                         android:textSize="@dimen/_10ssp"
+                        app:cornerRadius="@dimen/_8sdp"
                         android:layout_alignParentLeft="true"
                         android:textColor="@color/black"
                         android:text="Simulasi Kredit"
@@ -592,6 +593,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
                         android:fontFamily="@font/med"
+                        app:cornerRadius="@dimen/_8sdp"
                         android:id="@+id/btnPesanSekarang"
                         android:textSize="@dimen/_10ssp"
                         android:backgroundTint="@color/blue"

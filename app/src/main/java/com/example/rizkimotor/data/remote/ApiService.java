@@ -10,8 +10,8 @@ import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.model.TransactionModel;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.car.admin.model.CarComponentModel;
-import com.example.rizkimotor.features.home.admin.model.ChartModel;
-import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
+import com.example.rizkimotor.features.home.adminOwner.model.ChartModel;
+import com.example.rizkimotor.features.home.adminOwner.model.FilterChartModel;
 import com.example.rizkimotor.features.transactions.admin.model.ResponseAdminTransactionModel;
 
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -38,7 +37,7 @@ import retrofit2.http.QueryMap;
 
 public interface ApiService {
 //    public static final String IP_ADDRESS = "192.168.18.113"; // kantor
-    public static final String IP_ADDRESS = "192.168.101.61"; // kos
+    public static final String IP_ADDRESS = "192.168.1.6"; // kos
 
 
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";

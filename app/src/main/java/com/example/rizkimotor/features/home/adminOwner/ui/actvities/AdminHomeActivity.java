@@ -1,4 +1,4 @@
-package com.example.rizkimotor.features.home.admin.ui.actvities;
+package com.example.rizkimotor.features.home.adminOwner.ui.actvities;
 
 import android.os.Bundle;
 
@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.example.rizkimotor.R;
 import com.example.rizkimotor.databinding.ActivityAdminHomeBinding;
 import com.example.rizkimotor.features.car.admin.ui.fragments.CarFragment;
-import com.example.rizkimotor.features.home.admin.ui.fragments.AdminHomeFragment;
-import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
+import com.example.rizkimotor.features.home.adminOwner.ui.fragments.AdminHomeFragment;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.features.transactions.admin.ui.AdminTransactionFragment;
 

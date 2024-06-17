@@ -1,11 +1,9 @@
-package com.example.rizkimotor.features.home.admin.ui.fragments;
+package com.example.rizkimotor.features.home.adminOwner.ui.fragments;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,7 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +31,10 @@ import com.example.rizkimotor.data.model.ResponseModel;
 import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentAdminHomeBinding;
 import com.example.rizkimotor.features.auth.ui.activities.AuthActivity;
-import com.example.rizkimotor.features.home.admin.model.ChartModel;
-import com.example.rizkimotor.features.home.admin.model.FilterChartModel;
-import com.example.rizkimotor.features.home.admin.model.MonthModel;
-import com.example.rizkimotor.features.home.admin.viewmodel.ChartViewModel;
-import com.example.rizkimotor.features.home.admin.viewmodel.TransactionViewModel;
+import com.example.rizkimotor.features.home.adminOwner.model.ChartModel;
+import com.example.rizkimotor.features.home.adminOwner.model.FilterChartModel;
+import com.example.rizkimotor.features.home.adminOwner.viewmodel.ChartViewModel;
+import com.example.rizkimotor.features.home.adminOwner.viewmodel.TransactionViewModel;
 import com.example.rizkimotor.features.profile.user.ui.fragments.UserProfileFragment;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
@@ -47,14 +43,10 @@ import com.example.rizkimotor.util.contstans.success.SuccessMsg;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -356,7 +348,6 @@ public class AdminHomeFragment extends Fragment {
     private void userServiceInit() {
         try {
             userService.initService(requireContext());
-            adminId = userService.loadInt(SharedUserData.PREF_USER_ID);
 
             if (userService.loadBool(SharedUserData.PREF_IS_LOGIN) != true) {
                 startActivity(new Intent(requireActivity(), AuthActivity.class));
@@ -364,7 +355,14 @@ public class AdminHomeFragment extends Fragment {
 
 
                 showToast("Anda tidak memiliki akses");
+
+            }else {
+                adminId = userService.loadInt(SharedUserData.PREF_USER_ID);
+                binding.tvUsername.setText(userService.loadString(SharedUserData.PREF_USERNAME, "Guest"));
             }
+
+
+
 
         }catch (Throwable t) {
             startActivity(new Intent(requireActivity(), AuthActivity.class));

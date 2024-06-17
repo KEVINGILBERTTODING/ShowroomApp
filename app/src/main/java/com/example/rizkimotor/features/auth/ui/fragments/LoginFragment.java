@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.rizkimotor.features.home.user.ui.fragments.HomeFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,23 +27,17 @@ import com.example.rizkimotor.data.services.UserService;
 import com.example.rizkimotor.databinding.FragmentLoginBinding;
 import com.example.rizkimotor.features.auth.model.user.UserModel;
 import com.example.rizkimotor.features.auth.viewmodel.AuthViewModel;
-import com.example.rizkimotor.features.home.admin.ui.actvities.AdminHomeActivity;
+import com.example.rizkimotor.features.home.adminOwner.ui.actvities.AdminHomeActivity;
 import com.example.rizkimotor.features.home.user.ui.activities.HomeActivity;
 import com.example.rizkimotor.shared.SharedUserData;
 import com.example.rizkimotor.util.contstans.Constants;
 import com.example.rizkimotor.util.contstans.err.ErrorMsg;
 import com.example.rizkimotor.util.contstans.success.SuccessMsg;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import org.aviran.cookiebar2.CookieBar;
-import org.aviran.cookiebar2.OnActionClickListener;
 
 import java.util.HashMap;
 
@@ -236,9 +229,9 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        if (role == 2) { // admin
+        if (role == 2 || role == 3) { // admin and owner
             activityTransaction(new AdminHomeActivity());
-            return;
+
         }
 
     }

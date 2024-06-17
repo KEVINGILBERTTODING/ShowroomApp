@@ -125,11 +125,18 @@ public class UserProfileFragment extends Fragment {
 
     private void listener() {
         binding.ivProfile.setOnClickListener(view -> {
-            if (userModel.getSign_in() != null && userModel.getSign_in().equals("email")) {
+            if (userModel.getRole() == 1 && userModel.getSign_in() !=null && userModel.getSign_in().equals("google")) {
                 pickMedia.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
+            }else if (role == 2 || role == 3) {
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }else {
+                showToast("Anda perlu login terlebih dahulu");
             }
+
         });
 
         binding.tvSimpan.setOnClickListener(view -> {

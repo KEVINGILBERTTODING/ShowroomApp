@@ -417,9 +417,9 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
 
         statusAdapter = new StatusAdapter(requireContext(), statusList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.rvStatus.setAdapter(statusAdapter);
-        binding.rvStatus.setLayoutManager(linearLayoutManager);
-        binding.rvStatus.setHasFixedSize(true);
+        binding.rvStatusTrans.setAdapter(statusAdapter);
+        binding.rvStatusTrans.setLayoutManager(linearLayoutManager);
+        binding.rvStatusTrans.setHasFixedSize(true);
         statusAdapter.setItemClickListener(AdminTransactionFragment.this);
     }
 

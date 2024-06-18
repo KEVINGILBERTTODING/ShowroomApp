@@ -285,9 +285,8 @@
                             app:cardCornerRadius="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             app:contentPadding="@dimen/_5sdp"
-                            android:id="@+id/cvStatus"
+                            android:id="@+id/cvStatusTrans"
                             app:cardElevation="0dp"
-                            app:cardBackgroundColor="@color/soft_green"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:layout_width="wrap_content"

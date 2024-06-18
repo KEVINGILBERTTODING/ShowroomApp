@@ -3,15 +3,17 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:padding="@dimen/_10sdp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:paddingTop="@dimen/_5sdp"
+        android:background="@color/background"
         tools:context=".features.home.user.ui.fragments.HomeFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:id="@+id/appBar"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -22,10 +24,10 @@
 
                 <TextView
                     android:id="@+id/tvAppName"
-                    android:fontFamily="@font/bold"
+                    android:fontFamily="@font/sembold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:includeFontPadding="false"
                     android:textColor="@color/black"
                     android:text="Rizki Motor" />
@@ -34,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:fontFamily="@font/reg"
                     android:textColor="@color/black2"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_8ssp"
                     android:layout_height="wrap_content"
                     android:text="Guest" />
 
@@ -49,57 +51,100 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:id="@+id/swipeRefesh"
             android:layout_below="@id/appBar"
-            android:layout_height="match_parent">
+            android:layout_marginTop="@dimen/_8sdp"
 
-            <LinearLayout
+            android:layout_height="wrap_content">
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_height="match_parent">
 
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/image_slider"
-                    android:layout_width="wrap_content"
-                    app:iss_corner_radius="20"
-                    android:layout_height="@dimen/_100sdp"
-                    app:iss_placeholder="@drawable/main_logo"
-                    app:iss_auto_cycle="true"
-                    app:iss_period="1000"
-                    app:iss_delay="3000"
-                    app:iss_text_align="LEFT"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="Semua Mobil 🚘"
-                    android:fontFamily="@font/sembold"
-                    android:textSize="@dimen/_13ssp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"/>
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCar"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <ProgressBar
-                    android:id="@+id/carProgressBar"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:progressTint="@color/primary"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_height="wrap_content"/>
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/image_slider"
+                        android:layout_width="wrap_content"
+                        app:iss_corner_radius="20"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        app:iss_placeholder="@drawable/main_logo"
+                        app:iss_auto_cycle="true"
+                        app:iss_period="1000"
+                        app:iss_delay="3000"
+                        app:iss_text_align="LEFT"/>
 
-            </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCar"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"/>
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/carProgressBar"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+
+                            layout="@layout/car_item_layout_shimmer"/>
+
+
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:id="@+id/lrError"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Terjadi kesalahan"
+                android:fontFamily="@font/sembold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Silahkan swipe ke bawah untuk memuat ulang halaman atau periksa koneksi internet anda."
+                android:fontFamily="@font/reg"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8ssp"/>
+        </LinearLayout>
 
 
 

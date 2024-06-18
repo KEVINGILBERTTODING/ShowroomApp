@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_marginBottom="@dimen/_10sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        app:contentPadding="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/background"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvPaymentMethod"
+                            android:layout_width="@dimen/_70sdp"
+                            android:textColor="@color/black"
+                            android:background="@color/card"
+                            android:textSize="@dimen/_10ssp"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/sembold"
+
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="@dimen/_70sdp"
+                            android:textColor="@color/black"
+                            android:background="@color/card"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_13ssp"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/sembold"
+
+                            android:layout_height="wrap_content"/>
+
+
+
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        app:cardElevation="0dp"
+                        android:id="@+id/cvStatus"
+                        android:layout_alignParentRight="true"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="@dimen/_70sdp"
+                            android:textColor="@color/black"
+                            android:background="@color/card"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_18ssp"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/sembold"
+
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                app:dividerColor="@color/card"
+                android:layout_marginTop="@dimen/_10sdp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_height="wrap_content">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPhotoProduct"
+                    android:layout_width="@dimen/_40sdp"
+                    app:cardElevation="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    android:layout_height="@dimen/_40sdp">
+                    <ImageView
+                        android:id="@+id/ivCar"
+                        android:scaleType="fitXY"
+                        android:layout_width="match_parent"
+                        android:src="@color/card"
+                        android:layout_height="match_parent"/>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_toRightOf="@id/cvPhotoProduct"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/_120sdp"
+                        android:id="@+id/tvCarName"
+                        android:background="@color/card"
+                        android:fontFamily="@font/sembold"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+
+                    <TextView
+                        android:layout_width="@dimen/_190sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@color/card"
+                        android:fontFamily="@font/sembold"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="@dimen/_80sdp"
+                android:background="@color/card"
+                android:fontFamily="@font/sembold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="@dimen/_80sdp"
+                android:background="@color/card"
+                android:fontFamily="@font/sembold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sembold"
+                android:id="@+id/btnReview"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:text="Berikan penilaian"
+                android:textColor="@color/black"
+                app:cornerRadius="@dimen/_8sdp"/>
+
+
+
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -384,6 +384,9 @@ public class CarDetailFragment extends Fragment implements com.example.rizkimoto
         CookieBar.build(requireActivity())
                 .setTitle(title)
                 .setMessage(message)
+                .setBackgroundColor(R.color.bg_second)
+                .setMessageColor(R.color.black)
+                .setTitleColor(R.color.primary)
                 .setCookiePosition(CookieBar.BOTTOM)
                 .show();
     }

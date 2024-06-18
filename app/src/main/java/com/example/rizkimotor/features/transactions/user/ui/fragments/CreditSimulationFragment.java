@@ -249,6 +249,9 @@ public class CreditSimulationFragment extends Fragment {
                 .setMessage(message)
                 .setCookiePosition(CookieBar.BOTTOM)
                 .setDuration(5000)
+                .setBackgroundColor(R.color.bg_second)
+                .setMessageColor(R.color.black)
+                .setTitleColor(R.color.primary)
                 .setAction(action, new OnActionClickListener() {
                     @Override
                     public void onClick() {

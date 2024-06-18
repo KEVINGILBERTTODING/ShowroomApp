@@ -644,27 +644,27 @@ public class UserHistoryTransaction extends Fragment implements ItemClickListene
         if (status == 1) {
             binding.tvStatusTrans.setText("Selesai");
             binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.green));
-            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_green));
+            binding.cvStatusTrans.setCardBackgroundColor(requireContext().getColor(R.color.soft_green));
             return;
         }
 
         if (status == 2) {
             binding.tvStatusTrans.setText("Proses");
             binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.primary));
-            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.bg_second));
+            binding.cvStatusTrans.setCardBackgroundColor(requireContext().getColor(R.color.bg_second));
             return;
         }
         if (status == 3) {
             binding.tvStatusTrans.setText("Proses Finance");
             binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.blue));
-            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_blue));
+            binding.cvStatusTrans.setCardBackgroundColor(requireContext().getColor(R.color.soft_blue));
             return;
         }
 
         if (status == 0) {
             binding.tvStatusTrans.setText("Tidak Valid");
             binding.tvStatusTrans.setTextColor(requireContext().getColor(R.color.red));
-            binding.cvStatus.setCardBackgroundColor(requireContext().getColor(R.color.soft_red));
+            binding.cvStatusTrans.setCardBackgroundColor(requireContext().getColor(R.color.soft_red));
             return;
         }
     }

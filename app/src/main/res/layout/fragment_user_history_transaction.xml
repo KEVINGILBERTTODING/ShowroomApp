@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/background"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".features.transactions.user.ui.fragments.UserHistoryTransaction">
 
@@ -28,11 +28,49 @@
                     android:textSize="@dimen/_15ssp"/>
 
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/rvStatus"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_height="wrap_content"/>
+
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone"
+                    android:id="@+id/progressLoadTrans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include
+
+                            layout="@layout/list_history_transactions_shimmer"/>
+
+                        <include
+
+                            layout="@layout/list_history_transactions_shimmer"/>
+
+                        <include
+
+                            layout="@layout/list_history_transactions_shimmer"/>
+
+                        <include
+
+                            layout="@layout/list_history_transactions_shimmer"/>
+
+                    </LinearLayout>
+
+
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransactions"
@@ -116,12 +154,9 @@
                     android:text="Muat Ulang"/>
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progressLoadTrans"
-                android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                android:layout_height="wrap_content"/>
+
+
+
 
             <LinearLayout
                 android:id="@+id/lrEmpty"
@@ -397,7 +432,7 @@
                             app:cardCornerRadius="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             app:contentPadding="@dimen/_5sdp"
-                            android:id="@+id/cvStatus"
+                            android:id="@+id/cvStatusTrans"
                             app:cardElevation="0dp"
                             app:cardBackgroundColor="@color/soft_green"
                             android:layout_height="wrap_content">

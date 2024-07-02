@@ -27,6 +27,12 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15ssp"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rvStatusTrans"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content"/>
+
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:layout_marginTop="@dimen/_10sdp"
@@ -65,11 +71,7 @@
 
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:id="@+id/rvStatus"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_height="wrap_content"/>
+
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swipeRefesh"

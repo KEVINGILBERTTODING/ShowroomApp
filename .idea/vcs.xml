@@ -7,8 +7,6 @@
     <mapping directory="$PROJECT_DIR$/../Recipe-app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../Steries" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../ViewContact" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../assist_cp_app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../mylab" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../sigap-app" vcs="Git" />
   </component>
 </project>

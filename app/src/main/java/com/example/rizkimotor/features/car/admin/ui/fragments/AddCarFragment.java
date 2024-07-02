@@ -368,7 +368,7 @@ public class AddCarFragment extends Fragment {
         });
 
         binding.ivAddEndImg.setOnClickListener(view -> {
-            stateImgPicker = "front";
+            stateImgPicker = "back";
             pickMedia.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());

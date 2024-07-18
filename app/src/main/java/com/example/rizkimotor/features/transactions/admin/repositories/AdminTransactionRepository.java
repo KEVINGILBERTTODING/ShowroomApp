@@ -49,6 +49,7 @@ public class AdminTransactionRepository {
 
             @Override
             public void onFailure(Call<ResponseModel<ResponseAdminTransactionModel>> call, Throwable t) {
+                Log.d("INI ERRORR", "onFailure: " + t.getMessage());
                 responseModelMutableLiveData.postValue(new ResponseModel<>(ErrorMsg.ERR_STATE_SERVER, ErrorMsg.SERVER_ERR, null));
 
 

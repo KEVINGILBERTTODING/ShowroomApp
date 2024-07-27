@@ -122,6 +122,14 @@ public class PayNowFragment extends Fragment {
             getUser();
         });
 
+        binding.ivEvidence.setOnClickListener(v -> {
+            binding.rlPhotoView.setVisibility(View.VISIBLE);
+        });
+
+        binding.btnClosePreviewPhoto.setOnClickListener(v -> {
+            binding.rlPhotoView.setVisibility(View.GONE);
+        });
+
         binding.btnBack.setOnClickListener(view -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
@@ -321,12 +329,20 @@ public class PayNowFragment extends Fragment {
                 if (uri != null) {
 
                     evidenceUri = uri;
-                    binding.tvEvidence.setText(getFileNameFromUri(evidenceUri));
-                    binding.tvEvidence.setVisibility(View.VISIBLE);
+                    binding.cvEvidence.setVisibility(View.VISIBLE);
+                    binding.ivEvidence.setImageURI(uri);
+                    binding.photoView.setImageURI(uri);
+
+
+
                     binding.btnEvidence.setBackgroundColor(requireContext().getColor(R.color.green));
                 } else {
                     Log.d("PhotoPicker", "No media selected");
                     showToast("Anda belum memilih bukti pembayaran");
+                    binding.cvEvidence.setVisibility(View.GONE);
+                    binding.ivEvidence.setImageURI(null);
+                    binding.photoView.setImageURI(null);
+
                 }
             });
 

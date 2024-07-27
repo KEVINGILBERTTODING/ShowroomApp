@@ -574,6 +574,7 @@ public class AdminTransactionFragment extends Fragment implements ItemClickListe
             binding.rvTransactions.setAdapter(null);
             binding.swipeRefesh.setRefreshing(false);
             binding.fabAction.setVisibility(View.GONE);
+        Log.d(TAG, "getTransaction: " + stateStatus);
 
 
 

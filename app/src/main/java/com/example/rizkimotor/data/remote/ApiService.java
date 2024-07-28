@@ -37,7 +37,7 @@ import retrofit2.http.QueryMap;
 
 public interface ApiService {
 //    public static final String IP_ADDRESS = "192.168.18.113"; // kantor
-    public static final String IP_ADDRESS = "192.168.100.54"; // kos
+    public static final String IP_ADDRESS = "172.20.10.8"; // kos
 
 
     public static final String BASE_URL = "http://" + IP_ADDRESS + ":8000/api/";

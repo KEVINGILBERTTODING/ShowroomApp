@@ -126,17 +126,23 @@ public class UserProfileFragment extends Fragment {
 
     private void listener() {
         binding.ivProfile.setOnClickListener(view -> {
-            if (userModel.getRole() == 1 && userModel.getSign_in() !=null ) {
+            if (role == 1 && userModel.getSign_in() !=null ) {
                 if (userModel.getSign_in().equals("email")) {
                     pickMedia.launch(new PickVisualMediaRequest.Builder()
                             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                             .build());
+                }else {
+                    showToast("user bukan email");
+
                 }
 
             }else if (role == 2 || role == 3) {
                 pickMedia.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
+            }else {
+                Log.d(TAG, "listener: " + userModel.getRole());
+
             }
 
         });
